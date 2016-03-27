@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace Orion
+﻿namespace Orion
 {
-  public class Class1
-  {
-  }
+    public class Class1
+    {
+    }
 }
-
-
