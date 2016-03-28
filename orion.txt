@@ -1,0 +1,17 @@
+Orion (Orion.exe, Universal Windows)
+  実行可能メインアセンブリです。
+  
+Orion.Betelgeuse (Orion.Betelgeuse.dll, Universal Windows)
+  各種 interface を提供します。
+  
+Orion.Bellatrix (Orion.Bellatrix.dll, Universal Windows)
+  Twitter への API アクセスを提供します。
+  
+Orion.Alnilam (Orion.Alnilam.dll, Universal Windows)
+  GNU Social への API アクセスを提供します。
+  
+Orion.Alnitak (Orion.Alnitak.dll, Universal Windows)
+  Croudia への API アクセスを提供します。
+
+Orion.Saiph (Orion.Saiph.dll, Universal Windows)
+  Misskey への API アクセスを提供します。
