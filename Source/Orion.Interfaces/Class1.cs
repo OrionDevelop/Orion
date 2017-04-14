@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Orion
+namespace Orion.Interfaces
 {
     public class Class1
     {
