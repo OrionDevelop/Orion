@@ -1,13 +1,11 @@
 Orion
 ----
-[![AppVeyor branch](https://img.shields.io/appveyor/ci/fuyuno/orion/master.svg?style=flat-square)](https://ci.appveyor.com/project/fuyuno/orion)
 [![GitHub license](https://img.shields.io/github/license/fuyuno/Orion.svg?style=flat-square)](LICENSE)
 
-Generic microblogging and social network application.  
-Supported services are:
+Generic microblogging and social networking services application for Windows and macOS.  
+Supported APIs are:  
 
 * Twitter
-* GNU social
-* Misskey
-* Croudia
+* GNU Social
+* Mastodon
 
