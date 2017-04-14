@@ -9,14 +9,12 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string></string>
+	<string>10.1</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
 		<integer>2</integer>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -37,6 +35,8 @@
 	<key>CFBundleDisplayName</key>
 	<string>Orion</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.kokoiroworks.orion.ios</string>
+	<string>com.kokoiroworks.orion</string>
+	<key>CFBundleName</key>
+	<string>Orion</string>
 </dict>
 </plist>
