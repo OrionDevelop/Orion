@@ -209,7 +209,7 @@ namespace Orion.Service.Shared
 
         private void PrepareForOAuth2(bool? requireAuth)
         {
-            if (requireAuth.HasValue && requireAuth.Value && !string.IsNullOrWhiteSpace(AccessToken))
+            if (requireAuth.HasValue && requireAuth.Value && string.IsNullOrWhiteSpace(AccessToken))
                 throw new AuthenticateRequiredException();
 
             if (!string.IsNullOrWhiteSpace(AccessToken))
