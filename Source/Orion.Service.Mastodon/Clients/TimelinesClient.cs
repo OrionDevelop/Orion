@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 
 using Orion.Service.Mastodon.Helpers;
 using Orion.Service.Mastodon.Models;
+using Orion.Service.Shared;
 
 namespace Orion.Service.Mastodon.Clients
 {
-    public class TimelinesClient : ApiClient
+    public class TimelinesClient : ApiClient<MastodonClient>
     {
         internal TimelinesClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
@@ -15,7 +16,7 @@ namespace Orion.Service.Mastodon.Clients
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Status>>("api/v1/timelines/home", parameters);
+            return AppClient.GetAsync<List<Status>>("api/v1/timelines/home", parameters);
         }
 
         public Task<List<Status>> PublicAsync(bool? local = null, int? maxId = null, int? sinceId = null)
@@ -25,7 +26,7 @@ namespace Orion.Service.Mastodon.Clients
                 parameters.Add(new KeyValuePair<string, object>("local", local.Value.ToString().ToLower()));
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Status>>("api/v1/timelines/public", parameters);
+            return AppClient.GetAsync<List<Status>>("api/v1/timelines/public", parameters);
         }
 
         public Task<List<Status>> TagAsync(string hashtag, bool? local = null, int? maxId = null, int? sinceId = null)
@@ -35,7 +36,7 @@ namespace Orion.Service.Mastodon.Clients
                 parameters.Add(new KeyValuePair<string, object>("local", local.Value.ToString().ToLower()));
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Status>>($"api/v1/timelines/tag/{hashtag}", parameters);
+            return AppClient.GetAsync<List<Status>>($"api/v1/timelines/tag/{hashtag}", parameters);
         }
     }
 }

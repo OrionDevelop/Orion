@@ -4,21 +4,23 @@ using System.Threading.Tasks;
 
 using Orion.Service.Mastodon.Helpers;
 using Orion.Service.Mastodon.Models;
+using Orion.Service.Shared;
+using Orion.Service.Shared.Helpers;
 
 namespace Orion.Service.Mastodon.Clients
 {
-    public class AccountClient : ApiClient
+    public class AccountClient : ApiClient<MastodonClient>
     {
         internal AccountClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
         public Task<Account> ShowAsync(int id)
         {
-            return MastodonClient.GetAsync<Account>($"api/v1/accounts/{id}");
+            return AppClient.GetAsync<Account>($"api/v1/accounts/{id}");
         }
 
         public Task<Account> VerifyCredentialsAsync()
         {
-            return MastodonClient.GetAsync<Account>("api/v1/accounts/verify_credentials");
+            return AppClient.GetAsync<Account>("api/v1/accounts/verify_credentials");
         }
 
         public Task<Account> UpdateCredentialsAsync(string displayName = null, string note = null, string avatarPath = null, string headerPath = null)
@@ -29,11 +31,11 @@ namespace Orion.Service.Mastodon.Clients
             if (!string.IsNullOrWhiteSpace(note))
                 parameters.Add(new KeyValuePair<string, object>("note", note));
             if (!string.IsNullOrWhiteSpace(avatarPath))
-                parameters.Add(new KeyValuePair<string, object>("avatar", FileUtil.FileToBase64Strings(avatarPath)));
+                parameters.Add(new KeyValuePair<string, object>("avatar", FileHelper.FileToBase64Strings(avatarPath)));
             if (!string.IsNullOrWhiteSpace(headerPath))
-                parameters.Add(new KeyValuePair<string, object>("header", FileUtil.FileToBase64Strings(headerPath)));
+                parameters.Add(new KeyValuePair<string, object>("header", FileHelper.FileToBase64Strings(headerPath)));
 
-            return MastodonClient.PatchAsync<Account>("api/v1/accounts/update_credentials", parameters);
+            return AppClient.PatchAsync<Account>("api/v1/accounts/update_credentials", parameters);
         }
 
         public Task<List<Account>> FollowersAsync(int id, int? maxId = null, int? sinceId = null, int? limit = null)
@@ -43,7 +45,7 @@ namespace Orion.Service.Mastodon.Clients
             if (limit.HasValue)
                 parameters.Add(new KeyValuePair<string, object>("limit", limit.Value));
 
-            return MastodonClient.GetAsync<List<Account>>($"api/v1/accounts/{id}/followers", parameters);
+            return AppClient.GetAsync<List<Account>>($"api/v1/accounts/{id}/followers", parameters);
         }
 
         public Task<List<Account>> FollowingAsync(int id, int? maxId = null, int? sinceId = null)
@@ -51,7 +53,7 @@ namespace Orion.Service.Mastodon.Clients
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Account>>($"api/v1/accounts/{id}/following", parameters);
+            return AppClient.GetAsync<List<Account>>($"api/v1/accounts/{id}/following", parameters);
         }
 
         public Task<List<Status>> StatusesAsync(int id, bool? onlyMedia = null, bool? excludeReplies = null, int? maxId = null, int? sinceId = null)
@@ -63,37 +65,37 @@ namespace Orion.Service.Mastodon.Clients
                 parameters.Add(new KeyValuePair<string, object>("exclude_replies", excludeReplies));
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Status>>($"api/v1/accounts/{id}/statuses", parameters);
+            return AppClient.GetAsync<List<Status>>($"api/v1/accounts/{id}/statuses", parameters);
         }
 
         public Task<Relationship> FollowAsync(int id)
         {
-            return MastodonClient.PostAsync<Relationship>($"api/v1/accounts/{id}/follow");
+            return AppClient.PostAsync<Relationship>($"api/v1/accounts/{id}/follow");
         }
 
         public Task<Relationship> UnfollowAsync(int id)
         {
-            return MastodonClient.PostAsync<Relationship>($"api/v1/accounts/{id}/unfollow");
+            return AppClient.PostAsync<Relationship>($"api/v1/accounts/{id}/unfollow");
         }
 
         public Task<Account> BlockAsync(int id)
         {
-            return MastodonClient.PostAsync<Account>($"api/v1/accounts/{id}/block");
+            return AppClient.PostAsync<Account>($"api/v1/accounts/{id}/block");
         }
 
         public Task<Account> UnblockAsync(int id)
         {
-            return MastodonClient.PostAsync<Account>($"api/v1/accounts/{id}/unblock");
+            return AppClient.PostAsync<Account>($"api/v1/accounts/{id}/unblock");
         }
 
         public Task<Account> MuteAsync(int id)
         {
-            return MastodonClient.PostAsync<Account>($"api/v1/accounts/{id}/mute");
+            return AppClient.PostAsync<Account>($"api/v1/accounts/{id}/mute");
         }
 
         public Task<Account> UnmuteAsync(int id)
         {
-            return MastodonClient.PostAsync<Account>($"api/v1/accounts/{id}/unmute");
+            return AppClient.PostAsync<Account>($"api/v1/accounts/{id}/unmute");
         }
 
         public Task<List<Relationship>> RelationShipsAsync(IEnumerable<int> ids, int? maxId = null, int? sinceId = null)
@@ -101,7 +103,7 @@ namespace Orion.Service.Mastodon.Clients
             var parameters = ids.Select(id => new KeyValuePair<string, object>("id[]", id)).ToList();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Relationship>>("api/v1/accounts/relationships", parameters);
+            return AppClient.GetAsync<List<Relationship>>("api/v1/accounts/relationships", parameters);
         }
 
         public Task<List<Account>> SearchAsync(string q, int? limit = null)
@@ -113,7 +115,7 @@ namespace Orion.Service.Mastodon.Clients
             if (limit.HasValue)
                 parameters.Add(new KeyValuePair<string, object>("limit", limit));
 
-            return MastodonClient.GetAsync<List<Account>>("api/v1/accounts/search", parameters);
+            return AppClient.GetAsync<List<Account>>("api/v1/accounts/search", parameters);
         }
     }
 }

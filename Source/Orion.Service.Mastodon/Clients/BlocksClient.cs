@@ -3,12 +3,13 @@ using System.Threading.Tasks;
 
 using Orion.Service.Mastodon.Helpers;
 using Orion.Service.Mastodon.Models;
+using Orion.Service.Shared;
 
 // ReSharper disable once CheckNamespace
 
 namespace Orion.Service.Mastodon.Clients
 {
-    public class BlocksClient : ApiClient
+    public class BlocksClient : ApiClient<MastodonClient>
     {
         internal BlocksClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
@@ -17,7 +18,7 @@ namespace Orion.Service.Mastodon.Clients
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Account>>("api/v1/blocks", parameters);
+            return AppClient.GetAsync<List<Account>>("api/v1/blocks", parameters);
         }
     }
 }

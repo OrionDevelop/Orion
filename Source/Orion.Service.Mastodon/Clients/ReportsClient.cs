@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 
 using Orion.Service.Mastodon.Helpers;
 using Orion.Service.Mastodon.Models;
+using Orion.Service.Shared;
 
 // ReSharper disable once CheckNamespace
 
 namespace Orion.Service.Mastodon.Clients
 {
-    public class ReportsClient : ApiClient
+    public class ReportsClient : ApiClient<MastodonClient>
     {
         internal ReportsClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
@@ -18,7 +19,7 @@ namespace Orion.Service.Mastodon.Clients
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Report>>("api/v1/reports");
+            return AppClient.GetAsync<List<Report>>("api/v1/reports");
         }
 
         public Task<Report> CreateAsync(int accountId, IEnumerable<int> statusIds, string comment)
@@ -30,7 +31,7 @@ namespace Orion.Service.Mastodon.Clients
             };
             parameters.AddRange(statusIds.Select(statusId => new KeyValuePair<string, object>("status_ids[]", statusId)));
 
-            return MastodonClient.PostAsync<Report>("api/v1/reports", parameters);
+            return AppClient.PostAsync<Report>("api/v1/reports", parameters);
         }
     }
 }

@@ -6,6 +6,6 @@ Generic microblogging and social networking services application for Windows and
 Supported APIs are:  
 
 * Twitter
-* GNU Social
+* GNU social
 * Mastodon
 

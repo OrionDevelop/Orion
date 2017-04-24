@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 
 using Orion.Service.Mastodon.Models;
+using Orion.Service.Shared;
 
 // ReSharper disable once CheckNamespace
 
 namespace Orion.Service.Mastodon.Clients
 {
-    public class AppsClient : ApiClient
+    public class AppsClient : ApiClient<MastodonClient>
     {
         internal AppsClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
@@ -22,9 +23,9 @@ namespace Orion.Service.Mastodon.Clients
             if (!string.IsNullOrWhiteSpace(website))
                 parameters.Add(new KeyValuePair<string, object>("website", website));
 
-            var apps = await MastodonClient.PostAsync<RegistApp>("api/v1/apps", parameters).ConfigureAwait(false);
-            MastodonClient.ClientId = apps.ClientId;
-            MastodonClient.ClientSecret = apps.ClientSecret;
+            var apps = await AppClient.PostAsync<RegistApp>("api/v1/apps", parameters).ConfigureAwait(false);
+            AppClient.ClientId = apps.ClientId;
+            AppClient.ClientSecret = apps.ClientSecret;
             return apps;
         }
     }

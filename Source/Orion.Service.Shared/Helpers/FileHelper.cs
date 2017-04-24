@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Orion.Service.Mastodon
+namespace Orion.Service.Shared.Helpers
 {
-    internal static class FileUtil
+    public static class FileHelper
     {
-        private static readonly Dictionary<string, string> _mimeDictionary = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> MimeDictionary = new Dictionary<string, string>
         {
             // https://github.com/tootsuite/mastodon/blob/master/app/models/media_attachment.rb#L8
             {".jpeg", "image/jpeg"},
@@ -32,7 +32,7 @@ namespace Orion.Service.Mastodon
         private static string GetMimeType(string filepath)
         {
             var extension = Path.GetExtension(filepath);
-            return _mimeDictionary.ContainsKey(extension) ? _mimeDictionary[extension] : "";
+            return MimeDictionary.ContainsKey(extension) ? MimeDictionary[extension] : "";
         }
     }
 }

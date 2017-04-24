@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 
 using Orion.Service.Mastodon.Helpers;
 using Orion.Service.Mastodon.Models;
+using Orion.Service.Shared;
 
 namespace Orion.Service.Mastodon.Clients
 {
-    public class FollowRequestsClient : ApiClient
+    public class FollowRequestsClient : ApiClient<MastodonClient>
     {
         public FollowRequestsClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
@@ -15,17 +16,17 @@ namespace Orion.Service.Mastodon.Clients
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return MastodonClient.GetAsync<List<Account>>("api/v1/follow_requests", parameters);
+            return AppClient.GetAsync<List<Account>>("api/v1/follow_requests", parameters);
         }
 
         public async Task AuthorizeAsync(int id)
         {
-            await MastodonClient.PostAsync<string>($"api/v1/follow_requests/{id}/authorize").ConfigureAwait(false);
+            await AppClient.PostAsync<string>($"api/v1/follow_requests/{id}/authorize").ConfigureAwait(false);
         }
 
         public async Task RejectAsync(int id)
         {
-            await MastodonClient.PostAsync<string>($"api/v1/follow_requests/{id}/reject").ConfigureAwait(false);
+            await AppClient.PostAsync<string>($"api/v1/follow_requests/{id}/reject").ConfigureAwait(false);
         }
     }
 }

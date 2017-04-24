@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 
 using Orion.Service.Mastodon.Models;
+using Orion.Service.Shared;
 
 // ReSharper disable once CheckNamespace
 
 namespace Orion.Service.Mastodon.Clients
 {
-    public class FollowsClient : ApiClient
+    public class FollowsClient : ApiClient<MastodonClient>
     {
         internal FollowsClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
@@ -17,7 +18,7 @@ namespace Orion.Service.Mastodon.Clients
             {
                 new KeyValuePair<string, object>("uri", url)
             };
-            return MastodonClient.PostAsync<Account>("api/v1/follows", parameters);
+            return AppClient.PostAsync<Account>("api/v1/follows", parameters);
         }
     }
 }
