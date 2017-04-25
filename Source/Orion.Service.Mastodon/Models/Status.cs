@@ -45,10 +45,10 @@ namespace Orion.Service.Mastodon.Models
         public int FavouritesCount { get; set; }
 
         [JsonProperty("reblogged")]
-        public bool IsReblogged { get; set; }
+        public bool? IsReblogged { get; set; }
 
         [JsonProperty("favourited")]
-        public bool IsFavourited { get; set; }
+        public bool? IsFavourited { get; set; }
 
         [JsonProperty("sensitive")]
         public bool? IsSensitive { get; set; } = false;
