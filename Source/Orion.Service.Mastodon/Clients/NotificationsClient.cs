@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Orion.Service.Mastodon.Helpers;
 using Orion.Service.Mastodon.Models;
 using Orion.Service.Shared;
+using Orion.Service.Shared.Extensions;
 
 namespace Orion.Service.Mastodon.Clients
 {
@@ -26,7 +27,12 @@ namespace Orion.Service.Mastodon.Clients
 
         public async Task ClearAsync()
         {
-            await AppClient.PostAsync<string>("api/v1/notifications/clear").ConfigureAwait(false);
+            await AppClient.PostRawAsync("api/v1/notifications/clear").Stay();
+        }
+
+        public async Task DismissAsync(int id)
+        {
+            await AppClient.PostRawAsync($"api/v1/notifications/dismiss/{id}").Stay();
         }
     }
 }
