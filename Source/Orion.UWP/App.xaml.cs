@@ -6,6 +6,9 @@ using Windows.UI.Xaml.Controls;
 
 using Microsoft.Practices.Unity;
 
+using Orion.UWP.Services;
+using Orion.UWP.Services.Interfaces;
+
 using Prism.Unity.Windows;
 
 namespace Orion.UWP
@@ -37,6 +40,9 @@ namespace Orion.UWP
             Container.RegisterInstance(NavigationService);
             Container.RegisterInstance(SessionStateService);
             // Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
+
+            // Internal
+            Container.RegisterType<IDialogService, DialogService>(new ContainerControlledLifetimeManager());
 
             return base.OnInitializeAsync(args);
         }
