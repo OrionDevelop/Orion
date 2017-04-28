@@ -52,7 +52,7 @@ namespace Orion.Service.Mastodon.Clients
             return tokens;
         }
 
-        public string Authorize(Scope scopes = Scope.Read, string redirectUri = "urn:ietf:wg:oauth:2.0:oob")
+        public string GetAuthorizeUrl(Scope scopes = Scope.Read, string redirectUri = "urn:ietf:wg:oauth:2.0:oob")
         {
             return
                 $"{AppClient.BaseUrl}/oauth/authorize?response_type=code&client_id={AppClient.ClientId}&scope={string.Join(" ", scopes.ToStrings())}&redirect_uri={redirectUri}";

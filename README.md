@@ -6,6 +6,7 @@ Generic microblogging and social networking services application for Windows and
 Supported services are:  
 
 * Twitter
+* Croudia
 * GNU social instances (Original API only)
 * Mastodon instances (Original API only)
 

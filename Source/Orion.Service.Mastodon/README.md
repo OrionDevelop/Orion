@@ -2,17 +2,28 @@ Mastodon API wrapper for .NET standard 1.4.
 ----
 
 ```csharp
+// @ Orion.Service.Mastodon.linq
+// Mastodon API wrapper for .NET standard 1.4.
+var flag = false;
 var client = new MastodonClient("mstdn.jp");
-var scopes = Scope.Read | Scope.Write | Scope.Follow;
-
-// Register an app.
-await client.Apps.RegisterAsync("Test App", "urn:ietf:wg:oauth:2.0:oob", scopes);
 
 // Authorization process.
-// Note: If you set 'scopes' to 'write'/'follow', pass scopes to 3rd argument.
-client.OAuth.Authorize(scopes);
-await client.OAuth.TokenAsync(verifier); // `verifier` is PIN code.
+if (flag)
+{
+    var scopes = Scope.Read | Scope.Write | Scope.Follow;
+    (await client.Apps.RegisterAsync("Orion", "urn:ietf:wg:oauth:2.0:oob", scopes)).Dump();
+    Process.Start(client.OAuth.GetAuthorizeUrl(scopes));
+    (await client.OAuth.TokenAsync(Console.ReadLine())).Dump();
+}
+else
+{
+    client.ClientId = "your client id";
+    client.ClientSecret = "your client secret";
+    client.AccessToken = "your access token";
+}
 
-// Toot!
-var status = await client.Statuses.CreateAsync("テスト");
+
+(await client.Account.VerifyCredentialsAsync()).Dump();
+(await client.Timelines.PublicAsync()).Dump();
+await client.Statuses.CreateAsync("test toot.");
 ```

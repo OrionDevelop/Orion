@@ -2,14 +2,25 @@
 ----
 
 ```csharp
-// Please register application to host service (Example: https://freezepeach.xyz).
-var client = new GnuSocialClient("freezepeach.xyz", "YOUR_CONSUMER_KEY", "YOUR_CONSUMER_SECRET");
+// @ Orion.Service.GnuSocial.linq
+// GNU social API wrapper for .NET standard 1.4.
+var flag = false;
+var client = new GnuSocialClient("freezepeach.xyz", "your consumer key", "your consumer secret");
 
-// Authenticate process.
-await client.OAuth.RequestTokenAsync("oob");
-client.OAuth.Authorize(); // Open browser and access to authorize url.
-await client.OAuth.AccessTokenAsync(verifier); // `verifier` is PIN code.
+// Authorization process.
+if (flag)
+{
+    await client.OAuth.RequestTokenAsync("oob");
+    Process.Start(client.OAuth.GetAuthorizeUrl());
+    (await client.OAuth.AccessTokenAsync(Console.ReadLine())).Dump();
+}
+else
+{
+    client.AccessToken = "your access token";
+    client.AccessTokenSecret = "your access token secret";
+}
 
-// Notice!
-var status = await client.Statuses.UpdateAsync("テスト");
+(await client.Account.VerifyCredentialsAsync()).Dump();
+(await client.Statuses.PublicNetworkTimelineAsync()).Dump();
+await client.Statuses.UpdateAsync("test notice.");
 ```

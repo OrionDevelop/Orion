@@ -33,11 +33,11 @@ namespace Orion.Service.GnuSocial.Clients
             return requestToken;
         }
 
-        public string Authorize(RequestToken token = null)
+        public string GetAuthorizeUrl(RequestToken token = null)
         {
-            if (token != null)
-                return $"{AppClient.BaseUrl}oauth/authorize?oauth_token={token.OAuthToken}&oauth_token_secret={token.OAuthTokenSecret}";
-            return $"{AppClient.BaseUrl}oauth/authorize?oauth_token={AppClient.AccessToken}&oauth_token_secret={AppClient.AccessTokenSecret}";
+            return token != null
+                ? $"{AppClient.BaseUrl}oauth/authorize?oauth_token={token.OAuthToken}&oauth_token_secret={token.OAuthTokenSecret}"
+                : $"{AppClient.BaseUrl}oauth/authorize?oauth_token={AppClient.AccessToken}&oauth_token_secret={AppClient.AccessTokenSecret}";
         }
 
         public async Task<AccessToken> AccessTokenAsync(string verifier)
