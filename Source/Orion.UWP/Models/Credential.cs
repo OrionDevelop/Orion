@@ -3,6 +3,11 @@
     public class Credential
     {
         /// <summary>
+        ///     Username
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
         ///     Access token
         /// </summary>
         public string AccessToken { get; set; }

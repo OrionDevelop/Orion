@@ -1,6 +1,6 @@
 ﻿namespace Orion.UWP.Models.Enum
 {
-    public enum Service
+    public enum ServiceType
     {
         Twitter,
 

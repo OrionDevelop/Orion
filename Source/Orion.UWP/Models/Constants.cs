@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 using Orion.UWP.Models.Enum;
 
@@ -11,7 +12,7 @@ namespace Orion.UWP.Models
         {
             Name = "Twitter",
             Host = "api.twitter.com",
-            Service = Service.Twitter,
+            Service = ServiceType.Twitter,
             RequireHost = false,
             RequireApiKeys = false,
             ClientId = "IUWEAzTZJLcmfB7RFVErvVyLM",
@@ -22,18 +23,19 @@ namespace Orion.UWP.Models
         {
             Name = "Croudia",
             Host = "api.croudia.com",
-            Service = Service.Croudia,
+            Service = ServiceType.Croudia,
             RequireHost = false,
             RequireApiKeys = false,
             ClientId = "a278d96eb670a7008c057191a915e4b8b23532427f229eafa925612ad574bd4f",
-            ClientSecret = "df93f525140c43dbe701b29e7819877bf59fa11f66f49295f5be4fdbe03317e3"
+            ClientSecret = "df93f525140c43dbe701b29e7819877bf59fa11f66f49295f5be4fdbe03317e3",
+            ParseRegex = new Regex(@"\?code=(?<verifier>[0-9a-z]+)", RegexOptions.Compiled)
         };
 
         public static Provider FreezePeachProvider { get; } = new Provider
         {
             Name = "FreezePeach",
             Host = "freezepeach.xyz",
-            Service = Service.GnuSocial,
+            Service = ServiceType.GnuSocial,
             RequireHost = false,
             RequireApiKeys = false,
             ClientId = "4625863928048353df5cf80df5880ca5",
@@ -44,7 +46,7 @@ namespace Orion.UWP.Models
         {
             Name = "GNU/Smug",
             Host = "gs.smuglo.li",
-            Service = Service.GnuSocial,
+            Service = ServiceType.GnuSocial,
             RequireHost = false,
             RequireApiKeys = false,
             ClientId = "96ad60799296c03da82f63e584507b2d",
@@ -57,8 +59,15 @@ namespace Orion.UWP.Models
             CroudiaProvider,
             FreezePeachProvider,
             GnuSmugProvider,
-            new Provider {Name = "GNU social", Service = Service.GnuSocial, RequireHost = true, RequireApiKeys = true},
-            new Provider {Name = "Mastodon", Service = Service.Mastodon, RequireHost = true, RequireApiKeys = false}
+            new Provider {Name = "GNU social", Service = ServiceType.GnuSocial, RequireHost = true, RequireApiKeys = true},
+            new Provider
+            {
+                Name = "Mastodon",
+                Service = ServiceType.Mastodon,
+                RequireHost = true,
+                RequireApiKeys = false,
+                ParseRegex = new Regex(@"\/oauth\/authorize\/(?<verifier>[0-9a-z]+)", RegexOptions.Compiled)
+            }
         }.AsReadOnly();
     }
 }

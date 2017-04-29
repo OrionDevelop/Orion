@@ -42,7 +42,6 @@ namespace Orion.UWP
             // Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
 
             // Internal
-            Container.RegisterType<IAccountService, AccountService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDialogService, DialogService>(new ContainerControlledLifetimeManager());
 
             return base.OnInitializeAsync(args);

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reactive.Linq;
 
 using Orion.UWP.Models;
+using Orion.UWP.Models.Clients;
 using Orion.UWP.Mvvm;
 
 using Reactive.Bindings;
@@ -11,93 +13,126 @@ namespace Orion.UWP.ViewModels
 {
     public class AuthorizationDialogViewModel : ViewModel
     {
-        public ReadOnlyCollection<Provider> Providers { get; } = Constants.Providers;
+        private BaseClientWrapper _clientWrapper;
+        public ReadOnlyCollection<Provider> Providers => Constants.Providers;
 
         public ReactiveProperty<Provider> SelectedProvider { get; }
+        public ReactiveProperty<bool> HasHost { get; }
         public ReactiveProperty<string> Host { get; }
+        public ReactiveProperty<bool> HasApiKey { get; }
         public ReactiveProperty<string> ConsumerKey { get; }
         public ReactiveProperty<string> ConsumerSecret { get; }
+        public ReactiveProperty<Uri> Source { get; }
+        public ReactiveProperty<string> VerifierCode { get; }
+        public ReactiveCommand GoAuthorizePageCommand { get; }
         public ReactiveCommand AuthorizeCommand { get; }
 
         public AuthorizationDialogViewModel()
         {
+            Title = "アプリケーションの認証 (1/2)";
+            IsFirstPage = true;
+            CanClose = false;
             SelectedProvider = new ReactiveProperty<Provider>();
-            SelectedProvider.Where(w => w != null).Subscribe(w =>
-            {
-                HasHost = w.RequireHost;
-                HasApiKeys = w.RequireApiKeys;
-                Rejudge(w);
-            }).AddTo(this);
+            SelectedProvider.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
+            HasHost = SelectedProvider.Select(w => w?.RequireHost ?? false).ToReactiveProperty();
             Host = new ReactiveProperty<string>();
-            Host.Subscribe(w => Rejudge(host: w)).AddTo(this);
+            Host.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
+            HasApiKey = SelectedProvider.Select(w => w?.RequireApiKeys ?? false).ToReactiveProperty();
             ConsumerKey = new ReactiveProperty<string>();
-            ConsumerKey.Subscribe(w => Rejudge(consumerKey: w)).AddTo(this);
+            ConsumerKey.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
             ConsumerSecret = new ReactiveProperty<string>();
-            ConsumerSecret.Subscribe(w => Rejudge(consumerSecret: w)).AddTo(this);
-            AuthorizeCommand = new ReactiveCommand();
-            AuthorizeCommand.Subscribe(w =>
+            ConsumerSecret.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
+            Source = new ReactiveProperty<Uri>(new Uri("https://ori.kokoiroworks.com/start"));
+            Source.Subscribe(w =>
             {
-                //
-            }).AddTo(this);
-
-            void Rejudge(Provider provider = null, string host = null, string consumerKey = null, string consumerSecret = null)
-            {
-                provider = provider ?? SelectedProvider?.Value;
-                host = host ?? Host?.Value;
-                consumerKey = consumerKey ?? ConsumerKey?.Value;
-                consumerSecret = consumerSecret ?? ConsumerSecret?.Value;
-
-                if (provider == null)
-                {
-                    CanExecuteAuthorize = false;
+                var regex = SelectedProvider?.Value?.ParseRegex;
+                if (regex == null || !regex.IsMatch(w.ToString()))
                     return;
-                }
-                if (!provider.RequireApiKeys && !provider.RequireHost)
-                {
-                    CanExecuteAuthorize = true;
-                }
-                else
-                {
-                    var b = !(provider.RequireHost && string.IsNullOrWhiteSpace(host));
-                    if (provider.RequireApiKeys)
-                        b = !(string.IsNullOrWhiteSpace(consumerKey) || string.IsNullOrWhiteSpace(consumerSecret));
-                    CanExecuteAuthorize = b;
-                }
-            }
+                VerifierCode.Value = regex.Match(w.ToString()).Groups["verifier"].Value;
+                AuthorizeCommand.Execute();
+            });
+            VerifierCode = new ReactiveProperty<string>();
+            GoAuthorizePageCommand = new ReactiveCommand();
+            GoAuthorizePageCommand.Subscribe(async _ =>
+            {
+                Title = "アプリケーションの認証 (2/2)";
+                IsFirstPage = false;
+                var provider = SelectedProvider.Value;
+                provider.Configure(Host.Value, ConsumerKey.Value, ConsumerSecret.Value);
+                _clientWrapper = provider.CreateClientWrapper();
+                IsEnableVerifierInput = provider.ParseRegex == null;
+                Source.Value = new Uri(await _clientWrapper.GetAuthorizeUrlAsync());
+            }).AddTo(this);
+            AuthorizeCommand = VerifierCode.Select(w => !string.IsNullOrWhiteSpace(w)).ToReactiveCommand();
+            AuthorizeCommand.Subscribe(async _ =>
+            {
+                await _clientWrapper.AuthorizeAsync(VerifierCode.Value);
+                Debug.WriteLine(_clientWrapper.Account);
+                CanClose = true;
+            }).AddTo(this);
         }
 
-        #region HasHost
-
-        private bool _hasHost;
-
-        public bool HasHost
+        private void UpdateCanExecuteGoAuthorizePage()
         {
-            get => _hasHost;
-            set => SetProperty(ref _hasHost, value);
+            CanExecuteGoAuthorizePage = SelectedProvider?.Value?.ValidateConfiguration(Host?.Value, ConsumerKey?.Value, ConsumerSecret?.Value) ?? false;
+        }
+
+        #region Title
+
+        private string _title;
+
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
         #endregion
 
-        #region HasApiKeys
+        #region CanExecuteGoAuthorizePage
 
-        private bool _hasApiKeys;
+        private bool _canExecuteGoAuthorizePage;
 
-        public bool HasApiKeys
+        public bool CanExecuteGoAuthorizePage
         {
-            get => _hasApiKeys;
-            set => SetProperty(ref _hasApiKeys, value);
+            get => _canExecuteGoAuthorizePage;
+            set => SetProperty(ref _canExecuteGoAuthorizePage, value);
         }
 
         #endregion
 
-        #region CanExecuteAuthorize
+        #region IsFirstPage
 
-        private bool _canExecuteAuthorize;
+        private bool _isFirstPage;
 
-        public bool CanExecuteAuthorize
+        public bool IsFirstPage
         {
-            get => _canExecuteAuthorize;
-            set => SetProperty(ref _canExecuteAuthorize, value);
+            get => _isFirstPage;
+            set => SetProperty(ref _isFirstPage, value);
+        }
+
+        #endregion
+
+        #region IsEnableVerifierInput
+
+        private bool _isEnableVerifierInput;
+
+        public bool IsEnableVerifierInput
+        {
+            get => _isEnableVerifierInput;
+            set => SetProperty(ref _isEnableVerifierInput, value);
+        }
+
+        #endregion
+
+        #region CanClose
+
+        private bool _canClose;
+
+        public bool CanClose
+        {
+            get => _canClose;
+            set => SetProperty(ref _canClose, value);
         }
 
         #endregion

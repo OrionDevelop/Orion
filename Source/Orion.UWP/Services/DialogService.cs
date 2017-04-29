@@ -15,5 +15,10 @@ namespace Orion.UWP.Services
             if (dialog != null)
                 await dialog.ShowAsync();
         }
+
+        public async Task ShowDialogAsync(ContentDialog instance)
+        {
+            await instance.ShowAsync();
+        }
     }
 }
