@@ -4,6 +4,8 @@
     {
         Twitter,
 
+        Croudia,
+
         GnuSocial,
 
         Mastodon

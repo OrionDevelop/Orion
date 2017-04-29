@@ -1,8 +1,6 @@
-﻿using Orion.UWP.Models.Enum;
-
-namespace Orion.UWP.Models
+﻿namespace Orion.UWP.Models
 {
-    internal class Account
+    public class Account
     {
         /// <summary>
         ///     Unique ID
@@ -12,11 +10,11 @@ namespace Orion.UWP.Models
         /// <summary>
         ///     Service provider
         /// </summary>
-        public Service Service { get; set; }
+        public Provider Provider { get; set; }
 
         /// <summary>
-        ///     Hosted domain
+        ///     Credentials
         /// </summary>
-        public string Domain { get; set; }
+        public Credential Credential { get; set; }
     }
 }

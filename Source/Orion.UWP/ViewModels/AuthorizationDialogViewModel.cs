@@ -35,6 +35,10 @@ namespace Orion.UWP.ViewModels
             ConsumerSecret = new ReactiveProperty<string>();
             ConsumerSecret.Subscribe(w => Rejudge(consumerSecret: w)).AddTo(this);
             AuthorizeCommand = new ReactiveCommand();
+            AuthorizeCommand.Subscribe(w =>
+            {
+                //
+            }).AddTo(this);
 
             void Rejudge(Provider provider = null, string host = null, string consumerKey = null, string consumerSecret = null)
             {

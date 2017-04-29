@@ -106,7 +106,9 @@
     <Compile Include="Mvvm\ViewModel.cs" />
     <Compile Include="Mvvm\ViewModelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\Interfaces\IAccountService.cs" />
     <Compile Include="Services\Interfaces\IDialogService.cs" />
     <Compile Include="ViewModels\AuthorizationDialogViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />

@@ -10,6 +10,10 @@ namespace Orion.UWP.Models
 
         public string Host { get; set; }
 
+        public string ClientId { get; set; }
+
+        public string ClientSecret { get; set; }
+
         public bool RequireHost { get; set; } = true;
 
         public bool RequireApiKeys { get; set; } = true;
