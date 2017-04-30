@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Reactive.Linq;
 
 using Orion.UWP.Models;
 using Orion.UWP.Models.Clients;
 using Orion.UWP.Mvvm;
+using Orion.UWP.Services.Interfaces;
 
 using Reactive.Bindings;
 
@@ -13,6 +13,7 @@ namespace Orion.UWP.ViewModels
 {
     public class AuthorizationDialogViewModel : ViewModel
     {
+        private readonly IAccountService _accountService;
         private BaseClientWrapper _clientWrapper;
         public ReadOnlyCollection<Provider> Providers => Constants.Providers;
 
@@ -27,8 +28,9 @@ namespace Orion.UWP.ViewModels
         public ReactiveCommand GoAuthorizePageCommand { get; }
         public ReactiveCommand AuthorizeCommand { get; }
 
-        public AuthorizationDialogViewModel()
+        public AuthorizationDialogViewModel(IAccountService accountService)
         {
+            _accountService = accountService;
             Title = "アプリケーションの認証 (1/2)";
             IsFirstPage = true;
             CanClose = false;
@@ -67,7 +69,7 @@ namespace Orion.UWP.ViewModels
             AuthorizeCommand.Subscribe(async _ =>
             {
                 await _clientWrapper.AuthorizeAsync(VerifierCode.Value);
-                Debug.WriteLine(_clientWrapper.Account);
+                await _accountService.RegisterAsync(_clientWrapper.Account);
                 CanClose = true;
             }).AddTo(this);
         }

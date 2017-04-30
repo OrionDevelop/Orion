@@ -34,7 +34,7 @@ namespace Orion.UWP
             return shell;
         }
 
-        protected override Task OnInitializeAsync(IActivatedEventArgs args)
+        protected override async Task OnInitializeAsync(IActivatedEventArgs args)
         {
             // Prism
             Container.RegisterInstance(NavigationService);
@@ -42,9 +42,14 @@ namespace Orion.UWP
             // Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
 
             // Internal
+            var accountService = new AccountService();
+            //await accountService.ClearAsync();
+            await accountService.RestoreAsync();
+
+            Container.RegisterInstance<IAccountService>(accountService, new ContainerControlledLifetimeManager());
             Container.RegisterType<IDialogService, DialogService>(new ContainerControlledLifetimeManager());
 
-            return base.OnInitializeAsync(args);
+            await base.OnInitializeAsync(args);
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

@@ -5,10 +5,10 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:prism="using:Prism.Windows.Mvvm"
                xmlns:vm="using:Orion.UWP.ViewModels"
-               Loaded="AuthorizationDialog_OnLoaded"
                Title="{x:Bind ViewModel.Title, Mode=OneWay}"
                d:DataContext="{d:DesignInstance vm:AuthorizationDialogViewModel}"
                prism:ViewModelLocator.AutoWireViewModel="True"
+               Loaded="AuthorizationDialog_OnLoaded"
                mc:Ignorable="d">
     <Grid>
         <Grid Visibility="{x:Bind ViewModel.IsFirstPage, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">

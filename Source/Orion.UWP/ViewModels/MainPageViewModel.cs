@@ -10,10 +10,12 @@ namespace Orion.UWP.ViewModels
 {
     public class MainPageViewModel : ViewModel
     {
+        private readonly IAccountService _accountService;
         private readonly IDialogService _dialogService;
 
-        public MainPageViewModel(IDialogService dialogService)
+        public MainPageViewModel(IAccountService accountService, IDialogService dialogService)
         {
+            _accountService = accountService;
             _dialogService = dialogService;
         }
 
@@ -21,7 +23,8 @@ namespace Orion.UWP.ViewModels
         {
             base.OnNavigatedTo(e, viewModelState);
 
-            _dialogService.ShowDialogAsync(typeof(AuthorizationDialog));
+            if (_accountService.Accounts.Count == 0)
+                _dialogService.ShowDialogAsync(typeof(AuthorizationDialog));
         }
     }
 }

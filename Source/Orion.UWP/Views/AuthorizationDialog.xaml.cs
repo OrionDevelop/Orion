@@ -28,7 +28,7 @@ namespace Orion.UWP.Views
                 return;
 
             // Avoid double notify
-            if(ViewModel?.SelectedProvider?.Value?.ParseRegex == null)
+            if (ViewModel?.SelectedProvider?.Value?.ParseRegex == null)
                 return;
 
             if (ViewModel.SelectedProvider.Value.ParseRegex.IsMatch(args.Uri.ToString()))

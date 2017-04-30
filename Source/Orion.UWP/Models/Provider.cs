@@ -53,10 +53,7 @@ namespace Orion.UWP.Models
             if (RequireHost && string.IsNullOrWhiteSpace(host))
                 return false;
 
-            if (RequireApiKeys && (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret)))
-                return false;
-
-            return true;
+            return !RequireApiKeys || !string.IsNullOrWhiteSpace(clientId) && !string.IsNullOrWhiteSpace(clientSecret);
         }
 
         public void Configure(string host, string clientId, string clientSecret)
