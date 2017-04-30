@@ -40,7 +40,7 @@ namespace Orion.UWP.Services
             try
             {
                 var vault = new PasswordVault();
-                vault.Add(new PasswordCredential("Orion.Accounts", $"{_counter++}-{account.Credential.Username}", JsonConvert.SerializeObject(account)));
+                vault.Add(new PasswordCredential("Orion.Accounts", $"{_counter++}-{account.Provider.Name}", JsonConvert.SerializeObject(account)));
                 _accounts.Add(account);
             }
             catch

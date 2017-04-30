@@ -43,7 +43,7 @@ namespace Orion.UWP
 
             // Internal
             var accountService = new AccountService();
-            //await accountService.ClearAsync();
+            await accountService.ClearAsync();
             await accountService.RestoreAsync();
 
             Container.RegisterInstance<IAccountService>(accountService, new ContainerControlledLifetimeManager());
