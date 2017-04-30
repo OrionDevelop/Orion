@@ -24,9 +24,7 @@ namespace Orion.UWP.ViewModels
         public ReactiveProperty<string> ConsumerKey { get; }
         public ReactiveProperty<string> ConsumerSecret { get; }
         public ReactiveProperty<Uri> Source { get; }
-        public ReactiveProperty<string> VerifierCode { get; }
         public ReactiveCommand GoAuthorizePageCommand { get; }
-        public ReactiveCommand AuthorizeCommand { get; }
 
         public AuthorizationDialogViewModel(IAccountService accountService)
         {
@@ -44,16 +42,17 @@ namespace Orion.UWP.ViewModels
             ConsumerKey.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
             ConsumerSecret = new ReactiveProperty<string>();
             ConsumerSecret.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
-            Source = new ReactiveProperty<Uri>(new Uri("https://ori.kokoiroworks.com/start"));
-            Source.Subscribe(w =>
+            Source = new ReactiveProperty<Uri>(new Uri("https://ori.kokoiroworks.com/"));
+            Source.Subscribe(async w =>
             {
                 var regex = SelectedProvider?.Value?.ParseRegex;
                 if (regex == null || !regex.IsMatch(w.ToString()))
                     return;
-                VerifierCode.Value = regex.Match(w.ToString()).Groups["verifier"].Value;
-                AuthorizeCommand.Execute();
+                var verifierCode = regex.Match(w.ToString()).Groups["verifier"].Value;
+                await _clientWrapper.AuthorizeAsync(verifierCode);
+                await _accountService.RegisterAsync(_clientWrapper.Account);
+                CanClose = true;
             });
-            VerifierCode = new ReactiveProperty<string>();
             GoAuthorizePageCommand = new ReactiveCommand();
             GoAuthorizePageCommand.Subscribe(async _ =>
             {
@@ -64,13 +63,6 @@ namespace Orion.UWP.ViewModels
                 _clientWrapper = provider.CreateClientWrapper();
                 IsEnableVerifierInput = provider.ParseRegex == null;
                 Source.Value = new Uri(await _clientWrapper.GetAuthorizeUrlAsync());
-            }).AddTo(this);
-            AuthorizeCommand = VerifierCode.Select(w => !string.IsNullOrWhiteSpace(w)).ToReactiveCommand();
-            AuthorizeCommand.Subscribe(async _ =>
-            {
-                await _clientWrapper.AuthorizeAsync(VerifierCode.Value);
-                await _accountService.RegisterAsync(_clientWrapper.Account);
-                CanClose = true;
             }).AddTo(this);
         }
 

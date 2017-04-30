@@ -18,7 +18,7 @@ namespace Orion.UWP.Models.Clients
 
         public override async Task<string> GetAuthorizeUrlAsync()
         {
-            _session = await OAuth.AuthorizeAsync(Provider.ClientId, Provider.ClientSecret);
+            _session = await OAuth.AuthorizeAsync(Provider.ClientId, Provider.ClientSecret, Constants.OAuthCallback);
             return _session.AuthorizeUri.ToString();
         }
 

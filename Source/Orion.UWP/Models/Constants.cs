@@ -8,6 +8,8 @@ namespace Orion.UWP.Models
 {
     internal static class Constants
     {
+        public static string OAuthCallback = "https://kokoiroworks.com/callback";
+
         public static Provider TwitterProvider { get; } = new Provider
         {
             Name = "Twitter",
@@ -16,7 +18,8 @@ namespace Orion.UWP.Models
             RequireHost = false,
             RequireApiKeys = false,
             ClientId = "IUWEAzTZJLcmfB7RFVErvVyLM",
-            ClientSecret = "bgJDN2WfJwzMZUhWK5lVHp8NklqIOKZ6f5ZscrlrzxPz87BbBf"
+            ClientSecret = "bgJDN2WfJwzMZUhWK5lVHp8NklqIOKZ6f5ZscrlrzxPz87BbBf",
+            ParseRegex = new Regex(@"oauth_verifier=(?<verifier>[A-Za-z0-9]+)", RegexOptions.Compiled)
         };
 
         public static Provider CroudiaProvider { get; } = new Provider
@@ -39,7 +42,8 @@ namespace Orion.UWP.Models
             RequireHost = false,
             RequireApiKeys = false,
             ClientId = "4625863928048353df5cf80df5880ca5",
-            ClientSecret = "d9a98e70a14751ab2315549b4b493e94"
+            ClientSecret = "d9a98e70a14751ab2315549b4b493e94",
+            ParseRegex = new Regex(@"oauth_verifier=(?<verifier>[a-z0-9]+)", RegexOptions.Compiled)
         };
 
         public static Provider GnuSmugProvider { get; } = new Provider
@@ -50,7 +54,8 @@ namespace Orion.UWP.Models
             RequireHost = false,
             RequireApiKeys = false,
             ClientId = "96ad60799296c03da82f63e584507b2d",
-            ClientSecret = "1729201fa07fad023fed97926241f212"
+            ClientSecret = "1729201fa07fad023fed97926241f212",
+            ParseRegex = new Regex(@"oauth_verifier=(?<verifier>[a-z0-9]+)", RegexOptions.Compiled)
         };
 
         public static ReadOnlyCollection<Provider> Providers { get; } = new List<Provider>
@@ -59,7 +64,14 @@ namespace Orion.UWP.Models
             CroudiaProvider,
             FreezePeachProvider,
             GnuSmugProvider,
-            new Provider {Name = "GNU social", Service = ServiceType.GnuSocial, RequireHost = true, RequireApiKeys = true},
+            new Provider
+            {
+                Name = "GNU social",
+                Service = ServiceType.GnuSocial,
+                RequireHost = true,
+                RequireApiKeys = true,
+                ParseRegex = new Regex(@"oauth_verifier=(?<verifier>[a-z0-9]+)", RegexOptions.Compiled)
+            },
             new Provider
             {
                 Name = "Mastodon",

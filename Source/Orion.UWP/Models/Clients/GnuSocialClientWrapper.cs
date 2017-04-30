@@ -24,7 +24,7 @@ namespace Orion.UWP.Models.Clients
 
         public override async Task<string> GetAuthorizeUrlAsync()
         {
-            await _gnuSocialClient.OAuth.RequestTokenAsync("oob");
+            await _gnuSocialClient.OAuth.RequestTokenAsync(Constants.OAuthCallback);
             return _gnuSocialClient.OAuth.GetAuthorizeUrl();
         }
 
