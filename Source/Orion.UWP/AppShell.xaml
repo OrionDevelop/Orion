@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:localControls="using:Orion.UWP.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -13,8 +14,40 @@
                                 IsPaneOpen="False"
                                 OpenPaneLength="240"
                                 PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <controls:HamburgerMenu.Resources>
+                <localControls:DataTemplateCollection x:Key="DataTemplateCollection">
+                    <DataTemplate localControls:TypeNamedDataTemplateSelector.Target="controls:HamburgerMenuGlyphItem" x:DataType="controls:HamburgerMenuGlyphItem">
+                        <Grid Width="240" Height="48">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <FontIcon Grid.Column="0"
+                                      FontSize="24"
+                                      Glyph="{Binding Glyph}" />
+                            <TextBlock Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       Text="{Binding Label}" />
+                        </Grid>
+                    </DataTemplate>
+                </localControls:DataTemplateCollection>
+            </controls:HamburgerMenu.Resources>
+            <controls:HamburgerMenu.ItemTemplateSelector>
+                <localControls:TypeNamedDataTemplateSelector Templates="{StaticResource DataTemplateCollection}" />
+            </controls:HamburgerMenu.ItemTemplateSelector>
+            <controls:HamburgerMenu.OptionsItemTemplateSelector>
+                <localControls:TypeNamedDataTemplateSelector Templates="{StaticResource DataTemplateCollection}" />
+            </controls:HamburgerMenu.OptionsItemTemplateSelector>
+            <controls:HamburgerMenu.OptionsItemsSource>
+                <controls:HamburgerMenuItemCollection>
+                    <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
+                    <controls:HamburgerMenuGlyphItem Glyph="&#xE783;" Label="Orion について" />
+                </controls:HamburgerMenuItemCollection>
+            </controls:HamburgerMenu.OptionsItemsSource>
             <!--  ReSharper disable once InconsistentNaming  -->
             <Frame x:Name="contentFrame" />
         </controls:HamburgerMenu>
     </Grid>
 </Page>
+

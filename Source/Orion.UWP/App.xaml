@@ -7,6 +7,9 @@
                              RequestedTheme="Dark">
     <prism:PrismUnityApplication.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Controls/CircleImage/CircleImage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <c:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" />
         </ResourceDictionary>
