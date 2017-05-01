@@ -95,7 +95,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AppShell.xaml.cs">
+    <Compile Include="ViewModels\AppShellViewModel.cs" />
+    <Compile Include="ViewModels\Contents\TimelineViewModel.cs" />
+    <Compile Include="Views\AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
@@ -111,7 +113,9 @@
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Credential.cs" />
     <Compile Include="Models\Enum\ServiceType.cs" />
+    <Compile Include="Models\Enum\TimelineType.cs" />
     <Compile Include="Models\Provider.cs" />
+    <Compile Include="Models\Timeline.cs" />
     <Compile Include="Mvvm\ViewModel.cs" />
     <Compile Include="Mvvm\ViewModelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -120,6 +124,8 @@
     <Compile Include="Services\Interfaces\IAccountService.cs" />
     <Compile Include="Services\Interfaces\IDialogService.cs" />
     <Compile Include="Controls\TypeNamedDataTemplateSelector.cs" />
+    <Compile Include="Services\Interfaces\ITimelineService.cs" />
+    <Compile Include="Services\TimelineService.cs" />
     <Compile Include="ViewModels\AuthorizationDialogViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Views\AuthorizationDialog.xaml.cs">
@@ -188,7 +194,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AppShell.xaml">
+    <Page Include="Views\AppShell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,6 +237,9 @@
       <Project>{31647fc1-4a1d-4ee2-b38e-7d514e78aba7}</Project>
       <Name>Orion.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Partials\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

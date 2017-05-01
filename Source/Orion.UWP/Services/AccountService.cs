@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -15,16 +14,16 @@ namespace Orion.UWP.Services
 {
     internal class AccountService : IAccountService
     {
-        private readonly List<Account> _accounts;
+        private readonly ObservableCollection<Account> _accounts;
         private int _counter;
 
         public AccountService()
         {
-            _accounts = new List<Account>();
+            _accounts = new ObservableCollection<Account>();
             _counter = 0;
         }
 
-        public ReadOnlyCollection<Account> Accounts => _accounts.AsReadOnly();
+        public ReadOnlyObservableCollection<Account> Accounts => new ReadOnlyObservableCollection<Account>(_accounts);
 
         public Task ClearAsync()
         {
@@ -39,6 +38,8 @@ namespace Orion.UWP.Services
         {
             try
             {
+                if (_accounts.Count == 0)
+                    account.MarkAsDefault = true;
                 var vault = new PasswordVault();
                 vault.Add(new PasswordCredential("Orion.Accounts", $"{_counter++}-{account.Provider.Name}", JsonConvert.SerializeObject(account)));
                 _accounts.Add(account);

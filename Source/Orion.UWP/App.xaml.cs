@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 
 using Orion.UWP.Services;
 using Orion.UWP.Services.Interfaces;
+using Orion.UWP.Views;
 
 using Prism.Unity.Windows;
 
@@ -43,11 +44,12 @@ namespace Orion.UWP
 
             // Internal
             var accountService = new AccountService();
-            await accountService.ClearAsync();
+            // await accountService.ClearAsync();
             await accountService.RestoreAsync();
 
             Container.RegisterInstance<IAccountService>(accountService, new ContainerControlledLifetimeManager());
             Container.RegisterType<IDialogService, DialogService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ITimelineService, TimelineService>(new ContainerControlledLifetimeManager());
 
             await base.OnInitializeAsync(args);
         }

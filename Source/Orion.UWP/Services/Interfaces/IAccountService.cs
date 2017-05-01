@@ -7,7 +7,7 @@ namespace Orion.UWP.Services.Interfaces
 {
     public interface IAccountService
     {
-        ReadOnlyCollection<Account> Accounts { get; }
+        ReadOnlyObservableCollection<Account> Accounts { get; }
 
         Task ClearAsync();
 

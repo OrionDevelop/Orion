@@ -26,10 +26,20 @@ namespace Orion.UWP.Models
         public Credential Credential { get; set; }
 
         /// <summary>
+        ///     Mark as default (If timeline is not associated with account, use this)
+        /// </summary>
+        public bool MarkAsDefault { get; set; }
+
+        /// <summary>
         ///     Client wrapper
         /// </summary>
         [JsonIgnore]
         public BaseClientWrapper ClientWrapper { get; set; }
+
+        public Account()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         public async Task<bool> RestoreAsync()
         {
