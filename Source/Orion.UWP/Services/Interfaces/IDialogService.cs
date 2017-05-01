@@ -10,9 +10,15 @@ namespace Orion.UWP.Services.Interfaces
         /// <summary>
         ///     Show dialog.
         /// </summary>
-        /// <param name="type"></param>
         /// <returns></returns>
-        Task ShowDialogAsync(Type type);
+        Task ShowDialogAsync<T>();
+
+        /// <summary>
+        ///     Show dialog.
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        Task ShowDialogAsync(Type t);
 
         /// <summary>
         ///     Show dialog.

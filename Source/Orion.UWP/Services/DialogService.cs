@@ -9,9 +9,16 @@ namespace Orion.UWP.Services
 {
     internal class DialogService : IDialogService
     {
-        public async Task ShowDialogAsync(Type type)
+        public async Task ShowDialogAsync<T>()
         {
-            var dialog = Activator.CreateInstance(type) as ContentDialog;
+            var dialog = Activator.CreateInstance(typeof(T)) as ContentDialog;
+            if (dialog != null)
+                await dialog.ShowAsync();
+        }
+
+        public async Task ShowDialogAsync(Type t)
+        {
+            var dialog = Activator.CreateInstance(t) as ContentDialog;
             if (dialog != null)
                 await dialog.ShowAsync();
         }
