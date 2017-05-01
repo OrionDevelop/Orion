@@ -95,11 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\AppShellViewModel.cs" />
     <Compile Include="ViewModels\Contents\TimelineViewModel.cs" />
-    <Compile Include="Views\AppShell.xaml.cs">
-      <DependentUpon>AppShell.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
     <Compile Include="Controls\DataTemplateSelector.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />
@@ -194,10 +190,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\AppShell.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\CircleImage\CircleImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
