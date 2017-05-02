@@ -76,6 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Views\" />
+    <Folder Include="Models\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -86,13 +89,13 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ViewController.cs" />
-    <Compile Include="ViewController.designer.cs">
+    <Compile Include="Views\ViewController.cs" />
+    <Compile Include="Views\ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="Views\Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Orion.Service.GnuSocial\Orion.Service.GnuSocial.csproj">
@@ -110,6 +113,14 @@
     <ProjectReference Include="..\Orion.Interfaces\Orion.Interfaces.csproj">
       <Project>{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}</Project>
       <Name>Orion.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Service.Croudia\Orion.Service.Croudia.csproj">
+      <Project>{CE99FFE9-63D8-4887-9401-E7ABBB228A1A}</Project>
+      <Name>Orion.Service.Croudia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Shared\Orion.Shared.csproj">
+      <Project>{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}</Project>
+      <Name>Orion.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />

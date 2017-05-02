@@ -16,6 +16,13 @@ namespace Orion.Mac
             base.ViewDidLoad();
 
             // Do any additional setup after loading the view.
+
+        }
+
+        partial void ClickedButton(NSObject sender)
+        {
+            // OnClicked
+            yuiSong.StringValue = "Snow Wings";
         }
 
         public override NSObject RepresentedObject
