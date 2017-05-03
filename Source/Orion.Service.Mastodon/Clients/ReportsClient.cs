@@ -14,12 +14,12 @@ namespace Orion.Service.Mastodon.Clients
     {
         internal ReportsClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
-        public Task<List<Report>> ListAsync(int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Report>> ListAsync(int? maxId = null, int? sinceId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Report>>("api/v1/reports");
+            return AppClient.GetAsync<IEnumerable<Report>>("api/v1/reports");
         }
 
         public Task<Report> CreateAsync(int accountId, IEnumerable<int> statusIds, string comment)

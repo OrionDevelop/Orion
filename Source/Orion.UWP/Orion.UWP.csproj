@@ -233,6 +233,10 @@
       <Project>{ce99ffe9-63d8-4887-9401-e7abbb228a1a}</Project>
       <Name>Orion.Service.Croudia</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orion.Service.FkStreaming\Orion.Service.FkStreaming.csproj">
+      <Project>{2e32178a-e962-4bf5-a899-402a7c827baa}</Project>
+      <Name>Orion.Service.FkStreaming</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orion.Service.GnuSocial\Orion.Service.GnuSocial.csproj">
       <Project>{08e1ab0f-f76f-4815-974a-0899b7aa5498}</Project>
       <Name>Orion.Service.GnuSocial</Name>

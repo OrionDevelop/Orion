@@ -13,12 +13,12 @@ namespace Orion.Service.Mastodon.Clients
     {
         internal FavouritesClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
-        public Task<List<Status>> ListAsync(int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Status>> ListAsync(int? maxId = null, int? sinceId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Status>>("api/v1/favourites", parameters);
+            return AppClient.GetAsync<IEnumerable<Status>>("api/v1/favourites", parameters);
         }
     }
 }

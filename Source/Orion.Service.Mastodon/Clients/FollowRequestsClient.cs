@@ -11,12 +11,12 @@ namespace Orion.Service.Mastodon.Clients
     {
         public FollowRequestsClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
-        public Task<List<Account>> ListAsync(int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Account>> ListAsync(int? maxId = null, int? sinceId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Account>>("api/v1/follow_requests", parameters);
+            return AppClient.GetAsync<IEnumerable<Account>>("api/v1/follow_requests", parameters);
         }
 
         public async Task AuthorizeAsync(int id)

@@ -38,25 +38,25 @@ namespace Orion.Service.Mastodon.Clients
             return AppClient.PatchAsync<Account>("api/v1/accounts/update_credentials", parameters);
         }
 
-        public Task<List<Account>> FollowersAsync(int id, int? maxId = null, int? sinceId = null, int? limit = null)
+        public Task<IEnumerable<Account>> FollowersAsync(int id, int? maxId = null, int? sinceId = null, int? limit = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
             if (limit.HasValue)
                 parameters.Add(new KeyValuePair<string, object>("limit", limit.Value));
 
-            return AppClient.GetAsync<List<Account>>($"api/v1/accounts/{id}/followers", parameters);
+            return AppClient.GetAsync<IEnumerable<Account>>($"api/v1/accounts/{id}/followers", parameters);
         }
 
-        public Task<List<Account>> FollowingAsync(int id, int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Account>> FollowingAsync(int id, int? maxId = null, int? sinceId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Account>>($"api/v1/accounts/{id}/following", parameters);
+            return AppClient.GetAsync<IEnumerable<Account>>($"api/v1/accounts/{id}/following", parameters);
         }
 
-        public Task<List<Status>> StatusesAsync(int id, bool? onlyMedia = null, bool? excludeReplies = null, int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Status>> StatusesAsync(int id, bool? onlyMedia = null, bool? excludeReplies = null, int? maxId = null, int? sinceId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             if (onlyMedia.HasValue)
@@ -65,7 +65,7 @@ namespace Orion.Service.Mastodon.Clients
                 parameters.Add(new KeyValuePair<string, object>("exclude_replies", excludeReplies));
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Status>>($"api/v1/accounts/{id}/statuses", parameters);
+            return AppClient.GetAsync<IEnumerable<Status>>($"api/v1/accounts/{id}/statuses", parameters);
         }
 
         public Task<Relationship> FollowAsync(int id)
@@ -98,15 +98,15 @@ namespace Orion.Service.Mastodon.Clients
             return AppClient.PostAsync<Account>($"api/v1/accounts/{id}/unmute");
         }
 
-        public Task<List<Relationship>> RelationShipsAsync(IEnumerable<int> ids, int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Relationship>> RelationShipsAsync(IEnumerable<int> ids, int? maxId = null, int? sinceId = null)
         {
             var parameters = ids.Select(id => new KeyValuePair<string, object>("id[]", id)).ToList();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Relationship>>("api/v1/accounts/relationships", parameters);
+            return AppClient.GetAsync<IEnumerable<Relationship>>("api/v1/accounts/relationships", parameters);
         }
 
-        public Task<List<Account>> SearchAsync(string q, int? limit = null)
+        public Task<IEnumerable<Account>> SearchAsync(string q, int? limit = null)
         {
             var parameters = new List<KeyValuePair<string, object>>
             {
@@ -115,7 +115,7 @@ namespace Orion.Service.Mastodon.Clients
             if (limit.HasValue)
                 parameters.Add(new KeyValuePair<string, object>("limit", limit));
 
-            return AppClient.GetAsync<List<Account>>("api/v1/accounts/search", parameters);
+            return AppClient.GetAsync<IEnumerable<Account>>("api/v1/accounts/search", parameters);
         }
     }
 }

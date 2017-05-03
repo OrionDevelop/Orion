@@ -10,7 +10,7 @@ namespace Orion.Service.GnuSocial.Clients
     {
         internal FavoritesClient(GnuSocialClient client) : base(client) { }
 
-        public Task<List<Status>> ListAsync(string screenName = null, int? userId = null, int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> ListAsync(string screenName = null, int? userId = null, int? count = null, int? sinceId = null, int? maxId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             if (!string.IsNullOrWhiteSpace(screenName))
@@ -23,7 +23,7 @@ namespace Orion.Service.GnuSocial.Clients
                 parameters.Add(new KeyValuePair<string, object>("since_id", sinceId.Value));
             if (maxId.HasValue)
                 parameters.Add(new KeyValuePair<string, object>("max_id", maxId.Value));
-            return AppClient.GetAsync<List<Status>>("favorites.json");
+            return AppClient.GetAsync<IEnumerable<Status>>("favorites.json");
         }
 
         public Task<Status> CreateAsync(int id)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Orion.Service.FkStreaming;
 using Orion.Service.GnuSocial;
 using Orion.UWP.Models.Absorb;
 using Orion.UWP.Models.Enum;
@@ -67,7 +68,31 @@ namespace Orion.UWP.Models.Clients
 
         public override IObservable<Status> GetTimelineAsObservable(TimelineType type)
         {
-            throw new NotImplementedException();
+            switch (type)
+            {
+                case TimelineType.HomeTimeline:
+                    break;
+
+                case TimelineType.Mentions:
+                    break;
+
+                case TimelineType.DirectMessages:
+                    break;
+
+                case TimelineType.Notifications:
+                    break;
+
+                case TimelineType.PublicTimeline:
+                    break;
+
+                case TimelineType.FederatedTimeline:
+                    FkStreamClient.AsObservable((Service.GnuSocial.Models.Status w) => _gnuSocialClient.Statuses.PublicNetworkTimelineAsync(sinceId: w?.Id))
+                                  .Subscribe(w => { });
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
         }
     }
 }

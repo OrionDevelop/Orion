@@ -11,85 +11,85 @@ namespace Orion.Service.GnuSocial.Clients
     {
         internal StatusesClient(GnuSocialClient client) : base(client) { }
 
-        public Task<List<Status>> PublicTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> PublicTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             ApplyTimelineParams(parameters, count, sinceId, maxId);
 
-            return AppClient.GetAsync<List<Status>>("statuses/public_timeline.json", parameters);
+            return AppClient.GetAsync<IEnumerable<Status>>("statuses/public_timeline.json", parameters);
         }
 
-        public Task<List<Status>> HomeTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> HomeTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             ApplyTimelineParams(parameters, count, sinceId, maxId);
 
-            return AppClient.GetAsync<List<Status>>("statuses/home_timeline.json", parameters, true);
+            return AppClient.GetAsync<IEnumerable<Status>>("statuses/home_timeline.json", parameters, true);
         }
 
-        public Task<List<Status>> PublicNetworkTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> PublicNetworkTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             ApplyTimelineParams(parameters, count, sinceId, maxId);
 
-            return AppClient.GetAsync<List<Status>>("statuses/public_and_external_timeline.json", parameters, true);
+            return AppClient.GetAsync<IEnumerable<Status>>("statuses/public_and_external_timeline.json", parameters, true);
         }
 
         // alias of home timeline.
-        public Task<List<Status>> FriendsTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> FriendsTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
         {
             return HomeTimelineAsync(count, sinceId, maxId);
         }
 
-        public Task<List<Status>> FriendsTimelineAsync(string username, int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> FriendsTimelineAsync(string username, int? count = null, int? sinceId = null, int? maxId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             ApplyTimelineParams(parameters, count, sinceId, maxId);
 
-            return AppClient.GetAsync<List<Status>>($"statuses/friends_timeline/{username}.json", parameters);
+            return AppClient.GetAsync<IEnumerable<Status>>($"statuses/friends_timeline/{username}.json", parameters);
         }
 
-        public Task<List<Status>> MentionsAsync(int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> MentionsAsync(int? count = null, int? sinceId = null, int? maxId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             ApplyTimelineParams(parameters, count, sinceId, maxId);
 
-            return AppClient.GetAsync<List<Status>>("statuses/mentions.json", parameters, true);
+            return AppClient.GetAsync<IEnumerable<Status>>("statuses/mentions.json", parameters, true);
         }
 
         // alias of mentions
-        public Task<List<Status>> RepliesAsync(int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> RepliesAsync(int? count = null, int? sinceId = null, int? maxId = null)
         {
             return MentionsAsync(count, sinceId, maxId);
         }
 
-        public Task<List<Status>> RepliesAsync(string username, int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> RepliesAsync(string username, int? count = null, int? sinceId = null, int? maxId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             ApplyTimelineParams(parameters, count, sinceId, maxId);
 
-            return AppClient.GetAsync<List<Status>>($"statuses/replies/{username}.json", parameters);
+            return AppClient.GetAsync<IEnumerable<Status>>($"statuses/replies/{username}.json", parameters);
         }
 
-        public Task<List<Status>> UserTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
+        public Task<IEnumerable<Status>> UserTimelineAsync(int? count = null, int? sinceId = null, int? maxId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             ApplyTimelineParams(parameters, count, sinceId, maxId);
 
-            return AppClient.GetAsync<List<Status>>("statuses/user_timeline.json");
+            return AppClient.GetAsync<IEnumerable<Status>>("statuses/user_timeline.json");
         }
 
-        public Task<List<Status>> RetweetedToMeAsync()
+        public Task<IEnumerable<Status>> RetweetedToMeAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Status>> RetweetedByMeAsync()
+        public Task<IEnumerable<Status>> RetweetedByMeAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Status>> RetweetsToMeAsync()
+        public Task<IEnumerable<Status>> RetweetsToMeAsync()
         {
             throw new NotImplementedException();
         }
@@ -121,13 +121,13 @@ namespace Orion.Service.GnuSocial.Clients
             return AppClient.PostAsync<Status>($"statuses/retweet/{id}.json", requireAuth: true);
         }
 
-        public Task<List<User>> FriendsAsync()
+        public Task<IEnumerable<User>> FriendsAsync()
         {
             throw new NotSupportedException();
             // return AppClient.GetAsync<List<User>>("statuses/friends.json");
         }
 
-        public Task<List<User>> FollowersAsync()
+        public Task<IEnumerable<User>> FollowersAsync()
         {
             throw new NotSupportedException();
             // return AppClient.GetAsync<List<User>>("statuses/followers.json");

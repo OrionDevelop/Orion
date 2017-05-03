@@ -9,7 +9,7 @@ namespace Orion.Service.GnuSocial.Clients
     {
         internal FriendsClient(GnuSocialClient client) : base(client) { }
 
-        public Task<List<int>> IdsAsync(string screenName = null, int? userId = null, int? cursor = null, int? count = null)
+        public Task<IEnumerable<int>> IdsAsync(string screenName = null, int? userId = null, int? cursor = null, int? count = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             if (!string.IsNullOrWhiteSpace(screenName))
@@ -21,7 +21,7 @@ namespace Orion.Service.GnuSocial.Clients
             if (count.HasValue)
                 parameters.Add(new KeyValuePair<string, object>("count", count));
 
-            return AppClient.GetAsync<List<int>>("friends/ids.json", parameters);
+            return AppClient.GetAsync<IEnumerable<int>>("friends/ids.json", parameters);
         }
     }
 }

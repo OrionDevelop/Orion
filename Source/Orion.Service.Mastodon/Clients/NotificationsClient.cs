@@ -12,12 +12,12 @@ namespace Orion.Service.Mastodon.Clients
     {
         internal NotificationsClient(MastodonClient mastodonClent) : base(mastodonClent) { }
 
-        public Task<List<Notification>> ShowAsync(int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Notification>> ShowAsync(int? maxId = null, int? sinceId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Notification>>("api/v1/notifications", parameters);
+            return AppClient.GetAsync<IEnumerable<Notification>>("api/v1/notifications", parameters);
         }
 
         public Task<Notification> SingleAsync(int id)

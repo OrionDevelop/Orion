@@ -84,5 +84,9 @@ namespace Orion.Service.GnuSocial.Models
 
         [JsonProperty("repeated")]
         public bool IsRepeated { get; set; }
+
+        // Source 'unknown' is some events.
+        [JsonIgnore]
+        public bool IsEvent => Source == "unknown";
     }
 }

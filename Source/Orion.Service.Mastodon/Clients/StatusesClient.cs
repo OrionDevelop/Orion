@@ -28,20 +28,20 @@ namespace Orion.Service.Mastodon.Clients
             return AppClient.GetAsync<Card>($"api/v1/statuses/{id}/card");
         }
 
-        public Task<List<Account>> RebloggedByAsync(int id, int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Account>> RebloggedByAsync(int id, int? maxId = null, int? sinceId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Account>>($"api/v1/statuses/{id}/reblogged_by", parameters);
+            return AppClient.GetAsync<IEnumerable<Account>>($"api/v1/statuses/{id}/reblogged_by", parameters);
         }
 
-        public Task<List<Account>> FavouritedByAsync(int id, int? maxId = null, int? sinceId = null)
+        public Task<IEnumerable<Account>> FavouritedByAsync(int id, int? maxId = null, int? sinceId = null)
         {
             var parameters = new List<KeyValuePair<string, object>>();
             PaginateHelper.ApplyParams(parameters, maxId, sinceId);
 
-            return AppClient.GetAsync<List<Account>>($"api/v1/statuses/{id}/favourited_by", parameters);
+            return AppClient.GetAsync<IEnumerable<Account>>($"api/v1/statuses/{id}/favourited_by", parameters);
         }
 
         public Task<Status> CreateAsync(string status, int? inReplyToId = null, List<int> mediaIds = null, bool? sensitive = null, string spoilerText = null,
