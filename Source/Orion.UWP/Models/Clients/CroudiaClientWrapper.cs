@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Orion.Service.Croudia;
 using Orion.UWP.Models.Absorb;
+using Orion.UWP.Models.Enum;
 
 namespace Orion.UWP.Models.Clients
 {
@@ -62,6 +64,11 @@ namespace Orion.UWP.Models.Clients
                 // Revoke access permission, invalid credentials or service unavailable (Croudia API don't trusted).
                 return false;
             }
+        }
+
+        public override IObservable<Status> GetTimelineAsObservable(TimelineType type)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Page x:Class="Orion.UWP.Views.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:contents="using:Orion.UWP.ViewModels.Contents"
+      xmlns:contents="using:Orion.UWP.Views.Contents"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:localControls="using:Orion.UWP.Controls"
@@ -9,6 +9,7 @@
       xmlns:prism="using:Prism.Windows.Mvvm"
       xmlns:v="using:Orion.UWP.Views"
       xmlns:vm="using:Orion.UWP.ViewModels"
+      xmlns:vmc="using:Orion.UWP.ViewModels.Contents"
       d:DataContext="{d:DesignInstance vm:MainPageViewModel}"
       prism:ViewModelLocator.AutoWireViewModel="True"
       mc:Ignorable="d">
@@ -60,7 +61,7 @@
                 </localControls:DataTemplateCollection>
             </controls:HamburgerMenu.Resources>
             <controls:HamburgerMenu.ItemTemplate>
-                <DataTemplate x:DataType="contents:TimelineViewModel">
+                <DataTemplate x:DataType="vmc:TimelineViewModel">
                     <Grid Width="240" Height="48">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="48" />
@@ -106,79 +107,8 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="contents:TimelineViewModel">
-                            <StackPanel Width="325"
-                                        Margin="1,0"
-                                        BorderBrush="Silver"
-                                        BorderThickness=".5"
-                                        Orientation="Vertical">
-                                <Grid Height="48">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="48" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <FontIcon Grid.Column="0"
-                                              VerticalAlignment="Center"
-                                              FontSize="24"
-                                              Glyph="{Binding Icon}" />
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock FontSize="16" Text="{Binding Name}" />
-                                        <TextBlock FontSize="12"
-                                                   Foreground="Silver"
-                                                   Text="{Binding User}" />
-                                    </StackPanel>
-                                </Grid>
-                                <ListView>
-                                    <Grid Margin="1,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="48" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Border Grid.Row="0"
-                                                Grid.RowSpan="4"
-                                                Grid.Column="0"
-                                                Width="48"
-                                                Height="48"
-                                                VerticalAlignment="Top"
-                                                CornerRadius="4">
-                                            <Border.Background>
-                                                <ImageBrush ImageSource="https://media.mstdn.jp/images/accounts/avatars/000/149/422/original/87f7785bcd630565.png" />
-                                            </Border.Background>
-                                        </Border>
-                                        <RelativePanel Grid.Row="0"
-                                                       Grid.Column="1"
-                                                       Padding="10,0,0,0">
-                                            <TextBlock x:Name="Username" Text="mika@5th大阪" />
-                                            <TextBlock x:Name="ScreenName"
-                                                       Padding="5,0"
-                                                       VerticalAlignment="Bottom"
-                                                       FontSize="13"
-                                                       Foreground="Silver"
-                                                       RelativePanel.LeftOf="Timestamp"
-                                                       RelativePanel.RightOf="Username"
-                                                       Text="@mika_f"
-                                                       TextTrimming="CharacterEllipsis" />
-                                            <TextBlock x:Name="Timestamp"
-                                                       VerticalAlignment="Bottom"
-                                                       FontSize="13"
-                                                       Foreground="Silver"
-                                                       RelativePanel.AlignRightWithPanel="True"
-                                                       Text="1 hour ago" />
-                                        </RelativePanel>
-                                        <TextBlock Grid.Row="1"
-                                                   Grid.Column="1"
-                                                   Padding="10,0,0,0"
-                                                   Text="ホームタイムラインに反映されていなかったので、トゥート失敗したのかと思ってた..."
-                                                   TextWrapping="Wrap" />
-                                    </Grid>
-                                </ListView>
-                            </StackPanel>
+                        <DataTemplate x:DataType="vmc:TimelineViewModel">
+                            <contents:TimelineContent DataContext="{Binding}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

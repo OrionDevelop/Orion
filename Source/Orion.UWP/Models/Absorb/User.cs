@@ -7,25 +7,73 @@ namespace Orion.UWP.Models.Absorb
     /// </summary>
     public class User
     {
+        private readonly Service.Croudia.Models.User _croudiaUser;
+        private readonly Service.GnuSocial.Models.User _gnuSocialUser;
+        private readonly Service.Mastodon.Models.Account _mastodonUser;
+        private readonly CoreTweet.User _twitterUser;
+
         /// <summary>
         ///     ScreenName with instance host.
         /// </summary>
         public string ScreenName { get; }
 
         /// <summary>
-        ///     Icon url
+        ///     Username
         /// </summary>
-        public string Icon { get; }
+        public string Username => _croudiaUser?.Name ?? _gnuSocialUser?.Name ?? _mastodonUser?.Username ?? _twitterUser.Name;
 
         /// <summary>
-        ///     Initialize with CoreTweet.User
+        ///     Location (Mastodon don't have location)
         /// </summary>
-        /// <param name="user"></param>
-        public User(CoreTweet.User user)
-        {
-            ScreenName = $"{user.ScreenName}@twitter.com";
-            Icon = user.ProfileImageUrlHttps;
-        }
+        public string Location
+            => _croudiaUser?.Location ?? _gnuSocialUser?.Location ?? _twitterUser?.Location ?? "";
+
+        /// <summary>
+        ///     Description
+        /// </summary>
+        public string Description
+            => _croudiaUser?.Description ?? _gnuSocialUser?.Description ?? _mastodonUser?.Note ?? _twitterUser.Description;
+
+        /// <summary>
+        ///     Icon url
+        /// </summary>
+        public string Icon
+            => _croudiaUser?.ProfileImageUrl ?? _gnuSocialUser?.ProfileImageUrlOriginal ?? _mastodonUser?.Avatar ?? _twitterUser.ProfileImageUrlHttps;
+
+        /// <summary>
+        ///     Website
+        /// </summary>
+        public string Url => _croudiaUser?.Url ?? _gnuSocialUser?.Url ?? _mastodonUser?.Url ?? _twitterUser.Url;
+
+        /// <summary>
+        ///     Followers count
+        /// </summary>
+        public int FollowersCount
+            => _croudiaUser?.FollowersCount ?? _gnuSocialUser?.FollowersCount ?? _mastodonUser?.FollowersCount ?? _twitterUser.FollowersCount;
+
+        /// <summary>
+        ///     Friends count
+        /// </summary>
+        public int FriendsCount
+            => _croudiaUser?.FriendsCount ?? _gnuSocialUser?.FriendsCount ?? _mastodonUser?.FollowingCount ?? _twitterUser.FriendsCount;
+
+        /// <summary>
+        ///     Statuses count
+        /// </summary>
+        public int StatusesCount
+            => _croudiaUser?.StatusesCount ?? _gnuSocialUser?.StatusesCount ?? _mastodonUser?.StatuesCount ?? _twitterUser.StatusesCount;
+
+        /// <summary>
+        ///     Background image
+        /// </summary>
+        public string Cover
+            => _croudiaUser?.CoverImageUrl ?? _gnuSocialUser?.CoverPhoto ?? _mastodonUser?.Header ?? _twitterUser.ProfileBackgroundImageUrlHttps;
+
+        /// <summary>
+        ///     Favorites count (Mastodon don't have favorites count)
+        /// </summary>
+        public int FavoritesCount
+            => _croudiaUser?.FavoritesCount ?? _gnuSocialUser?.FavouritesCount ?? _twitterUser?.FavouritesCount ?? 0;
 
         /// <summary>
         ///     Initialize with Croudia.*.User
@@ -33,8 +81,8 @@ namespace Orion.UWP.Models.Absorb
         /// <param name="user"></param>
         public User(Service.Croudia.Models.User user)
         {
+            _croudiaUser = user;
             ScreenName = $"{user.ScreenName}@croudia.com";
-            Icon = user.ProfileImageUrl;
         }
 
         /// <summary>
@@ -43,8 +91,8 @@ namespace Orion.UWP.Models.Absorb
         /// <param name="user"></param>
         public User(Service.GnuSocial.Models.User user)
         {
+            _gnuSocialUser = user;
             ScreenName = $"{user.ScreenName}@{user.OStatusUri.Host}";
-            Icon = user.ProfileImageUrl;
         }
 
         /// <summary>
@@ -53,10 +101,20 @@ namespace Orion.UWP.Models.Absorb
         /// <param name="user"></param>
         public User(Service.Mastodon.Models.Account user)
         {
+            _mastodonUser = user;
             ScreenName = $"{user.Acct}";
             if (!user.Acct.Contains("@"))
                 ScreenName += $"@{new Uri(user.Url).Host}";
-            Icon = user.Avatar;
+        }
+
+        /// <summary>
+        ///     Initialize with CoreTweet.User
+        /// </summary>
+        /// <param name="user"></param>
+        public User(CoreTweet.User user)
+        {
+            _twitterUser = user;
+            ScreenName = $"{user.ScreenName}@twitter.com";
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Orion.UWP.Models.Absorb;
+using Orion.UWP.Models.Enum;
 
 namespace Orion.UWP.Models.Clients
 {
@@ -43,5 +45,12 @@ namespace Orion.UWP.Models.Clients
         /// </summary>
         /// <returns></returns>
         public abstract Task<bool> RefreshAccountAsync();
+
+        /// <summary>
+        ///     `TimelineType` に応じたタイムラインをストリーミングとして取得します。
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public abstract IObservable<Status> GetTimelineAsObservable(TimelineType type);
     }
 }

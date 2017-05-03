@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
+using Orion.Service.Shared.Converters;
+
 namespace Orion.Service.GnuSocial.Models
 {
     public class Status
@@ -14,8 +16,8 @@ namespace Orion.Service.GnuSocial.Models
         public bool IsTruncated { get; set; }
 
         [JsonProperty("created_at")]
-        // [JsonConverter(typeof(IsoDateTimeConverter))]
-        public string CreatedAt { get; set; }
+        [JsonConverter(typeof(StrDateTimeConverter))]
+        public DateTime CreatedAt { get; set; }
 
         [JsonProperty("in_reply_to_status_id")]
         public int? InReplyToStatusId { get; set; }

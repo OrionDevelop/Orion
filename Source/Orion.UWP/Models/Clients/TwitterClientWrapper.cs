@@ -1,7 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 using CoreTweet;
+using CoreTweet.Streaming;
 
+using Orion.UWP.Models.Enum;
+
+using Status = Orion.UWP.Models.Absorb.Status;
 using User = Orion.UWP.Models.Absorb.User;
 
 namespace Orion.UWP.Models.Clients
@@ -54,6 +60,31 @@ namespace Orion.UWP.Models.Clients
             {
                 // Revoke access permission or invalid credentials.
                 return false;
+            }
+        }
+
+        public override IObservable<Status> GetTimelineAsObservable(TimelineType type)
+        {
+            switch (type)
+            {
+                case TimelineType.HomeTimeline:
+                    return _twitterClient.Streaming.UserAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status));
+
+                case TimelineType.Mentions:
+                    throw new NotImplementedException();
+
+                case TimelineType.DirectMessages:
+                    throw new NotImplementedException();
+
+                case TimelineType.Notifications:
+                    throw new NotImplementedException();
+
+                case TimelineType.PublicTimeline:
+                    throw new NotSupportedException();
+                case TimelineType.FederatedTimeline:
+                    throw new NotSupportedException();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
     }
