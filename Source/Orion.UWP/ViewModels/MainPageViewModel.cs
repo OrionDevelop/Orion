@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive.Linq;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -39,14 +40,27 @@ namespace Orion.UWP.ViewModels
             Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(w));
         }
 
-        public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
+        public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
 
             if (_accountService.Accounts.Count == 0)
-                _dialogService.ShowDialogAsync<AuthorizationDialog>();
+                await _dialogService.ShowDialogAsync<AuthorizationDialog>();
             else
-                _timelineService.RestoreAsync();
+                await _timelineService.RestoreAsync();
+            DefaultAccount = new AccountViewModel(_accountService.Accounts.First(w => w.MarkAsDefault));
         }
+
+        #region DefaultAccount
+
+        private AccountViewModel _defaultAccount;
+
+        public AccountViewModel DefaultAccount
+        {
+            get => _defaultAccount;
+            set => SetProperty(ref _defaultAccount, value);
+        }
+
+        #endregion
     }
 }

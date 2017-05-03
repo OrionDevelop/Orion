@@ -2,6 +2,8 @@
 
 using CoreTweet;
 
+using User = Orion.UWP.Models.Absorb.User;
+
 namespace Orion.UWP.Models.Clients
 {
     internal class TwitterClientWrapper : BaseClientWrapper
@@ -29,7 +31,8 @@ namespace Orion.UWP.Models.Clients
                 _twitterClient = await _session.GetTokensAsync(verifier);
                 Account.Credential.AccessToken = _twitterClient.AccessToken;
                 Account.Credential.AccessTokenSecret = _twitterClient.AccessTokenSecret;
-                Account.Credential.Username = $"{_twitterClient.ScreenName}@twitter.com";
+                User = new User(await _twitterClient.Account.VerifyCredentialsAsync());
+                Account.Credential.Username = User.ScreenName;
 
                 return true;
             }
@@ -43,8 +46,8 @@ namespace Orion.UWP.Models.Clients
         {
             try
             {
-                var user = await _twitterClient.Account.VerifyCredentialsAsync();
-                Account.Credential.Username = $"{user.ScreenName}@twitter.com";
+                User = new User(await _twitterClient.Account.VerifyCredentialsAsync());
+                Account.Credential.Username = User.ScreenName;
                 return true;
             }
             catch

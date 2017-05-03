@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Orion.Service.Mastodon;
 using Orion.Service.Mastodon.Enum;
+using Orion.UWP.Models.Absorb;
 
 namespace Orion.UWP.Models.Clients
 {
@@ -41,8 +41,8 @@ namespace Orion.UWP.Models.Clients
                 Account.Credential.AccessToken = _mastodonClient.AccessToken;
                 Account.Credential.AccessTokenSecret = _mastodonClient.AccessTokenSecret;
 
-                var user = await _mastodonClient.Account.VerifyCredentialsAsync();
-                Account.Credential.Username = $"{user.Acct}@{new Uri(user.Url).Host}";
+                User = new User(await _mastodonClient.Account.VerifyCredentialsAsync());
+                Account.Credential.Username = User.ScreenName;
 
                 return true;
             }
@@ -56,7 +56,7 @@ namespace Orion.UWP.Models.Clients
         {
             try
             {
-                await _mastodonClient.Account.VerifyCredentialsAsync();
+                User = new User(await _mastodonClient.Account.VerifyCredentialsAsync());
                 return true;
             }
             catch

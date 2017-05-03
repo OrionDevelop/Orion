@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Orion.Service.GnuSocial;
+using Orion.UWP.Models.Absorb;
 
 namespace Orion.UWP.Models.Clients
 {
@@ -36,8 +37,8 @@ namespace Orion.UWP.Models.Clients
                 Account.Credential.AccessToken = _gnuSocialClient.AccessToken;
                 Account.Credential.AccessTokenSecret = _gnuSocialClient.AccessTokenSecret;
 
-                var user = await _gnuSocialClient.Account.VerifyCredentialsAsync();
-                Account.Credential.Username = $"{user.ScreenName}@{Provider.Host}";
+                User = new User(await _gnuSocialClient.Account.VerifyCredentialsAsync());
+                Account.Credential.Username = User.ScreenName;
 
                 return true;
             }
@@ -51,8 +52,8 @@ namespace Orion.UWP.Models.Clients
         {
             try
             {
-                var user = await _gnuSocialClient.Account.VerifyCredentialsAsync();
-                Account.Credential.Username = $"{user.ScreenName}@{Provider.Host}";
+                User = new User(await _gnuSocialClient.Account.VerifyCredentialsAsync());
+                Account.Credential.Username = User.ScreenName;
                 return true;
             }
             catch

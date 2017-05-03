@@ -41,10 +41,10 @@ namespace Orion.UWP.Models
             Id = Guid.NewGuid().ToString();
         }
 
-        public async Task<bool> RestoreAsync()
+        public Task<bool> RestoreAsync()
         {
             ClientWrapper = CreateClientWrapper();
-            return await ClientWrapper.RefreshAccountAsync();
+            return ClientWrapper.RefreshAccountAsync();
         }
 
         private BaseClientWrapper CreateClientWrapper()

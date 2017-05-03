@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 
+using Orion.UWP.Models.Absorb;
+
 namespace Orion.UWP.Models.Clients
 {
     public abstract class BaseClientWrapper
@@ -7,13 +9,18 @@ namespace Orion.UWP.Models.Clients
         protected Provider Provider { get; }
         public Account Account { get; }
 
-        public BaseClientWrapper(Provider provider)
+        /// <summary>
+        ///     Authenticated user.
+        /// </summary>
+        public User User { get; protected set; }
+
+        protected BaseClientWrapper(Provider provider)
         {
             Provider = provider;
-            Account = new Account {Provider = provider, Credential = new Credential()};
+            Account = new Account {Provider = provider, Credential = new Credential(), ClientWrapper = this};
         }
 
-        public BaseClientWrapper(Account account)
+        protected BaseClientWrapper(Account account)
         {
             Provider = account.Provider;
             Account = account;

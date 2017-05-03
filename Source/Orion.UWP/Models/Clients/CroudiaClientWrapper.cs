@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Orion.Service.Croudia;
+using Orion.UWP.Models.Absorb;
 
 namespace Orion.UWP.Models.Clients
 {
@@ -37,8 +38,8 @@ namespace Orion.UWP.Models.Clients
                 Account.Credential.AccessTokenSecret = _croudiaClient.AccessTokenSecret;
                 Account.Credential.RefreshToken = _croudiaClient.RefreshToken;
 
-                var user = await _croudiaClient.Account.VerifyCredentialsAsync();
-                Account.Credential.Username = $"{user.ScreenName}@croudia.com";
+                User = new User(await _croudiaClient.Account.VerifyCredentialsAsync());
+                Account.Credential.Username = User.ScreenName;
 
                 return true;
             }
@@ -53,7 +54,7 @@ namespace Orion.UWP.Models.Clients
             try
             {
                 await _croudiaClient.OAuth.RefreshTokenAsync();
-                await _croudiaClient.Account.VerifyCredentialsAsync();
+                User = new User(await _croudiaClient.Account.VerifyCredentialsAsync());
                 return true;
             }
             catch

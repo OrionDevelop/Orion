@@ -40,6 +40,23 @@
                                        Text="{Binding Label}" />
                         </Grid>
                     </DataTemplate>
+                    <DataTemplate localControls:TypeNamedDataTemplateSelector.Target="controls:HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuImageItem">
+                        <Grid Width="240" Height="48">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <localControls:CircleImage Grid.Column="0"
+                                                       Width="36"
+                                                       Height="36"
+                                                       CornerRadius="18"
+                                                       Source="{Binding Thumbnail}" />
+                            <TextBlock Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       Text="{Binding Label}" />
+                        </Grid>
+                    </DataTemplate>
                 </localControls:DataTemplateCollection>
             </controls:HamburgerMenu.Resources>
             <controls:HamburgerMenu.ItemTemplate>
@@ -69,6 +86,7 @@
             </controls:HamburgerMenu.OptionsItemTemplateSelector>
             <controls:HamburgerMenu.OptionsItemsSource>
                 <controls:HamburgerMenuItemCollection>
+                    <controls:HamburgerMenuImageItem Label="{x:Bind ViewModel.DefaultAccount.ScreenName, Mode=OneWay}" Thumbnail="{x:Bind ViewModel.DefaultAccount.IconUrl, Mode=OneWay}" />
                     <controls:HamburgerMenuGlyphItem Glyph="&#xE716;" Label="アカウント" />
                     <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
                     <controls:HamburgerMenuGlyphItem Glyph="&#xE783;"

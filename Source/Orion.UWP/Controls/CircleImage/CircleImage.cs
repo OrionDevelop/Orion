@@ -72,7 +72,10 @@ namespace Orion.UWP.Controls
             if (source == null)
                 return;
 
-            _imageBorder.Background = new ImageBrush {ImageSource = new BitmapImage(new Uri(source.ToString()))};
+            if (source is BitmapImage bitmap)
+                _imageBorder.Background = new ImageBrush {ImageSource = bitmap};
+            else
+                _imageBorder.Background = new ImageBrush {ImageSource = new BitmapImage(new Uri(source.ToString()))};
         }
 
         private static bool IsHttpUri(Uri uri)
