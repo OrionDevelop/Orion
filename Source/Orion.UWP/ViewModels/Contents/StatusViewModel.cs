@@ -7,7 +7,7 @@ namespace Orion.UWP.ViewModels.Contents
     {
         private readonly Status _status;
 
-        public string ScreenName => _status.User.ScreenName;
+        public string ScreenName => $"@{_status.User.ScreenName}";
         public string Username => _status.User.Username;
         public string Icon => _status.User.Icon;
         public string Body => _status.Body;
