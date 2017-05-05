@@ -43,8 +43,11 @@ namespace Orion.UWP.Services
 
         public Task RestoreAsync()
         {
+            _timelines.Clear();
+
             var roamingSettings = ApplicationData.Current.RoamingSettings;
             var timelines = JsonConvert.DeserializeObject<List<Timeline>>(roamingSettings.Values["Orion.Timeline"] as string);
+
             foreach (var timeline in timelines)
             {
                 timeline.Account = _accountService.Accounts.Single(w => w.Id == timeline.Id);
