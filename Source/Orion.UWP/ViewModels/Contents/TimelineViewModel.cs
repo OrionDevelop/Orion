@@ -39,9 +39,6 @@ namespace Orion.UWP.ViewModels.Contents
 
         private void Initialize()
         {
-            if (_timeline.TimelineType != TimelineType.HomeTimeline)
-                return;
-
             _timeline.Account.ClientWrapper.GetTimelineAsObservable(_timeline.TimelineType)
                      .ObserveOnUIDispatcher()
                      .Subscribe(w => _statuses.Insert(0, new StatusViewModel(w)))

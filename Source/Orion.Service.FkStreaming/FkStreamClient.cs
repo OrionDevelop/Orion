@@ -4,8 +4,11 @@ using System.Threading.Tasks;
 
 namespace Orion.Service.FkStreaming
 {
-    public class FkStreamClient
+    public static class FkStreamClient
     {
+        /// <summary>
+        ///     Global Timespan
+        /// </summary>
         public static TimeSpan TimeSpan { get; set; } = TimeSpan.FromSeconds(30);
 
         /// <summary>
@@ -14,9 +17,9 @@ namespace Orion.Service.FkStreaming
         /// <typeparam name="T">Response Type</typeparam>
         /// <param name="apiCall">API caller</param>
         /// <returns></returns>
-        public static IObservable<T> AsObservable<T>(Func<T, Task<IEnumerable<T>>> apiCall)
+        public static IObservable<T> AsObservable<T>(Func<T, Task<IEnumerable<T>>> apiCall, TimeSpan? timeSpan = null)
         {
-            return new TimelineObservable<T>(apiCall);
+            return new TimelineObservable<T>(apiCall, timeSpan ?? TimeSpan);
         }
     }
 }

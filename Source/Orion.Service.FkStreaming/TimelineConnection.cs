@@ -9,14 +9,16 @@ namespace Orion.Service.FkStreaming
     public class TimelineConnection<T> : IDisposable
     {
         private readonly Func<T, Task<IEnumerable<T>>> _apiCall;
+        private readonly TimeSpan _timeSpan;
         private T _lastObject;
         private IObserver<T> _observer;
         private CancellationTokenSource _tokenSource;
 
-        public TimelineConnection(Func<T, Task<IEnumerable<T>>> apiCall, IObserver<T> observable)
+        public TimelineConnection(Func<T, Task<IEnumerable<T>>> apiCall, IObserver<T> observable, TimeSpan timeSpan)
         {
             _apiCall = apiCall;
             _observer = observable;
+            _timeSpan = timeSpan;
             _tokenSource = new CancellationTokenSource();
         }
 
@@ -49,7 +51,7 @@ namespace Orion.Service.FkStreaming
                             if (_tokenSource.Token.IsCancellationRequested)
                                 break;
 
-                            Task.Delay(FkStreamClient.TimeSpan).Wait();
+                            Task.Delay(_timeSpan).Wait();
                         }
                         catch (Exception ie)
                         {

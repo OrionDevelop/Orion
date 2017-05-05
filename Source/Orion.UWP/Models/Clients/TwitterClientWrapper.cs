@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CoreTweet;
 using CoreTweet.Streaming;
 
+using Orion.Service.FkStreaming;
 using Orion.UWP.Models.Enum;
 
 using Status = Orion.UWP.Models.Absorb.Status;
@@ -73,7 +74,9 @@ namespace Orion.UWP.Models.Clients
                                  () => _twitterClient.Streaming.UserAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status)));
 
                 case TimelineType.Mentions:
-                    throw new NotImplementedException();
+                    return FkStreamClient.AsObservable(async (Status w) =>
+                                                           (await _twitterClient.Statuses.MentionsTimelineAsync(since_id: w?.Id)).Select(v => new Status(v)),
+                                                       TimeSpan.FromSeconds(15));
 
                 case TimelineType.DirectMessages:
                     throw new NotImplementedException();
