@@ -6,6 +6,8 @@
 
         Video,
 
-        Gifv
+        Gifv,
+
+        Unknown
     }
 }

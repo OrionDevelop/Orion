@@ -9,10 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Streaming\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Orion.Service.Shared\Orion.Service.Shared.csproj" />
   </ItemGroup>
 

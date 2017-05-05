@@ -26,4 +26,24 @@ else
 (await client.Account.VerifyCredentialsAsync()).Dump();
 (await client.Timelines.PublicAsync()).Dump();
 await client.Statuses.CreateAsync("test toot.");
+
+```
+
+### Streaming Support
+
+```csharp
+client.Streaming.UserAsObervable().OfType<StatusMessage>().Subscribe(w => {
+    Console.WriteLine("---------------------------------------");
+    Console.WriteLine($"{w.Status.Account.Username} @{w.Status.Account.Acct}");
+    Console.WriteLine(w.Status.Content);
+    Console.WriteLine();
+});
+
+// When streaming API is hosted on other domain. (e.g. mstdn.jp)
+client.Streaming.UserAsObervable("streaming.mstdn.jp").OfType<StatusMessage>().Subscribe(w => {
+    Console.WriteLine("---------------------------------------");
+    Console.WriteLine($"{w.Status.Account.Username} @{w.Status.Account.Acct}");
+    Console.WriteLine(w.Status.Content);
+    Console.WriteLine();
+});
 ```

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Orion.Service.Mastodon.Clients;
+using Orion.Service.Mastodon.Streaming;
 using Orion.Service.Shared;
 
 // ReSharper disable PossibleMultipleEnumeration
@@ -28,6 +29,7 @@ namespace Orion.Service.Mastodon
         public SearchClient Search { get; }
         public StatusesClient Statuses { get; }
         public TimelinesClient Timelines { get; }
+        public StreamingClient Streaming { get; }
 
         public MastodonClient(string domain) : base(domain, AuthenticateType.OAuth2)
         {
@@ -48,6 +50,7 @@ namespace Orion.Service.Mastodon
             Search = new SearchClient(this);
             Statuses = new StatusesClient(this);
             Timelines = new TimelinesClient(this);
+            Streaming = new StreamingClient(this);
         }
     }
 }

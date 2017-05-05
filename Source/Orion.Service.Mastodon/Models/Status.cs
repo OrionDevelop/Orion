@@ -57,7 +57,7 @@ namespace Orion.Service.Mastodon.Models
         public string SpoilerText { get; set; }
 
         [JsonProperty("visibility")]
-        public VisibilityType Visibility { get; set; }
+        public VisibilityType? Visibility { get; set; }
 
         [JsonProperty("media_attachments")]
         public List<Attachment> MediaAttachments { get; set; }

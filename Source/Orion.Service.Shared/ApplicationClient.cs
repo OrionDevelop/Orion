@@ -254,7 +254,7 @@ namespace Orion.Service.Shared
 
         #region OAuth 1.0 implementation
 
-        private string UrlEncode(string str)
+        public string UrlEncode(string str)
         {
             const string reservedLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
             var sb = new StringBuilder();
