@@ -23,7 +23,7 @@ namespace Orion.UWP.Models.Absorb
         ///     Created at
         /// </summary>
         public DateTime CreatedAt =>
-            _croudiaStatus?.CreatedAt ?? _gnuSocialStatus?.CreatedAt ?? _mastodonStatus?.CreatedAt ?? _twitterStatus.CreatedAt.DateTime;
+            _croudiaStatus?.CreatedAt ?? _gnuSocialStatus?.CreatedAt ?? _mastodonStatus?.CreatedAt ?? _twitterStatus.CreatedAt.ToLocalTime().DateTime;
 
         /// <summary>
         ///     In reply to status id

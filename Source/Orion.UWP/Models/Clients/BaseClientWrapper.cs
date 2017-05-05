@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 using Orion.UWP.Models.Absorb;
@@ -52,5 +55,10 @@ namespace Orion.UWP.Models.Clients
         /// <param name="type"></param>
         /// <returns></returns>
         public abstract IObservable<Status> GetTimelineAsObservable(TimelineType type);
+
+        protected IObservable<Status> Merge(Func<Task<IEnumerable<Status>>> firstAction, Func<IObservable<Status>> streamAction)
+        {
+            return Task.Run(async () => streamAction.Invoke().StartWith((await firstAction.Invoke()).Reverse())).Result;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
@@ -68,7 +69,8 @@ namespace Orion.UWP.Models.Clients
             switch (type)
             {
                 case TimelineType.HomeTimeline:
-                    return _twitterClient.Streaming.UserAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status));
+                    return Merge(async () => (await _twitterClient.Statuses.HomeTimelineAsync()).Select(w => new Status(w)),
+                                 () => _twitterClient.Streaming.UserAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status)));
 
                 case TimelineType.Mentions:
                     throw new NotImplementedException();
