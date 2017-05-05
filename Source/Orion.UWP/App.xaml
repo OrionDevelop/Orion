@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Controls/CircleImage/CircleImage.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <c:HtmlStringToBlockCollectionConverter x:Key="HtmlStringToBlockCollectionConverter" />
             <c:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" />
         </ResourceDictionary>
     </prism:PrismUnityApplication.Resources>

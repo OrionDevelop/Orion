@@ -95,6 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\RichTextBlockBindingBehavior.cs" />
+    <Compile Include="Converters\HtmlStringToBlockCollectionConverter.cs" />
     <Compile Include="Models\Absorb\Status.cs" />
     <Compile Include="Models\Absorb\User.cs" />
     <Compile Include="Models\ProviderRedirect.cs" />
