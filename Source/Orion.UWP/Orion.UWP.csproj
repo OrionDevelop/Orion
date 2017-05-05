@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Models\Absorb\Status.cs" />
     <Compile Include="Models\Absorb\User.cs" />
+    <Compile Include="Models\ProviderRedirect.cs" />
     <Compile Include="Models\Software.cs" />
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />

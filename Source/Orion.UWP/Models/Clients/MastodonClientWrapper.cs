@@ -74,11 +74,13 @@ namespace Orion.UWP.Models.Clients
 
         public override IObservable<Status> GetTimelineAsObservable(TimelineType type)
         {
+            // F**king mstdn.jp
+            var host = ProviderRedirect.Redirect(_mastodonClient.BaseUrl);
             switch (type)
             {
                 case TimelineType.HomeTimeline:
                     return Merge(async () => (await _mastodonClient.Timelines.HomeAsync()).Select(w => new Status(w)),
-                                 () => _mastodonClient.Streaming.UserAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status)));
+                                 () => _mastodonClient.Streaming.UserAsObservable(host).OfType<StatusMessage>().Select(w => new Status(w.Status)));
 
                 case TimelineType.Mentions:
                 case TimelineType.DirectMessages:
@@ -93,7 +95,7 @@ namespace Orion.UWP.Models.Clients
 
                 case TimelineType.FederatedTimeline:
                     return Merge(async () => (await _mastodonClient.Timelines.PublicAsync()).Select(w => new Status(w)),
-                                 () => _mastodonClient.Streaming.PublicAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status)));
+                                 () => _mastodonClient.Streaming.PublicAsObservable(host).OfType<StatusMessage>().Select(w => new Status(w.Status)));
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
