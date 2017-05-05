@@ -82,12 +82,10 @@ namespace Orion.UWP.Models.Clients
                     throw new NotImplementedException();
 
                 case TimelineType.Notifications:
-                    throw new NotImplementedException();
-
                 case TimelineType.PublicTimeline:
-                    throw new NotSupportedException();
                 case TimelineType.FederatedTimeline:
                     throw new NotSupportedException();
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

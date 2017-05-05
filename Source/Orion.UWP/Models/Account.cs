@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
@@ -45,6 +46,23 @@ namespace Orion.UWP.Models
         {
             ClientWrapper = CreateClientWrapper();
             return ClientWrapper.RefreshAccountAsync();
+        }
+
+        public IEnumerable<TimelineType> DefaultTimelines()
+        {
+            switch (Provider.Service)
+            {
+                case ServiceType.Twitter:
+                case ServiceType.Croudia:
+                case ServiceType.GnuSocial:
+                    return new[] {TimelineType.HomeTimeline, TimelineType.Mentions};
+
+                case ServiceType.Mastodon:
+                    return new[] {TimelineType.HomeTimeline, TimelineType.FederatedTimeline};
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private BaseClientWrapper CreateClientWrapper()

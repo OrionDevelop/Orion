@@ -54,7 +54,7 @@ namespace Orion.Service.Mastodon.Streaming
                                 var p = sr.ReadLine();
                                 _observer.OnNext(MessageBase.CreateMessage(e, p));
 
-                                if(_tokenSource.IsCancellationRequested)
+                                if (_tokenSource.IsCancellationRequested)
                                     break;
                             }
                         }

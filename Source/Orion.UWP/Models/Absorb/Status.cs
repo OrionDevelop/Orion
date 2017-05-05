@@ -65,6 +65,8 @@ namespace Orion.UWP.Models.Absorb
         /// </summary>
         public User User { get; }
 
+        #region Initialize from Status
+
         public Status(Service.Croudia.Models.Status status)
         {
             _croudiaStatus = status;
@@ -88,5 +90,7 @@ namespace Orion.UWP.Models.Absorb
             _twitterStatus = status;
             User = new User(_twitterStatus.User);
         }
+
+        #endregion
     }
 }

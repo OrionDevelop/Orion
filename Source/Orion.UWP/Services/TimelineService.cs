@@ -8,7 +8,6 @@ using Windows.Storage;
 using Newtonsoft.Json;
 
 using Orion.UWP.Models;
-using Orion.UWP.Models.Enum;
 using Orion.UWP.Services.Interfaces;
 
 namespace Orion.UWP.Services
@@ -30,8 +29,8 @@ namespace Orion.UWP.Services
         public async Task InitializeAsync()
         {
             var defaultAccount = _accountService.Accounts.Single(w => w.MarkAsDefault);
-            _timelines.Add(new Timeline {Account = defaultAccount, Id = defaultAccount.Id, TimelineType = TimelineType.HomeTimeline});
-            _timelines.Add(new Timeline {Account = defaultAccount, Id = defaultAccount.Id, TimelineType = TimelineType.Mentions});
+            foreach (var timeline in defaultAccount.DefaultTimelines())
+                _timelines.Add(new Timeline {Account = defaultAccount, Id = defaultAccount.Id, TimelineType = timeline});
 
             await SaveAsync();
         }

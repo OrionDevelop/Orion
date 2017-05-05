@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
+using Orion.Service.FkStreaming;
 using Orion.Service.Mastodon;
 using Orion.Service.Mastodon.Enum;
+using Orion.Service.Mastodon.Models.Streaming;
 using Orion.UWP.Models.Absorb;
 using Orion.UWP.Models.Enum;
 
@@ -70,7 +74,31 @@ namespace Orion.UWP.Models.Clients
 
         public override IObservable<Status> GetTimelineAsObservable(TimelineType type)
         {
-            throw new NotImplementedException();
+            switch (type)
+            {
+                case TimelineType.HomeTimeline:
+                    return Merge(async () => (await _mastodonClient.Timelines.HomeAsync()).Select(w => new Status(w)),
+                                 () => _mastodonClient.Streaming.UserAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status)));
+
+                case TimelineType.Mentions:
+                case TimelineType.DirectMessages:
+                    throw new NotSupportedException();
+
+                case TimelineType.Notifications:
+                    break;
+
+                case TimelineType.PublicTimeline:
+                    return FkStreamClient.AsObservable(async (Status w) =>
+                                                           (await _mastodonClient.Timelines.PublicAsync(true, sinceId: (int?) w?.Id)).Select(v => new Status(v)));
+
+                case TimelineType.FederatedTimeline:
+                    return Merge(async () => (await _mastodonClient.Timelines.PublicAsync()).Select(w => new Status(w)),
+                                 () => _mastodonClient.Streaming.PublicAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status)));
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+            throw new NotSupportedException();
         }
     }
 }
