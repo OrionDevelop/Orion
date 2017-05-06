@@ -10,6 +10,9 @@ using Orion.Service.Mastodon.Models.Streaming;
 using Orion.UWP.Models.Absorb;
 using Orion.UWP.Models.Enum;
 
+using Notification = Orion.Service.Mastodon.Models.Notification;
+using NotificationType = Orion.Service.Mastodon.Enum.NotificationType;
+
 namespace Orion.UWP.Models.Clients
 {
     internal class MastodonClientWrapper : BaseClientWrapper
@@ -72,7 +75,7 @@ namespace Orion.UWP.Models.Clients
             }
         }
 
-        public override IObservable<Status> GetTimelineAsObservable(TimelineType type)
+        public override IObservable<StatusBase> GetTimelineAsObservable(TimelineType type)
         {
             // F**king mstdn.jp
             var host = ProviderRedirect.Redirect(_mastodonClient.BaseUrl);
@@ -87,7 +90,8 @@ namespace Orion.UWP.Models.Clients
                     throw new NotSupportedException();
 
                 case TimelineType.Notifications:
-                    break;
+                    return Merge(async () => (await _mastodonClient.Notifications.ShowAsync()).Select(Convert),
+                                 () => _mastodonClient.Streaming.UserAsObservable(host).OfType<NotificationMessage>().Select(Convert));
 
                 case TimelineType.PublicTimeline:
                     return FkStreamClient.AsObservable(async (Status w) =>
@@ -100,7 +104,18 @@ namespace Orion.UWP.Models.Clients
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
-            throw new NotSupportedException();
+        }
+
+        private StatusBase Convert(Notification notification)
+        {
+            if (notification.Type == NotificationType.Mention)
+                return new Status(notification.Status);
+            return new Absorb.Notification(notification);
+        }
+
+        private StatusBase Convert(NotificationMessage message)
+        {
+            return Convert(message.Notification);
         }
     }
 }

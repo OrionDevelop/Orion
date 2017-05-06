@@ -96,17 +96,24 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\RichTextBlockBindingBehavior.cs" />
+    <Compile Include="Controls\DataTemplateCollection.cs" />
+    <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
     <Compile Include="Converters\HtmlStringToBlockCollectionConverter.cs" />
+    <Compile Include="Models\Absorb\Notification.cs" />
+    <Compile Include="Models\Absorb\NotificationType.cs" />
     <Compile Include="Models\Absorb\Status.cs" />
+    <Compile Include="Models\Absorb\StatusBase.cs" />
+    <Compile Include="Models\Absorb\StatusType.cs" />
     <Compile Include="Models\Absorb\User.cs" />
     <Compile Include="Models\ProviderRedirect.cs" />
     <Compile Include="Models\Software.cs" />
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />
+    <Compile Include="ViewModels\Contents\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
     <Compile Include="ViewModels\Contents\TimelineViewModel.cs" />
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
-    <Compile Include="Controls\DataTemplateSelector.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />
     <Compile Include="Converters\ReverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Models\Account.cs" />
@@ -138,6 +145,12 @@
     </Compile>
     <Compile Include="Views\AuthorizationDialog.xaml.cs">
       <DependentUpon>AuthorizationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\NotificationContent.xaml.cs">
+      <DependentUpon>NotificationContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\StatusContent.xaml.cs">
+      <DependentUpon>StatusContent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\TimelineContent.xaml.cs">
       <DependentUpon>TimelineContent.xaml</DependentUpon>
@@ -215,6 +228,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AuthorizationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\NotificationContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\StatusContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -54,9 +54,9 @@ namespace Orion.UWP.Models.Clients
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public abstract IObservable<Status> GetTimelineAsObservable(TimelineType type);
+        public abstract IObservable<StatusBase> GetTimelineAsObservable(TimelineType type);
 
-        protected IObservable<Status> Merge(Func<Task<IEnumerable<Status>>> firstAction, Func<IObservable<Status>> streamAction)
+        protected IObservable<StatusBase> Merge(Func<Task<IEnumerable<StatusBase>>> firstAction, Func<IObservable<StatusBase>> streamAction)
         {
             return Task.Run(async () => streamAction.Invoke().StartWith((await firstAction.Invoke()).Reverse())).Result;
         }

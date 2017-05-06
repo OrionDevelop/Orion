@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 
 using Orion.UWP.Models;
+using Orion.UWP.Models.Absorb;
 using Orion.UWP.Models.Enum;
 using Orion.UWP.Mvvm;
 
@@ -11,14 +13,14 @@ namespace Orion.UWP.ViewModels.Contents
 {
     public class TimelineViewModel : ViewModel
     {
-        private readonly ObservableCollection<StatusViewModel> _statuses;
+        private readonly ObservableCollection<StatusBaseViewModel> _statuses;
         private readonly Timeline _timeline;
         private bool _isInitialized;
         public string Name => _timeline.TimelineType.ToName();
         public string User => _timeline.Account.Credential.Username;
         public string Icon => _timeline.TimelineType.ToIcon();
 
-        public ReadOnlyObservableCollection<StatusViewModel> Statuses
+        public ReadOnlyObservableCollection<StatusBaseViewModel> Statuses
         {
             get
             {
@@ -27,21 +29,27 @@ namespace Orion.UWP.ViewModels.Contents
                     _isInitialized = true;
                     Initialize();
                 }
-                return new ReadOnlyObservableCollection<StatusViewModel>(_statuses);
+                return new ReadOnlyObservableCollection<StatusBaseViewModel>(_statuses);
             }
         }
 
         public TimelineViewModel(Timeline timeline)
         {
             _timeline = timeline;
-            _statuses = new ObservableCollection<StatusViewModel>();
+            _statuses = new ObservableCollection<StatusBaseViewModel>();
         }
 
         private void Initialize()
         {
             _timeline.Account.ClientWrapper.GetTimelineAsObservable(_timeline.TimelineType)
                      .ObserveOnUIDispatcher()
-                     .Subscribe(w => _statuses.Insert(0, new StatusViewModel(w)))
+                     .Select(w =>
+                     {
+                         if (w.Type == StatusType.Status)
+                             return new StatusViewModel((Status) w) as StatusBaseViewModel;
+                         return new NotificationViewModel((Notification) w) as StatusBaseViewModel;
+                     })
+                     .Subscribe(w => _statuses.Insert(0, w))
                      .AddTo(this);
         }
     }

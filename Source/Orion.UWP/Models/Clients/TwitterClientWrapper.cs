@@ -7,6 +7,7 @@ using CoreTweet;
 using CoreTweet.Streaming;
 
 using Orion.Service.FkStreaming;
+using Orion.UWP.Models.Absorb;
 using Orion.UWP.Models.Enum;
 
 using Status = Orion.UWP.Models.Absorb.Status;
@@ -65,7 +66,7 @@ namespace Orion.UWP.Models.Clients
             }
         }
 
-        public override IObservable<Status> GetTimelineAsObservable(TimelineType type)
+        public override IObservable<StatusBase> GetTimelineAsObservable(TimelineType type)
         {
             switch (type)
             {

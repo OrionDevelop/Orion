@@ -58,7 +58,7 @@ namespace Orion.UWP.Models
                     return new[] {TimelineType.HomeTimeline, TimelineType.Mentions};
 
                 case ServiceType.Mastodon:
-                    return new[] {TimelineType.HomeTimeline, TimelineType.FederatedTimeline};
+                    return new[] {TimelineType.PublicTimeline, TimelineType.Notifications};
 
                 default:
                     throw new ArgumentOutOfRangeException();

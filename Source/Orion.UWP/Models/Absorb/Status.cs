@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Orion.UWP.Models.Absorb
+﻿namespace Orion.UWP.Models.Absorb
 {
-    public class Status
+    public class Status : StatusBase
     {
         private readonly Service.Croudia.Models.Status _croudiaStatus;
         private readonly Service.GnuSocial.Models.Status _gnuSocialStatus;
@@ -10,20 +8,9 @@ namespace Orion.UWP.Models.Absorb
         private readonly CoreTweet.Status _twitterStatus;
 
         /// <summary>
-        ///     ID
-        /// </summary>
-        public long Id => _croudiaStatus?.Id ?? _gnuSocialStatus?.Id ?? _mastodonStatus?.Id ?? _twitterStatus.Id;
-
-        /// <summary>
         ///     Body (Show as HTML parsed content)
         /// </summary>
         public string Body => _croudiaStatus?.Text ?? _gnuSocialStatus?.Text ?? _mastodonStatus?.Content ?? _twitterStatus.Text;
-
-        /// <summary>
-        ///     Created at
-        /// </summary>
-        public DateTime CreatedAt =>
-            _croudiaStatus?.CreatedAt ?? _gnuSocialStatus?.CreatedAt ?? _mastodonStatus?.CreatedAt ?? _twitterStatus.CreatedAt.ToLocalTime().DateTime;
 
         /// <summary>
         ///     In reply to status id
@@ -60,34 +47,41 @@ namespace Orion.UWP.Models.Absorb
         /// </summary>
         public string Source => _croudiaStatus?.Source?.Name ?? _gnuSocialStatus?.Source ?? _mastodonStatus?.Application?.Name ?? _twitterStatus?.Source;
 
-        /// <summary>
-        ///     User
-        /// </summary>
-        public User User { get; }
-
         #region Initialize from Status
 
         public Status(Service.Croudia.Models.Status status)
         {
             _croudiaStatus = status;
+            Type = StatusType.Status;
+            Id = status.Id;
+            CreatedAt = status.CreatedAt;
             User = new User(_croudiaStatus.User);
         }
 
         public Status(Service.GnuSocial.Models.Status status)
         {
             _gnuSocialStatus = status;
+            Type = StatusType.Status;
+            Id = status.Id;
+            CreatedAt = status.CreatedAt;
             User = new User(_gnuSocialStatus.User);
         }
 
         public Status(Service.Mastodon.Models.Status status)
         {
             _mastodonStatus = status;
+            Type = StatusType.Status;
+            Id = status.Id;
+            CreatedAt = status.CreatedAt;
             User = new User(_mastodonStatus.Account);
         }
 
         public Status(CoreTweet.Status status)
         {
             _twitterStatus = status;
+            Type = StatusType.Status;
+            Id = status.Id;
+            CreatedAt = status.CreatedAt.DateTime;
             User = new User(_twitterStatus.User);
         }
 
