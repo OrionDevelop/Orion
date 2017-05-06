@@ -57,7 +57,7 @@
                      VerticalAlignment="Center"
                      IsEnabled="{x:Bind ViewModel.HasHost.Value, Mode=OneWay}"
                      PlaceholderText="example.com"
-                     Text="{x:Bind ViewModel.Host.Value, Mode=TwoWay}" />
+                     Text="{Binding Host.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <!--#endregion-->
             <!--#region Consumer Key-->
             <TextBlock Grid.Row="2"
@@ -70,7 +70,7 @@
                      VerticalAlignment="Center"
                      IsEnabled="{x:Bind ViewModel.HasApiKey.Value, Mode=OneWay}"
                      PlaceholderText="XXXXXXXXXXXXXXXX"
-                     Text="{x:Bind ViewModel.ConsumerKey.Value, Mode=TwoWay}" />
+                     Text="{Binding ConsumerKey.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <!--#endregion-->
             <!--#region Consumer Secret-->
             <TextBlock Grid.Row="3"
@@ -83,7 +83,7 @@
                      VerticalAlignment="Center"
                      IsEnabled="{x:Bind ViewModel.HasApiKey.Value, Mode=OneWay}"
                      PlaceholderText="XXXXXXXXXXXXXXXX"
-                     Text="{x:Bind ViewModel.ConsumerSecret.Value, Mode=TwoWay}" />
+                     Text="{Binding ConsumerSecret.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <!--#endregion-->
             <Button Grid.Row="4"
                     Grid.Column="0"

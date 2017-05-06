@@ -49,7 +49,7 @@
                 <DataTemplate x:DataType="vmc:AccountViewModel">
                     <c:CircleImage Width="48"
                                    Height="48"
-                                   CornerRadius="24"
+                                   CornerRadius="6"
                                    Source="{Binding IconUrl}"
                                    ToolTipService.ToolTip="{Binding ScreenName}" />
                 </DataTemplate>

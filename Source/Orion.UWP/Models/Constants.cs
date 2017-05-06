@@ -78,7 +78,7 @@ namespace Orion.UWP.Models
                 Service = ServiceType.Mastodon,
                 RequireHost = true,
                 RequireApiKeys = false,
-                ParseRegex = new Regex(@"\/oauth\/authorize\/(?<verifier>[0-9a-z]+)", RegexOptions.Compiled)
+                ParseRegex = new Regex(@"code=(?<verifier>[0-9a-z]+)", RegexOptions.Compiled)
             }
         }.AsReadOnly();
     }
