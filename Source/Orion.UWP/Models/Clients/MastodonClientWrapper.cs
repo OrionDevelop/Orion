@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-using Orion.Service.FkStreaming;
 using Orion.Service.Mastodon;
 using Orion.Service.Mastodon.Enum;
 using Orion.Service.Mastodon.Models.Streaming;
@@ -94,8 +93,8 @@ namespace Orion.UWP.Models.Clients
                                  () => _mastodonClient.Streaming.UserAsObservable(host).OfType<NotificationMessage>().Select(Convert));
 
                 case TimelineType.PublicTimeline:
-                    return FkStreamClient.AsObservable(async (Status w) =>
-                                                           (await _mastodonClient.Timelines.PublicAsync(true, sinceId: (int?) w?.Id)).Select(v => new Status(v)));
+                    return Merge(async () => (await _mastodonClient.Timelines.PublicAsync(true)).Select(w => new Status(w)),
+                                 () => _mastodonClient.Streaming.LocalAsObservable(host).OfType<StatusMessage>().Select(w => new Status(w.Status)));
 
                 case TimelineType.FederatedTimeline:
                     return Merge(async () => (await _mastodonClient.Timelines.PublicAsync()).Select(w => new Status(w)),

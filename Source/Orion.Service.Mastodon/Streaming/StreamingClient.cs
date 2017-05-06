@@ -27,10 +27,24 @@ namespace Orion.Service.Mastodon.Streaming
             return observable;
         }
 
+        public IObservable<MessageBase> LocalAsObservable(string host = null)
+        {
+            host = string.IsNullOrWhiteSpace(host) ? _mastodonClient.BaseUrl : $"https://{host}/";
+            var observable = new StreamingObservable(_mastodonClient, $"{host}api/v1/streaming/public/local");
+            return observable;
+        }
+
         public IObservable<MessageBase> TagAsObservable(string tag, string host = null)
         {
             host = string.IsNullOrWhiteSpace(host) ? _mastodonClient.BaseUrl : $"https://{host}/";
             var observable = new StreamingObservable(_mastodonClient, $"{host}api/v1/streaming/hashtag?tag={_mastodonClient.UrlEncode(tag)}");
+            return observable;
+        }
+
+        public IObservable<MessageBase> TagLocalAsObservable(string tag, string host = null)
+        {
+            host = string.IsNullOrWhiteSpace(host) ? _mastodonClient.BaseUrl : $"https://{host}/";
+            var observable = new StreamingObservable(_mastodonClient, $"{host}api/v1/streaming/hashtag/local?tag={_mastodonClient.UrlEncode(tag)}");
             return observable;
         }
     }

@@ -15,12 +15,14 @@
     <RelativePanel Margin="1,5,1,10" HorizontalAlignment="Stretch">
         <FontIcon x:Name="Icon"
                   Margin="0,3,0,0"
+                  FontSize="13"
                   Foreground="{Binding Color}"
                   Glyph="{Binding Icon}"
                   RelativePanel.AlignLeftWithPanel="True"
                   RelativePanel.AlignTopWithPanel="True" />
         <TextBlock x:Name="Message"
                    Padding="5,0,0,0"
+                   FontSize="14"
                    Foreground="Silver"
                    RelativePanel.AlignTopWithPanel="True"
                    RelativePanel.RightOf="Icon"
