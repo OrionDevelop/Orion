@@ -16,6 +16,9 @@ namespace Orion.Service.Mastodon.Models
         [JsonProperty("acct")]
         public string Acct { get; set; }
 
+        [JsonProperty("display_name")]
+        public string DisplayName { get; set; }
+
         [JsonProperty("note")]
         public string Note { get; set; }
 
@@ -25,8 +28,14 @@ namespace Orion.Service.Mastodon.Models
         [JsonProperty("avatar")]
         public string Avatar { get; set; }
 
+        [JsonProperty("avatar_static")]
+        public string AvatarStatic { get; set; }
+
         [JsonProperty("header")]
         public string Header { get; set; }
+
+        [JsonProperty("header_static")]
+        public string HeaderStatic { get; set; }
 
         [JsonProperty("locked")]
         public bool IsLocked { get; set; }

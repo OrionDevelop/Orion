@@ -20,7 +20,7 @@ namespace Orion.UWP.Models.Absorb
         /// <summary>
         ///     Username
         /// </summary>
-        public string Username => _croudiaUser?.Name ?? _gnuSocialUser?.Name ?? _mastodonUser?.Username ?? _twitterUser.Name;
+        public string Username => _croudiaUser?.Name ?? _gnuSocialUser?.Name ?? _mastodonUser?.DisplayName ?? _twitterUser.Name;
 
         /// <summary>
         ///     Location (Mastodon don't have location)
