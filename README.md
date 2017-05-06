@@ -12,4 +12,6 @@ Supported services are:
 
 
 ### Screenshot
-<img width="1280" alt="default" src="https://cloud.githubusercontent.com/assets/10832834/25770316/97922bd6-326d-11e7-81ae-0e764459c9ac.PNG">
+
+#### Orion for Windows
+<img width="717" alt="default" src="https://cloud.githubusercontent.com/assets/10832834/25775889/c95cbe24-32ea-11e7-82cb-bef87081334a.PNG">
