@@ -44,7 +44,7 @@ namespace Orion.UWP.Converters
                 if (inline == null)
                     continue;
                 if (inline is Hyperlink)
-                    paragraph.Inlines.Add(new Run { Text = " " });
+                    paragraph.Inlines.Add(new Run {Text = " "});
                 paragraph.Inlines.Add(inline);
                 added = true;
             }
@@ -61,8 +61,8 @@ namespace Orion.UWP.Converters
                 if (inline == null)
                     continue;
                 span.Inlines.Add(inline);
-                if(inline is Hyperlink)
-                    span.Inlines.Add(new Run{Text = " "});
+                if (inline is Hyperlink)
+                    span.Inlines.Add(new Run {Text = " "});
                 added = true;
             }
             if (!added)

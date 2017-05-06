@@ -4,6 +4,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Media;
 
 using Orion.UWP.Models.Absorb;
+using Orion.UWP.Models.Emoji;
 
 namespace Orion.UWP.ViewModels.Contents
 {
@@ -13,7 +14,7 @@ namespace Orion.UWP.ViewModels.Contents
 
         public string Icon => _notification.NotificationType.ToIcon();
         public SolidColorBrush Color { get; }
-        public string Message => string.Format(_notification.NotificationType.ToMessage(), _notification.User.Username);
+        public string Message => string.Format(_notification.NotificationType.ToMessage(), EmojiConverter.Convert(_notification.User.Username));
         public bool IsShowStatus => _notification.NotificationType != NotificationType.Followed;
         public StatusViewModel StatusViewModel => IsShowStatus ? new StatusViewModel(_notification.Status) : null;
 

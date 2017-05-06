@@ -3,6 +3,7 @@
 using Microsoft.Practices.Unity;
 
 using Orion.UWP.Models.Absorb;
+using Orion.UWP.Models.Emoji;
 
 namespace Orion.UWP.ViewModels.Contents
 {
@@ -11,9 +12,9 @@ namespace Orion.UWP.ViewModels.Contents
         private readonly Status _status;
 
         public string ScreenName => $"@{_status.User.ScreenName}";
-        public string Username => _status.User.Username;
+        public string Username => EmojiConverter.Convert(_status.User.Username);
         public string Icon { get; }
-        public string Body => _status.Body;
+        public string Body => EmojiConverter.Convert(_status.Body);
         public string Via => _status.Source;
 
         public StatusViewModel() : base(null)
