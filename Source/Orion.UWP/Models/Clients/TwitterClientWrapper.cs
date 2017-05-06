@@ -91,5 +91,17 @@ namespace Orion.UWP.Models.Clients
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
+
+        public override async Task UpdateAsync(string status)
+        {
+            try
+            {
+                await _twitterClient.Statuses.UpdateAsync(status);
+            }
+            catch
+            {
+                // TODO: notif to user.
+            }
+        }
     }
 }

@@ -70,5 +70,17 @@ namespace Orion.UWP.Models.Clients
         {
             throw new NotImplementedException();
         }
+
+        public override async Task UpdateAsync(string status)
+        {
+            try
+            {
+                await _croudiaClient.Statuses.UpdateAsync(status);
+            }
+            catch
+            {
+                // TODO: Notify to user.
+            }
+        }
     }
 }

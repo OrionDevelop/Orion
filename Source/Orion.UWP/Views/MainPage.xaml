@@ -6,6 +6,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:localControls="using:Orion.UWP.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:p="using:Orion.UWP.Views.Partials"
       xmlns:prism="using:Prism.Windows.Mvvm"
       xmlns:v="using:Orion.UWP.Views"
       xmlns:vm="using:Orion.UWP.ViewModels"
@@ -96,7 +97,8 @@
                                                      TargetPageType="v:AboutDialog" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.OptionsItemsSource>
-            <Grid>
+            <StackPanel Orientation="Horizontal">
+                <p:PostArea Width="250" />
                 <ItemsControl Margin="0"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch"
@@ -113,7 +115,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </Grid>
+            </StackPanel>
         </controls:HamburgerMenu>
     </Grid>
 </Page>

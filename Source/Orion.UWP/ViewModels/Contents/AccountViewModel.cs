@@ -5,14 +5,14 @@ namespace Orion.UWP.ViewModels.Contents
 {
     public class AccountViewModel : ViewModel
     {
-        private readonly Account _account;
+        public Account Account { get; }
 
-        public string IconUrl => _account.ClientWrapper.User.Icon;
-        public string ScreenName => _account.ClientWrapper.User.ScreenName;
+        public string IconUrl => Account.ClientWrapper.User.Icon;
+        public string ScreenName => Account.ClientWrapper.User.ScreenName;
 
         public AccountViewModel(Account account)
         {
-            _account = account;
+            Account = account;
         }
     }
 }

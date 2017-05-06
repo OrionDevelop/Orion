@@ -56,6 +56,13 @@ namespace Orion.UWP.Models.Clients
         /// <returns></returns>
         public abstract IObservable<StatusBase> GetTimelineAsObservable(TimelineType type);
 
+        /// <summary>
+        ///     ステータスを更新します。
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public abstract Task UpdateAsync(string status);
+
         protected IObservable<StatusBase> Merge(Func<Task<IEnumerable<StatusBase>>> firstAction, Func<IObservable<StatusBase>> streamAction)
         {
             return Task.Run(async () => streamAction.Invoke().StartWith((await firstAction.Invoke()).Reverse())).Result;

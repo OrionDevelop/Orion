@@ -105,6 +105,18 @@ namespace Orion.UWP.Models.Clients
             }
         }
 
+        public override async Task UpdateAsync(string status)
+        {
+            try
+            {
+                await _mastodonClient.Statuses.CreateAsync(status);
+            }
+            catch
+            {
+                // TODO: Notify to user.
+            }
+        }
+
         private StatusBase Convert(Notification notification)
         {
             if (notification.Type == NotificationType.Mention)
