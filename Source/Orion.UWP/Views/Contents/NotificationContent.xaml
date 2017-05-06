@@ -30,7 +30,7 @@
                    TextWrapping="Wrap" />
         <Grid RelativePanel.AlignLeftWithPanel="True"
               RelativePanel.AlignRightWithPanel="True"
-              RelativePanel.Below="Icon"
+              RelativePanel.Below="Message"
               Visibility="{Binding IsShowStatus, Converter={StaticResource BooleanToVisibilityConverter}}">
             <local:StatusContent DataContext="{Binding StatusViewModel}" />
         </Grid>
