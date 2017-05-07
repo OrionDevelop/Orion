@@ -47,9 +47,11 @@ namespace Orion.UWP.ViewModels
                 if (regex == null || !regex.IsMatch(w.ToString()))
                     return;
                 var verifierCode = regex.Match(w.ToString()).Groups["verifier"].Value;
-                await _clientWrapper.AuthorizeAsync(verifierCode);
-                await accountService.RegisterAsync(_clientWrapper.Account);
-                await timelineService.InitializeAsync();
+                if (await _clientWrapper.AuthorizeAsync(verifierCode))
+                {
+                    await accountService.RegisterAsync(_clientWrapper.Account);
+                    await timelineService.InitializeAsync();
+                }
                 CanClose = true;
             });
             GoAuthorizePageCommand = new ReactiveCommand();

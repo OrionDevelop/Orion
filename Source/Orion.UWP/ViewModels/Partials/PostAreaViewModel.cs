@@ -26,7 +26,7 @@ namespace Orion.UWP.ViewModels.Partials
             {
                 StatusBody.Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
                 SelectedAccounts.CollectionChangedAsObservable().Select(w => SelectedAccounts.Count > 0)
-            }.CombineLatestValuesAreAllTrue().ToReactiveCommand();
+            }.CombineLatestValuesAreAllTrue().ToReactiveCommand(false);
             SendStatusCommand.Subscribe(async () =>
             {
                 foreach (var account in SelectedAccounts)

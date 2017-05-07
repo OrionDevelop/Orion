@@ -12,7 +12,7 @@
              d:DesignWidth="400"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
-    <RelativePanel Width="250" Padding="1,5,5,5">
+    <RelativePanel Width="250" Padding="5">
         <Grid x:Name="Header" Height="48">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48" />
@@ -29,7 +29,7 @@
         </Grid>
         <TextBlock x:Name="AccountText"
                    RelativePanel.Below="Header"
-                   Text="From account(s)" />
+                   Text="アカウント" />
         <GridView x:Name="Accounts"
                   Padding="0,5"
                   ItemsSource="{x:Bind ViewModel.Accounts, Mode=OneWay}"
@@ -57,18 +57,19 @@
         </GridView>
         <TextBlock x:Name="StatusText"
                    RelativePanel.Below="Accounts"
-                   Text="Status" />
+                   Text="ステータス" />
         <TextBox x:Name="StatusBox"
                  MinHeight="100"
                  Margin="0,5"
                  AcceptsReturn="True"
-                 PlaceholderText="What's happening?"
+                 PlaceholderText="今何してる？"
                  RelativePanel.AlignLeftWithPanel="True"
                  RelativePanel.AlignRightWithPanel="True"
                  RelativePanel.Below="StatusText"
                  Text="{Binding StatusBody.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <Button Command="{x:Bind ViewModel.SendStatusCommand, Mode=OneWay}"
-                Content="Send"
+        <Button Width="60"
+                Command="{x:Bind ViewModel.SendStatusCommand, Mode=OneWay}"
+                Content="送信"
                 RelativePanel.AlignRightWithPanel="True"
                 RelativePanel.Below="StatusBox" />
     </RelativePanel>
