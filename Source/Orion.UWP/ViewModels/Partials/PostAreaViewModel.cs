@@ -15,7 +15,7 @@ namespace Orion.UWP.ViewModels.Partials
         public ReadOnlyObservableCollection<AccountViewModel> Accounts { get; }
         public ReactiveProperty<string> StatusBody { get; }
         public ReactiveCollection<AccountViewModel> SelectedAccounts { get; }
-        public ReactiveCommand SendStatusCommand { get; }
+        public AsyncReactiveCommand SendStatusCommand { get; }
 
         public PostAreaViewModel(IAccountService accountService)
         {
@@ -26,7 +26,7 @@ namespace Orion.UWP.ViewModels.Partials
             {
                 StatusBody.Select(w => w?.TrimEnd('\n', '\r')).Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
                 SelectedAccounts.CollectionChangedAsObservable().Select(w => SelectedAccounts.Count > 0)
-            }.CombineLatestValuesAreAllTrue().ToReactiveCommand(false);
+            }.CombineLatestValuesAreAllTrue().ToAsyncReactiveCommand();
             SendStatusCommand.Subscribe(async () =>
             {
                 foreach (var account in SelectedAccounts)
