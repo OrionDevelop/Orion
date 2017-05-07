@@ -109,6 +109,7 @@
     <Compile Include="Models\Emoji\Emoji.cs" />
     <Compile Include="Models\Emoji\EmojiConstants.cs" />
     <Compile Include="Models\Emoji\EmojiConverter.cs" />
+    <Compile Include="Models\History.cs" />
     <Compile Include="Models\ProviderRedirect.cs" />
     <Compile Include="Models\Software.cs" />
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
