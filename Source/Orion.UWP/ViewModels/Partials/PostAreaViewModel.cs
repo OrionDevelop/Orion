@@ -24,7 +24,7 @@ namespace Orion.UWP.ViewModels.Partials
             StatusBody = new ReactiveProperty<string>();
             SendStatusCommand = new[]
             {
-                StatusBody.Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
+                StatusBody.Select(w => w?.TrimEnd('\n', '\r')).Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
                 SelectedAccounts.CollectionChangedAsObservable().Select(w => SelectedAccounts.Count > 0)
             }.CombineLatestValuesAreAllTrue().ToReactiveCommand(false);
             SendStatusCommand.Subscribe(async () =>
