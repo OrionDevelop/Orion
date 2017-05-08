@@ -30,7 +30,8 @@
                            Text="{Binding User, Mode=OneWay}" />
             </StackPanel>
         </Grid>
-        <ListView HorizontalAlignment="Stretch"
+        <ListView x:Name="Statuses"
+                  HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   ItemsSource="{Binding Statuses, Mode=OneWay}"
                   RelativePanel.AlignBottomWithPanel="True"

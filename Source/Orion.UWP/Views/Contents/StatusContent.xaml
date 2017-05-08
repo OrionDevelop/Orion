@@ -11,7 +11,9 @@
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
-    <RelativePanel Margin="1,5,1,10" HorizontalAlignment="Stretch">
+    <RelativePanel x:Name="RootPanel"
+                   Margin="1,5,1,10"
+                   HorizontalAlignment="Stretch">
         <c:CircleImage x:Name="Icon"
                        Width="48"
                        Height="48"
@@ -45,8 +47,9 @@
                        RelativePanel.AlignRightWithPanel="True"
                        Text="{Binding CreatedAt}" />
         </RelativePanel>
-        <RichTextBlock Padding="10,0,0,0"
-                       RelativePanel.AlignBottomWithPanel="True"
+        <RichTextBlock x:Name="Body"
+                       MinHeight="35"
+                       Padding="10,0,0,0"
                        RelativePanel.AlignRightWithPanel="True"
                        RelativePanel.Below="UserLine"
                        RelativePanel.RightOf="Icon"
@@ -55,5 +58,13 @@
                 <behaviors:RichTextBlockBindingBehavior BindingDocument="{Binding Body, Mode=OneWay, Converter={StaticResource HtmlStringToBlockCollectionConverter}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
+        <StackPanel x:Name="AppBar"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.Below="Body" />
     </RelativePanel>
 </UserControl>
