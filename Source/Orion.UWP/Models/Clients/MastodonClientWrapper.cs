@@ -106,11 +106,11 @@ namespace Orion.UWP.Models.Clients
             }
         }
 
-        public override async Task UpdateAsync(string status)
+        public override async Task UpdateAsync(string status, long? inReplyToStatusId = null)
         {
             try
             {
-                await _mastodonClient.Statuses.CreateAsync(status);
+                await _mastodonClient.Statuses.CreateAsync(status, (int?) inReplyToStatusId);
             }
             catch
             {

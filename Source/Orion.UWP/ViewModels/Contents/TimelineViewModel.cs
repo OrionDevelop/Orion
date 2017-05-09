@@ -13,6 +13,7 @@ namespace Orion.UWP.ViewModels.Contents
 {
     public class TimelineViewModel : ViewModel
     {
+        private readonly GlobalNotifier _globalNotifier;
         private readonly ObservableCollection<StatusBaseViewModel> _statuses;
         private readonly Timeline _timeline;
         private bool _isInitialized;
@@ -33,8 +34,9 @@ namespace Orion.UWP.ViewModels.Contents
             }
         }
 
-        public TimelineViewModel(Timeline timeline)
+        public TimelineViewModel(GlobalNotifier globalNotifier, Timeline timeline)
         {
+            _globalNotifier = globalNotifier;
             _timeline = timeline;
             _statuses = new ObservableCollection<StatusBaseViewModel>();
         }
@@ -46,8 +48,8 @@ namespace Orion.UWP.ViewModels.Contents
                      .Select(w =>
                      {
                          if (w.Type == StatusType.Status)
-                             return new StatusViewModel((Status) w) as StatusBaseViewModel;
-                         return new NotificationViewModel((Notification) w) as StatusBaseViewModel;
+                             return new StatusViewModel(_globalNotifier, (Status) w) as StatusBaseViewModel;
+                         return new NotificationViewModel(_globalNotifier, (Notification) w) as StatusBaseViewModel;
                      })
                      .Subscribe(w => _statuses.Insert(0, w))
                      .AddTo(this);

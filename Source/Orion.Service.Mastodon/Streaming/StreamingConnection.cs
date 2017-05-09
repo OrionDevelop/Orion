@@ -47,15 +47,15 @@ namespace Orion.Service.Mastodon.Streaming
                         {
                             while (!sr.EndOfStream)
                             {
+                                if (_tokenSource.IsCancellationRequested)
+                                    break;
+
                                 var e = sr.ReadLine();
                                 if (e == ":thump" || string.IsNullOrWhiteSpace(e))
                                     continue;
 
                                 var p = sr.ReadLine();
                                 _observer.OnNext(MessageBase.CreateMessage(e, p));
-
-                                if (_tokenSource.IsCancellationRequested)
-                                    break;
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 
 using Orion.UWP.Models;
@@ -14,19 +15,24 @@ namespace Orion.UWP.ViewModels.Partials
 {
     public class PostAreaViewModel : ViewModel
     {
-        private readonly History<string> _history;
         public ReadOnlyObservableCollection<AccountViewModel> Accounts { get; }
         public ReactiveProperty<string> StatusBody { get; }
         public ReactiveCollection<AccountViewModel> SelectedAccounts { get; }
         public AsyncReactiveCommand SendStatusCommand { get; }
 
-        public PostAreaViewModel(IAccountService accountService)
+        public PostAreaViewModel(GlobalNotifier globalNotifier, IAccountService accountService)
         {
-            _history = new History<string>(2);
+            var history = new History<string>(2);
+            globalNotifier.ObserveProperty(w => w.InReplyStatus).Where(w => w != null)
+                          .Subscribe(w =>
+                          {
+                              StatusBody.Value = $"@{w.User.NormalizedScreenName} ";
+                          })
+                          .AddTo(this);
             Accounts = accountService.Accounts.ToReadOnlyReactiveCollection(w => new AccountViewModel(w));
             SelectedAccounts = new ReactiveCollection<AccountViewModel>();
             StatusBody = new ReactiveProperty<string>();
-            StatusBody.Subscribe(w => { _history.Store(w); }).AddTo(this);
+            StatusBody.Subscribe(w => history.Store(w)).AddTo(this);
             SendStatusCommand = new[]
             {
                 StatusBody.Select(w => w?.TrimEnd('\n', '\r')).Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
@@ -35,9 +41,9 @@ namespace Orion.UWP.ViewModels.Partials
             SendStatusCommand.Subscribe(async () =>
             {
                 foreach (var account in SelectedAccounts)
-                    await account.Account.ClientWrapper.UpdateAsync(_history[-1]);
+                    await account.Account.ClientWrapper.UpdateAsync(history[-1], globalNotifier.InReplyStatus?.InReplyToStatusId);
                 StatusBody.Value = null;
-            });
+            }).AddTo(this);
         }
     }
 }

@@ -4,6 +4,7 @@ using Windows.ApplicationModel.Activation;
 
 using Microsoft.Practices.Unity;
 
+using Orion.UWP.Models;
 using Orion.UWP.Services;
 using Orion.UWP.Services.Interfaces;
 
@@ -34,9 +35,10 @@ namespace Orion.UWP
 
             // Internal
             var accountService = new AccountService();
-            // await accountService.ClearAsync();
+            await accountService.ClearAsync();
             await accountService.RestoreAsync();
 
+            Container.RegisterInstance(new GlobalNotifier(), new ContainerControlledLifetimeManager());
             Container.RegisterInstance<IAccountService>(accountService, new ContainerControlledLifetimeManager());
             Container.RegisterType<IDialogService, DialogService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ITimelineService, TimelineService>(new ContainerControlledLifetimeManager());

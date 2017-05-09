@@ -71,11 +71,11 @@ namespace Orion.UWP.Models.Clients
             throw new NotImplementedException();
         }
 
-        public override async Task UpdateAsync(string status)
+        public override async Task UpdateAsync(string status, long? inReplyToStatusId = null)
         {
             try
             {
-                await _croudiaClient.Statuses.UpdateAsync(status);
+                await _croudiaClient.Statuses.UpdateAsync(status, (int?) inReplyToStatusId);
             }
             catch
             {

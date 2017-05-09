@@ -60,8 +60,9 @@ namespace Orion.UWP.Models.Clients
         ///     ステータスを更新します。
         /// </summary>
         /// <param name="status"></param>
+        /// <param name="inReplyToStatusId"></param>
         /// <returns></returns>
-        public abstract Task UpdateAsync(string status);
+        public abstract Task UpdateAsync(string status, long? inReplyToStatusId = null);
 
         protected IObservable<StatusBase> Merge(Func<Task<IEnumerable<StatusBase>>> firstAction, Func<IObservable<StatusBase>> streamAction)
         {

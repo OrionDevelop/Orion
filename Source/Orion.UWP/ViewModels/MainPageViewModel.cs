@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
+using Orion.UWP.Models;
 using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 using Orion.UWP.ViewModels.Contents;
@@ -27,7 +28,7 @@ namespace Orion.UWP.ViewModels
         public ReactiveProperty<TimelineViewModel> SelectedTimeline { get; }
         public ReactiveProperty<HamburgerMenuGlyphItem> SelectedOptions { get; }
 
-        public MainPageViewModel(IAccountService accountService, IDialogService dialogService, ITimelineService timelineService)
+        public MainPageViewModel(GlobalNotifier globalNotifier, IAccountService accountService, IDialogService dialogService, ITimelineService timelineService)
         {
             _accountService = accountService;
             _dialogService = dialogService;
@@ -37,7 +38,7 @@ namespace Orion.UWP.ViewModels
             SelectedTimeline.Where(w => w != null).Subscribe(w => { Debug.WriteLine(w); }).AddTo(this);
             SelectedOptions = new ReactiveProperty<HamburgerMenuGlyphItem>();
             SelectedOptions.Where(w => w != null).Subscribe(w => _dialogService.ShowDialogAsync(w.TargetPageType)).AddTo(this);
-            Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(w));
+            Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, w));
         }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)

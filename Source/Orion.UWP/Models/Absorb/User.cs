@@ -18,6 +18,11 @@ namespace Orion.UWP.Models.Absorb
         public string ScreenName { get; }
 
         /// <summary>
+        ///     ScreenName
+        /// </summary>
+        public string NormalizedScreenName { get; }
+
+        /// <summary>
         ///     Username
         /// </summary>
         public string Username
@@ -87,6 +92,7 @@ namespace Orion.UWP.Models.Absorb
         {
             _croudiaUser = user;
             ScreenName = $"{user.ScreenName}@croudia.com";
+            NormalizedScreenName = user.ScreenName;
         }
 
         /// <summary>
@@ -97,6 +103,7 @@ namespace Orion.UWP.Models.Absorb
         {
             _gnuSocialUser = user;
             ScreenName = $"{user.ScreenName}@{user.OStatusUri.Host}";
+            NormalizedScreenName = user.ScreenName;
         }
 
         /// <summary>
@@ -109,6 +116,7 @@ namespace Orion.UWP.Models.Absorb
             ScreenName = $"{user.Acct}";
             if (!user.Acct.Contains("@"))
                 ScreenName += $"@{new Uri(user.Url).Host}";
+            NormalizedScreenName = user.Acct;
         }
 
         /// <summary>
@@ -119,6 +127,7 @@ namespace Orion.UWP.Models.Absorb
         {
             _twitterUser = user;
             ScreenName = $"{user.ScreenName}@twitter.com";
+            NormalizedScreenName = user.ScreenName;
         }
     }
 }

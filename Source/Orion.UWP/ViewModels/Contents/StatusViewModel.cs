@@ -2,8 +2,12 @@
 
 using Microsoft.Practices.Unity;
 
+using Orion.UWP.Models;
 using Orion.UWP.Models.Absorb;
 using Orion.UWP.Models.Emoji;
+using Orion.UWP.Mvvm;
+
+using Reactive.Bindings;
 
 namespace Orion.UWP.ViewModels.Contents
 {
@@ -17,18 +21,22 @@ namespace Orion.UWP.ViewModels.Contents
         public string Body => EmojiConverter.Convert(_status.Body);
         public string Via => _status.Source;
 
+        public ReactiveCommand ReplyCommand { get; }
+
         public StatusViewModel() : base(null)
         {
             // Design instance
         }
 
         [InjectionConstructor]
-        public StatusViewModel(Status status) : base(status)
+        public StatusViewModel(GlobalNotifier globalNotifier, Status status) : base(status)
         {
             _status = status;
             Icon = Uri.TryCreate(status.User.Icon, UriKind.Absolute, out Uri _)
                 ? status.User.Icon
                 : $"https://{new Uri(status.User.Url).Host}{status.User.Icon}";
+            ReplyCommand = new ReactiveCommand();
+            ReplyCommand.Subscribe(() => globalNotifier.InReplyStatus = _status).AddTo(this);
         }
     }
 }

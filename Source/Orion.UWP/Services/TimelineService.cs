@@ -30,7 +30,7 @@ namespace Orion.UWP.Services
         {
             var defaultAccount = _accountService.Accounts.Single(w => w.MarkAsDefault);
             foreach (var timeline in defaultAccount.DefaultTimelines())
-                _timelines.Add(new Timeline {Account = defaultAccount, Id = defaultAccount.Id, TimelineType = timeline});
+                _timelines.Add(new Timeline {Account = defaultAccount, AccountId = defaultAccount.Id, TimelineType = timeline});
 
             await SaveAsync();
         }
@@ -50,7 +50,7 @@ namespace Orion.UWP.Services
 
             foreach (var timeline in timelines)
             {
-                timeline.Account = _accountService.Accounts.Single(w => w.Id == timeline.Id);
+                timeline.Account = _accountService.Accounts.Single(w => w.Id == timeline.AccountId);
                 _timelines.Add(timeline);
             }
 

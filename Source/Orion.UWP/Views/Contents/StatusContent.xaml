@@ -65,6 +65,13 @@
                     RelativePanel.AlignBottomWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.Below="Body" />
+                    RelativePanel.Below="Body">
+            <Button Width="45"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{Binding ReplyCommand, Mode=OneWay}">
+                <FontIcon Glyph="&#xE97A;" />
+            </Button>
+        </StackPanel>
     </RelativePanel>
 </UserControl>
