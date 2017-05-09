@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive.Linq;
 
 using Orion.UWP.Models;
@@ -24,10 +23,7 @@ namespace Orion.UWP.ViewModels.Partials
         {
             var history = new History<string>(2);
             globalNotifier.ObserveProperty(w => w.InReplyStatus).Where(w => w != null)
-                          .Subscribe(w =>
-                          {
-                              StatusBody.Value = $"@{w.User.NormalizedScreenName} ";
-                          })
+                          .Subscribe(w => { StatusBody.Value = $"@{w.User.NormalizedScreenName} "; })
                           .AddTo(this);
             Accounts = accountService.Accounts.ToReadOnlyReactiveCollection(w => new AccountViewModel(w));
             SelectedAccounts = new ReactiveCollection<AccountViewModel>();
