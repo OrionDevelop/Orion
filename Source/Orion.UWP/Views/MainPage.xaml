@@ -15,88 +15,131 @@
       prism:ViewModelLocator.AutoWireViewModel="True"
       mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:HamburgerMenu x:Name="HamburgerMenuControl"
-                                CompactPaneLength="48"
-                                DisplayMode="CompactOverlay"
-                                HamburgerHeight="48"
-                                IsPaneOpen="False"
-                                ItemsSource="{x:Bind ViewModel.Timelines}"
-                                OpenPaneLength="240"
-                                PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                SelectedItem="{x:Bind ViewModel.SelectedTimeline.Value, Mode=TwoWay}"
-                                SelectedOptionsItem="{x:Bind ViewModel.SelectedOptions.Value, Mode=TwoWay}">
-            <controls:HamburgerMenu.Resources>
-                <localControls:DataTemplateCollection x:Key="DataTemplateCollection">
-                    <DataTemplate localControls:TypeNamedDataTemplateSelector.Target="controls:HamburgerMenuGlyphItem" x:DataType="controls:HamburgerMenuGlyphItem">
-                        <Grid Width="240" Height="48">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="48" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <FontIcon Grid.Column="0"
-                                      FontSize="24"
-                                      Glyph="{Binding Glyph}" />
-                            <TextBlock Grid.Column="1"
-                                       VerticalAlignment="Center"
-                                       FontSize="16"
-                                       Text="{Binding Label}" />
-                        </Grid>
-                    </DataTemplate>
-                    <DataTemplate localControls:TypeNamedDataTemplateSelector.Target="controls:HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuImageItem">
-                        <Grid Width="240" Height="48">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="48" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <localControls:CircleImage Grid.Column="0"
-                                                       Width="36"
-                                                       Height="36"
-                                                       CornerRadius="18"
-                                                       Source="{Binding Thumbnail}" />
-                            <TextBlock Grid.Column="1"
-                                       VerticalAlignment="Center"
-                                       FontSize="16"
-                                       Text="{Binding Label}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </Grid>
-                    </DataTemplate>
-                </localControls:DataTemplateCollection>
-            </controls:HamburgerMenu.Resources>
-            <controls:HamburgerMenu.ItemTemplate>
-                <DataTemplate x:DataType="vmc:TimelineViewModel">
-                    <Grid Width="240" Height="48">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <FontIcon Grid.Column="0"
-                                  FontSize="24"
-                                  Glyph="{Binding Icon}" />
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock FontSize="16" Text="{Binding Name}" />
-                            <TextBlock FontSize="12"
-                                       Foreground="Silver"
-                                       Text="{Binding User}" />
+        <SplitView x:Name="HamburgerMenuControl"
+                   CompactPaneLength="48"
+                   DisplayMode="CompactOverlay"
+                   IsPaneOpen="False"
+                   OpenPaneLength="240"
+                   PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <SplitView.Pane>
+                <ScrollViewer Padding="0,48,0,0"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="ListView">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="IsItemClickEnabled" Value="True" />
+                                <Setter Property="SelectionMode" Value="Single" />
+                                <Setter Property="Width" Value="240" />
+                            </Style>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                            <localControls:TypeNamedDataTemplateSelector x:Key="TypeNamedDataTemplateSelector">
+                                <localControls:DataTemplateCollection>
+                                    <DataTemplate localControls:TypeNamedDataTemplateSelector.Target="controls:HamburgerMenuGlyphItem" x:DataType="controls:HamburgerMenuGlyphItem">
+                                        <Grid Width="240" Height="48">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="48" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <FontIcon Grid.Column="0"
+                                                      FontSize="24"
+                                                      Glyph="{Binding Glyph}" />
+                                            <TextBlock Grid.Column="1"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       Text="{Binding Label}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                    <DataTemplate localControls:TypeNamedDataTemplateSelector.Target="controls:HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuImageItem">
+                                        <Grid Width="240" Height="48">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="48" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <localControls:CircleImage Grid.Column="0"
+                                                                       Width="36"
+                                                                       Height="36"
+                                                                       CornerRadius="18"
+                                                                       Source="{Binding Thumbnail}" />
+                                            <TextBlock Grid.Column="1"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       Text="{Binding Label}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </localControls:DataTemplateCollection>
+                            </localControls:TypeNamedDataTemplateSelector>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                            <RowDefinition Height="Auto " />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical">
+                            <ListView x:Name="First"
+                                      ItemClick="First_OnItemClick"
+                                      ItemsSource="{x:Bind ViewModel.Timelines}"
+                                      SelectedItem="{x:Bind ViewModel.SelectedTimeline.Value, Mode=TwoWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="vmc:TimelineViewModel">
+                                        <Grid Width="240" Height="48">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="48" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <FontIcon Grid.Column="0"
+                                                      FontSize="24"
+                                                      Glyph="{Binding Icon}" />
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock FontSize="16" Text="{Binding Name}" />
+                                                <TextBlock FontSize="12"
+                                                           Foreground="Silver"
+                                                           Text="{Binding User}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <ListView x:Name="Middle"
+                                      ItemClick="Middle_OnItemClick"
+                                      ItemTemplateSelector="{StaticResource TypeNamedDataTemplateSelector}"
+                                      RelativePanel.Above="Last"
+                                      RelativePanel.AlignBottomWithPanel="True"
+                                      RelativePanel.Below="First"
+                                      SelectedItem="{x:Bind ViewModel.SelectedMiddleItem.Value, Mode=TwoWay}">
+                                <ListView.ItemsSource>
+                                    <controls:HamburgerMenuItemCollection>
+                                        <controls:HamburgerMenuGlyphItem Glyph="&#xE710;" Label="タイムラインを追加" />
+                                    </controls:HamburgerMenuItemCollection>
+                                </ListView.ItemsSource>
+                            </ListView>
                         </StackPanel>
+                        <ListView x:Name="Last"
+                                  Grid.Row="2"
+                                  VerticalAlignment="Bottom"
+                                  ItemClick="Last_OnItemClick"
+                                  ItemTemplateSelector="{StaticResource TypeNamedDataTemplateSelector}"
+                                  SelectedItem="{x:Bind ViewModel.SelectedOptions.Value, Mode=TwoWay}">
+                            <ListView.ItemsSource>
+                                <controls:HamburgerMenuItemCollection>
+                                    <controls:HamburgerMenuImageItem Label="{x:Bind ViewModel.DefaultAccount.ScreenName, Mode=OneWay}" Thumbnail="{x:Bind ViewModel.DefaultAccount.IconUrl, Mode=OneWay}" />
+                                    <controls:HamburgerMenuGlyphItem Glyph="&#xE716;" Label="アカウント" />
+                                    <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
+                                    <controls:HamburgerMenuGlyphItem Glyph="&#xE783;"
+                                                                     Label="Orion について"
+                                                                     TargetPageType="v:AboutDialog" />
+                                </controls:HamburgerMenuItemCollection>
+                            </ListView.ItemsSource>
+                        </ListView>
                     </Grid>
-                </DataTemplate>
-            </controls:HamburgerMenu.ItemTemplate>
-            <controls:HamburgerMenu.ItemTemplateSelector>
-                <localControls:TypeNamedDataTemplateSelector Templates="{StaticResource DataTemplateCollection}" />
-            </controls:HamburgerMenu.ItemTemplateSelector>
-            <controls:HamburgerMenu.OptionsItemTemplateSelector>
-                <localControls:TypeNamedDataTemplateSelector Templates="{StaticResource DataTemplateCollection}" />
-            </controls:HamburgerMenu.OptionsItemTemplateSelector>
-            <controls:HamburgerMenu.OptionsItemsSource>
-                <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuImageItem Label="{x:Bind ViewModel.DefaultAccount.ScreenName, Mode=OneWay}" Thumbnail="{x:Bind ViewModel.DefaultAccount.IconUrl, Mode=OneWay}" />
-                    <controls:HamburgerMenuGlyphItem Glyph="&#xE716;" Label="アカウント" />
-                    <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
-                    <controls:HamburgerMenuGlyphItem Glyph="&#xE783;"
-                                                     Label="Orion について"
-                                                     TargetPageType="v:AboutDialog" />
-                </controls:HamburgerMenuItemCollection>
-            </controls:HamburgerMenu.OptionsItemsSource>
+                </ScrollViewer>
+            </SplitView.Pane>
             <StackPanel Orientation="Horizontal">
                 <p:PostArea Width="250" />
                 <ItemsControl Margin="0"
@@ -116,6 +159,17 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-        </controls:HamburgerMenu>
+        </SplitView>
+        <ToggleButton Width="48"
+                      Height="48"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Background="Transparent"
+                      Content="&#xE700;"
+                      FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                      FontSize="20"
+                      IsChecked="{Binding ElementName=HamburgerMenuControl, Path=IsPaneOpen, Mode=TwoWay}" />
     </Grid>
 </Page>

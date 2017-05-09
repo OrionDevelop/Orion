@@ -26,7 +26,8 @@ namespace Orion.UWP.ViewModels
 
         public ReadOnlyReactiveCollection<TimelineViewModel> Timelines { get; }
         public ReactiveProperty<TimelineViewModel> SelectedTimeline { get; }
-        public ReactiveProperty<HamburgerMenuGlyphItem> SelectedOptions { get; }
+        public ReactiveProperty<HamburgerMenuItem> SelectedMiddleItem { get; }
+        public ReactiveProperty<HamburgerMenuItem> SelectedOptions { get; }
 
         public MainPageViewModel(GlobalNotifier globalNotifier, IAccountService accountService, IDialogService dialogService, ITimelineService timelineService)
         {
@@ -36,7 +37,9 @@ namespace Orion.UWP.ViewModels
 
             SelectedTimeline = new ReactiveProperty<TimelineViewModel>();
             SelectedTimeline.Where(w => w != null).Subscribe(w => { Debug.WriteLine(w); }).AddTo(this);
-            SelectedOptions = new ReactiveProperty<HamburgerMenuGlyphItem>();
+            SelectedMiddleItem = new ReactiveProperty<HamburgerMenuItem>();
+            SelectedMiddleItem.Where(w => w != null).Subscribe(w => { }).AddTo(this);
+            SelectedOptions = new ReactiveProperty<HamburgerMenuItem>();
             SelectedOptions.Where(w => w != null).Subscribe(w => _dialogService.ShowDialogAsync(w.TargetPageType)).AddTo(this);
             Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, w));
         }
