@@ -38,9 +38,8 @@ namespace Orion.UWP.ViewModels
             SelectedTimeline = new ReactiveProperty<TimelineViewModel>();
             SelectedTimeline.Where(w => w != null).Subscribe(w => { Debug.WriteLine(w); }).AddTo(this);
             SelectedMiddleItem = new ReactiveProperty<HamburgerMenuItem>();
-            SelectedMiddleItem.Where(w => w != null).Subscribe(w => { }).AddTo(this);
             SelectedOptions = new ReactiveProperty<HamburgerMenuItem>();
-            SelectedOptions.Where(w => w != null).Subscribe(w => _dialogService.ShowDialogAsync(w.TargetPageType)).AddTo(this);
+            SelectedMiddleItem.Merge(SelectedOptions).Where(w => w != null).Subscribe(w => _dialogService.ShowDialogAsync(w.TargetPageType)).AddTo(this);
             Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, w));
         }
 

@@ -18,22 +18,26 @@ namespace Orion.UWP.Views
             InitializeComponent();
         }
 
-        private void First_OnItemClick(object sender, ItemClickEventArgs e)
+        private void Reset()
         {
+            First.SelectedIndex = -1;
             Middle.SelectedIndex = -1;
             Last.SelectedIndex = -1;
+        }
+
+        private void First_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            Reset();
         }
 
         private void Middle_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            First.SelectedIndex = -1;
-            Last.SelectedIndex = -1;
+            Reset();
         }
 
         private void Last_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            First.SelectedIndex = -1;
-            Middle.SelectedIndex = -1;
+            Reset();
         }
     }
 }

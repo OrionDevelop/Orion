@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+
+using Newtonsoft.Json;
 
 using Orion.UWP.Models.Clients;
 using Orion.UWP.Models.Enum;
@@ -18,13 +21,16 @@ namespace Orion.UWP.Models
 
         public string ClientSecret { get; set; }
 
+        [JsonIgnore]
         public bool RequireHost { get; set; } = true;
 
+        [JsonIgnore]
         public bool RequireApiKeys { get; set; } = true;
 
         /// <summary>
         ///     `verifier` を取得し、認証用コードとして使用します。
         /// </summary>
+        [JsonIgnore]
         public Regex ParseRegex { get; set; }
 
         public BaseClientWrapper CreateClientWrapper()
@@ -42,6 +48,43 @@ namespace Orion.UWP.Models
 
                 case ServiceType.Mastodon:
                     return new MastodonClientWrapper(this);
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public IEnumerable<TimelineType> GetSupportTimelineTypes()
+        {
+            switch (Service)
+            {
+                case ServiceType.Twitter:
+                case ServiceType.Croudia:
+                    return new List<TimelineType>
+                    {
+                        TimelineType.HomeTimeline,
+                        TimelineType.Mentions,
+                        TimelineType.DirectMessages
+                    };
+
+                case ServiceType.GnuSocial:
+                    return new List<TimelineType>
+                    {
+                        TimelineType.HomeTimeline,
+                        TimelineType.Mentions,
+                        TimelineType.DirectMessages,
+                        TimelineType.PublicTimeline,
+                        TimelineType.FederatedTimeline
+                    };
+
+                case ServiceType.Mastodon:
+                    return new List<TimelineType>
+                    {
+                        TimelineType.HomeTimeline,
+                        TimelineType.PublicTimeline,
+                        TimelineType.FederatedTimeline,
+                        TimelineType.Notifications
+                    };
 
                 default:
                     throw new ArgumentOutOfRangeException();

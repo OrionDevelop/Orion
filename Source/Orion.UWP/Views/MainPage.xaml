@@ -115,7 +115,9 @@
                                       SelectedItem="{x:Bind ViewModel.SelectedMiddleItem.Value, Mode=TwoWay}">
                                 <ListView.ItemsSource>
                                     <controls:HamburgerMenuItemCollection>
-                                        <controls:HamburgerMenuGlyphItem Glyph="&#xE710;" Label="タイムラインを追加" />
+                                        <controls:HamburgerMenuGlyphItem Glyph="&#xE710;"
+                                                                         Label="タイムラインの追加"
+                                                                         TargetPageType="v:AddTimelineDialog" />
                                     </controls:HamburgerMenuItemCollection>
                                 </ListView.ItemsSource>
                             </ListView>

@@ -114,10 +114,12 @@
     <Compile Include="Models\ProviderRedirect.cs" />
     <Compile Include="Models\Software.cs" />
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
+    <Compile Include="ViewModels\AddTimelineDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />
     <Compile Include="ViewModels\Contents\NotificationViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
+    <Compile Include="ViewModels\Contents\TimelineTypeViewModel.cs" />
     <Compile Include="ViewModels\Contents\TimelineViewModel.cs" />
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />
@@ -149,6 +151,9 @@
     <Compile Include="ViewModels\Partials\PostAreaViewModel.cs" />
     <Compile Include="Views\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddTimelineDialog.xaml.cs">
+      <DependentUpon>AddTimelineDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AuthorizationDialog.xaml.cs">
       <DependentUpon>AuthorizationDialog.xaml</DependentUpon>
@@ -234,6 +239,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddTimelineDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
