@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="8466Mikazuki.63055D0FC0162" Publisher="CN=4B89ED43-2C38-4903-9436-87B359C3677D" Version="1.0.0.0" />
+  <Identity Name="8466Mikazuki.63055D0FC0162" Publisher="CN=4B89ED43-2C38-4903-9436-87B359C3677D" Version="1.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="35d4e07f-e8d2-4f93-8202-8290f954a440" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Orion for Windows</DisplayName>
