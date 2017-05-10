@@ -72,7 +72,9 @@ namespace Orion.UWP.Behaviors
                 return;
 
             if (Key == args.VirtualKey && Command.CanExecute(null))
-                Command.Execute(null);
+                Command.Execute("ENTER");
+
+            args.Handled = true;
         }
 
         protected override void OnDetaching()

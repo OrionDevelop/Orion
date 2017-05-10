@@ -17,7 +17,7 @@ namespace Orion.UWP.ViewModels.Partials
         public ReadOnlyObservableCollection<AccountViewModel> Accounts { get; }
         public ReactiveProperty<string> StatusBody { get; }
         public ReactiveCollection<AccountViewModel> SelectedAccounts { get; }
-        public AsyncReactiveCommand SendStatusCommand { get; }
+        public AsyncReactiveCommand<object> SendStatusCommand { get; }
 
         public PostAreaViewModel(GlobalNotifier globalNotifier, IAccountService accountService)
         {
@@ -34,10 +34,10 @@ namespace Orion.UWP.ViewModels.Partials
                 StatusBody.Select(w => w?.TrimEnd('\n', '\r')).Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
                 SelectedAccounts.CollectionChangedAsObservable().Select(w => SelectedAccounts.Count > 0)
             }.CombineLatestValuesAreAllTrue().ToAsyncReactiveCommand();
-            SendStatusCommand.Subscribe(async () =>
+            SendStatusCommand.Subscribe(async w =>
             {
                 foreach (var account in SelectedAccounts)
-                    await account.Account.ClientWrapper.UpdateAsync(history[-1], globalNotifier.InReplyStatus?.InReplyToStatusId);
+                    await account.Account.ClientWrapper.UpdateAsync(history[(string) w == "ENTER" ? -1 : 0], globalNotifier.InReplyStatus?.InReplyToStatusId);
                 StatusBody.Value = null;
             }).AddTo(this);
         }
