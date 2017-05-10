@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Orion.UWP.Views.Contents.StatusContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviors="using:Orion.UWP.Behaviors"
+             xmlns:c="using:Orion.UWP.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="using:Microsoft.Xaml.Interactivity"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Orion.UWP.ViewModels.Contents"
+             d:DataContext="{d:DesignInstance vm:StatusViewModel}"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+    <RelativePanel x:Name="RootPanel"
+                   Margin="1,5,1,10"
+                   HorizontalAlignment="Stretch">
+        <c:CircleImage x:Name="Icon"
+                       Width="48"
+                       Height="48"
+                       Margin="0,3,0,0"
+                       CornerRadius="4"
+                       RelativePanel.AlignLeftWithPanel="True"
+                       RelativePanel.AlignTopWithPanel="True"
+                       Source="{Binding Icon}" />
+        <RelativePanel x:Name="UserLine"
+                       Padding="10,0,0,0"
+                       RelativePanel.AlignRightWithPanel="True"
+                       RelativePanel.AlignTopWithPanel="True"
+                       RelativePanel.RightOf="Icon">
+            <TextBlock x:Name="Username"
+                       MaxWidth="115"
+                       Text="{Binding Username}"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock Padding="5,0,0,0"
+                       VerticalAlignment="Bottom"
+                       FontSize="13"
+                       Foreground="Silver"
+                       RelativePanel.LeftOf="Timestamp"
+                       RelativePanel.RightOf="Username"
+                       Text="{Binding ScreenName}"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock x:Name="Timestamp"
+                       Padding="5,0,0,0"
+                       VerticalAlignment="Bottom"
+                       FontSize="13"
+                       Foreground="Silver"
+                       RelativePanel.AlignRightWithPanel="True"
+                       Text="{Binding CreatedAt}" />
+        </RelativePanel>
+        <RichTextBlock x:Name="Body"
+                       MinHeight="35"
+                       Padding="10,0,0,0"
+                       RelativePanel.AlignRightWithPanel="True"
+                       RelativePanel.Below="UserLine"
+                       RelativePanel.RightOf="Icon"
+                       TextWrapping="Wrap">
+            <i:Interaction.Behaviors>
+                <behaviors:RichTextBlockBindingBehavior BindingDocument="{Binding Body, Mode=OneWay, Converter={StaticResource HtmlStringToBlockCollectionConverter}}" />
+            </i:Interaction.Behaviors>
+        </RichTextBlock>
+        <StackPanel x:Name="AppBar"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.Below="Body">
+            <Button Width="45"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{Binding ReplyCommand, Mode=OneWay}">
+                <FontIcon Glyph="&#xE97A;" />
+            </Button>
+        </StackPanel>
+    </RelativePanel>
+</UserControl>

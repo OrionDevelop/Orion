@@ -1,0 +1,58 @@
+﻿<ContentDialog x:Class="Orion.UWP.Views.AboutDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:models="using:Orion.UWP.Models"
+               xmlns:prism="using:Prism.Windows.Mvvm"
+               xmlns:vm="using:Orion.UWP.ViewModels"
+               d:DataContext="{d:DesignInstance vm:AboutDialogViewModel}"
+               prism:ViewModelLocator.AutoWireViewModel="True"
+               PrimaryButtonText="OK"
+               mc:Ignorable="d">
+    <StackPanel>
+        <StackPanel HorizontalAlignment="Center">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </StackPanel.Resources>
+            <Image Width="64"
+                   Height="64"
+                   Source="/Assets/StoreLogo.png" />
+            <TextBlock HorizontalAlignment="Center"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"
+                       Text="{x:Bind ViewModel.Name}" />
+            <TextBlock Text="{x:Bind ViewModel.Version}" />
+            <TextBlock HorizontalAlignment="Center"
+                       Style="{ThemeResource CaptionTextBlockStyle}"
+                       Text="Copyright 2017 Mikazuki" />
+        </StackPanel>
+        <StackPanel Margin="0,10">
+            <TextBlock Text="This software is open source software that under the MIT license." />
+            <TextBlock Text="If you have a suggestion, bug report or localization ?" />
+            <TextBlock>
+                <Run>Contributing to project on</Run>
+                <Hyperlink NavigateUri="https://github.com/mika-f/Orion">GitHub</Hyperlink>
+                <Run>!</Run>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Margin="0,10">
+            <TextBlock Text="Open Source Software License:" />
+            <ItemsControl Margin="5,0,0,0" ItemsSource="{x:Bind ViewModel.Softwares}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:Software">
+                        <TextBlock TextTrimming="CharacterEllipsis" TextWrapping="Wrap">
+                            <Run>・</Run>
+                            <Hyperlink NavigateUri="{Binding Url}">
+                                <Run Text="{Binding Name}" />
+                            </Hyperlink>
+                            <Run Text="by" />
+                            <Run Text="{Binding Author}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </StackPanel>
+</ContentDialog>

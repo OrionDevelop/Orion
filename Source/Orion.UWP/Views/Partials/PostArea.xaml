@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Orion.UWP.Views.Partials.PostArea"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviors="using:Orion.UWP.Behaviors"
+             xmlns:c="using:Orion.UWP.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="using:Microsoft.Xaml.Interactivity"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="using:Prism.Windows.Mvvm"
+             xmlns:vm="using:Orion.UWP.ViewModels.Partials"
+             xmlns:vmc="using:Orion.UWP.ViewModels.Contents"
+             d:DataContext="{d:DesignInstance vm:PostAreaViewModel}"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+    <RelativePanel Width="250" Padding="5">
+        <Grid x:Name="Header" Height="48">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <FontIcon Grid.Column="0"
+                      VerticalAlignment="Center"
+                      FontSize="24"
+                      Glyph="&#xE724;" />
+            <TextBlock Grid.Column="1"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       Text="New Status" />
+        </Grid>
+        <TextBlock x:Name="AccountText"
+                   RelativePanel.Below="Header"
+                   Text="アカウント" />
+        <GridView x:Name="Accounts"
+                  Padding="0,5"
+                  ItemsSource="{x:Bind ViewModel.Accounts, Mode=OneWay}"
+                  RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.Below="AccountText"
+                  SelectionChanged="Accounts_OnSelectionChanged"
+                  SelectionMode="Multiple">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid ItemHeight="56"
+                                   ItemWidth="56"
+                                   Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="vmc:AccountViewModel">
+                    <c:CircleImage Width="48"
+                                   Height="48"
+                                   CornerRadius="6"
+                                   Source="{Binding IconUrl}"
+                                   ToolTipService.ToolTip="{Binding ScreenName}" />
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <TextBlock x:Name="StatusText"
+                   RelativePanel.Below="Accounts"
+                   Text="ステータス" />
+        <TextBox x:Name="StatusBox"
+                 MinHeight="100"
+                 Margin="0,5"
+                 AcceptsReturn="True"
+                 PlaceholderText="今何してる？"
+                 RelativePanel.AlignLeftWithPanel="True"
+                 RelativePanel.AlignRightWithPanel="True"
+                 RelativePanel.Below="StatusText"
+                 Text="{Binding StatusBody.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 TextWrapping="Wrap">
+            <i:Interaction.Behaviors>
+                <behaviors:KeyEventTriggerBehavior Key="Enter"
+                                                   Command="{x:Bind ViewModel.SendStatusCommand, Mode=OneWay}"
+                                                   CtrlKey="True" />
+            </i:Interaction.Behaviors>
+        </TextBox>
+        <Button x:Name="SendButton"
+                Width="60"
+                Command="{x:Bind ViewModel.SendStatusCommand, Mode=OneWay}"
+                Content="送信"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.Below="StatusBox" />
+    </RelativePanel>
+</UserControl>

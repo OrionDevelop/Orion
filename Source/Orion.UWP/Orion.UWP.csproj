@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{7BFB0EE8-DE4C-4360-B570-E5136A8172E5}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Orion.UWP</RootNamespace>
+    <AssemblyName>Orion.UWP</AssemblyName>
+    <DefaultLanguage>ja-JP</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
+    <PackageCertificateKeyFile>Orion.UWP_StoreKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>BE7C4CF17FC49D6AF75DFAD65EACE4B3E20D0D8F</PackageCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Behaviors\KeyEventTriggerBehavior.cs" />
+    <Compile Include="Behaviors\RichTextBlockBindingBehavior.cs" />
+    <Compile Include="Controls\DataTemplateCollection.cs" />
+    <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
+    <Compile Include="Converters\HtmlStringToBlockCollectionConverter.cs" />
+    <Compile Include="Models\Absorb\Notification.cs" />
+    <Compile Include="Models\Absorb\NotificationType.cs" />
+    <Compile Include="Models\Absorb\Status.cs" />
+    <Compile Include="Models\Absorb\StatusBase.cs" />
+    <Compile Include="Models\Absorb\StatusType.cs" />
+    <Compile Include="Models\Absorb\User.cs" />
+    <Compile Include="Models\Emoji\Emoji.cs" />
+    <Compile Include="Models\Emoji\EmojiConstants.cs" />
+    <Compile Include="Models\Emoji\EmojiConverter.cs" />
+    <Compile Include="Models\GlobalNotifier.cs" />
+    <Compile Include="Models\History.cs" />
+    <Compile Include="Models\ProviderRedirect.cs" />
+    <Compile Include="Models\Software.cs" />
+    <Compile Include="ViewModels\AboutDialogViewModel.cs" />
+    <Compile Include="ViewModels\AddTimelineDialogViewModel.cs" />
+    <Compile Include="ViewModels\Contents\AccountViewModel.cs" />
+    <Compile Include="ViewModels\Contents\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
+    <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
+    <Compile Include="ViewModels\Contents\TimelineTypeViewModel.cs" />
+    <Compile Include="ViewModels\Contents\TimelineViewModel.cs" />
+    <Compile Include="Controls\CircleImage\CircleImage.cs" />
+    <Compile Include="Controls\HamburgerMenuImageItem.cs" />
+    <Compile Include="Converters\ReverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Clients\BaseClientWrapper.cs" />
+    <Compile Include="Models\Clients\CroudiaClientWrapper.cs" />
+    <Compile Include="Models\Clients\GnuSocialClientWrapper.cs" />
+    <Compile Include="Models\Clients\MastodonClientWrapper.cs" />
+    <Compile Include="Models\Clients\TwitterClientWrapper.cs" />
+    <Compile Include="Models\Constants.cs" />
+    <Compile Include="Models\Credential.cs" />
+    <Compile Include="Models\Enum\ServiceType.cs" />
+    <Compile Include="Models\Enum\TimelineType.cs" />
+    <Compile Include="Models\Provider.cs" />
+    <Compile Include="Models\Timeline.cs" />
+    <Compile Include="Mvvm\ViewModel.cs" />
+    <Compile Include="Mvvm\ViewModelHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\Interfaces\IAccountService.cs" />
+    <Compile Include="Services\Interfaces\IDialogService.cs" />
+    <Compile Include="Controls\TypeNamedDataTemplateSelector.cs" />
+    <Compile Include="Services\Interfaces\ITimelineService.cs" />
+    <Compile Include="Services\TimelineService.cs" />
+    <Compile Include="ViewModels\AuthorizationDialogViewModel.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\Partials\PostAreaViewModel.cs" />
+    <Compile Include="Views\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddTimelineDialog.xaml.cs">
+      <DependentUpon>AddTimelineDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AuthorizationDialog.xaml.cs">
+      <DependentUpon>AuthorizationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\NotificationContent.xaml.cs">
+      <DependentUpon>NotificationContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\StatusContent.xaml.cs">
+      <DependentUpon>StatusContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\TimelineContent.xaml.cs">
+      <DependentUpon>TimelineContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partials\PostArea.xaml.cs">
+      <DependentUpon>PostArea.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="Orion.UWP_StoreKey.pfx" />
+    <None Include="Orion.UWP_TemporaryKey.pfx" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CoreTweet">
+      <Version>0.8.0.384</Version>
+    </PackageReference>
+    <PackageReference Include="HtmlAgilityPack">
+      <Version>1.4.9.5</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>1.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>1.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Unity">
+      <Version>6.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Windows">
+      <Version>6.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="ReactiveProperty">
+      <Version>3.6.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reactive">
+      <Version>3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="WinRTXamlToolkit.UWP">
+      <Version>2.3.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\CircleImage\CircleImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddTimelineDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AuthorizationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\NotificationContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\StatusContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\TimelineContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partials\PostArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orion.Interfaces\Orion.Interfaces.csproj">
+      <Project>{04acfb94-d7cf-4ab1-b521-a3db1f902c63}</Project>
+      <Name>Orion.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Service.Croudia\Orion.Service.Croudia.csproj">
+      <Project>{ce99ffe9-63d8-4887-9401-e7abbb228a1a}</Project>
+      <Name>Orion.Service.Croudia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Service.FkStreaming\Orion.Service.FkStreaming.csproj">
+      <Project>{2e32178a-e962-4bf5-a899-402a7c827baa}</Project>
+      <Name>Orion.Service.FkStreaming</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Service.GnuSocial\Orion.Service.GnuSocial.csproj">
+      <Project>{08e1ab0f-f76f-4815-974a-0899b7aa5498}</Project>
+      <Name>Orion.Service.GnuSocial</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Service.Mastodon\Orion.Service.Mastodon.csproj">
+      <Project>{a0ca97b5-ab84-4124-8012-3738e7b2cbbb}</Project>
+      <Name>Orion.Service.Mastodon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Service.Shared\Orion.Service.Shared.csproj">
+      <Project>{325cd7ff-1077-4b4b-81b9-4f491ab43d99}</Project>
+      <Name>Orion.Service.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Shared\Orion.Shared.csproj">
+      <Project>{31647fc1-4a1d-4ee2-b38e-7d514e78aba7}</Project>
+      <Name>Orion.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
