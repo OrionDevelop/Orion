@@ -40,7 +40,7 @@ namespace Orion.UWP.ViewModels
             SelectedMiddleItem = new ReactiveProperty<HamburgerMenuItem>();
             SelectedOptions = new ReactiveProperty<HamburgerMenuItem>();
             SelectedMiddleItem.Merge(SelectedOptions).Where(w => w != null).Subscribe(w => _dialogService.ShowDialogAsync(w.TargetPageType)).AddTo(this);
-            Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, w)).AddTo(this);
+            Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, timelineService, w)).AddTo(this);
         }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)

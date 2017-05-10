@@ -14,10 +14,15 @@
                    Margin="1,0"
                    BorderBrush="Silver"
                    BorderThickness=".5">
-        <Grid x:Name="Header" Height="48">
+        <Grid x:Name="Header"
+              Height="48"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.AlignTopWithPanel="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48" />
                 <ColumnDefinition />
+                <ColumnDefinition Width="48" />
             </Grid.ColumnDefinitions>
             <FontIcon Grid.Column="0"
                       VerticalAlignment="Center"
@@ -27,8 +32,22 @@
                 <TextBlock FontSize="16" Text="{Binding Name, Mode=OneWay}" />
                 <TextBlock FontSize="12"
                            Foreground="Silver"
-                           Text="{Binding User, Mode=OneWay}" />
+                           Text="{Binding User, Mode=OneWay}"
+                           TextTrimming="CharacterEllipsis" />
             </StackPanel>
+            <Button Grid.Column="2"
+                    Width="48"
+                    Height="48"
+                    HorizontalAlignment="Right"
+                    Background="Transparent">
+                <FontIcon Glyph="&#xE712;" />
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{Binding ClearCommand, Mode=OneWay}" Text="クリア" />
+                        <MenuFlyoutItem Command="{Binding DeleteCommand, Mode=OneWay}" Text="削除" />
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
         </Grid>
         <ListView x:Name="Statuses"
                   HorizontalAlignment="Stretch"

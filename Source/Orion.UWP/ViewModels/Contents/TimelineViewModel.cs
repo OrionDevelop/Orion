@@ -6,7 +6,9 @@ using Orion.UWP.Models;
 using Orion.UWP.Models.Absorb;
 using Orion.UWP.Models.Enum;
 using Orion.UWP.Mvvm;
+using Orion.UWP.Services.Interfaces;
 
+using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
 namespace Orion.UWP.ViewModels.Contents
@@ -20,6 +22,8 @@ namespace Orion.UWP.ViewModels.Contents
         public string Name => _timeline.TimelineType.ToName();
         public string User => _timeline.Account.Credential.Username;
         public string Icon => _timeline.TimelineType.ToIcon();
+        public ReactiveCommand ClearCommand { get; }
+        public ReactiveCommand DeleteCommand { get; }
 
         public ReadOnlyObservableCollection<StatusBaseViewModel> Statuses
         {
@@ -34,11 +38,15 @@ namespace Orion.UWP.ViewModels.Contents
             }
         }
 
-        public TimelineViewModel(GlobalNotifier globalNotifier, Timeline timeline)
+        public TimelineViewModel(GlobalNotifier globalNotifier, ITimelineService timelineService, Timeline timeline)
         {
             _globalNotifier = globalNotifier;
             _timeline = timeline;
             _statuses = new ObservableCollection<StatusBaseViewModel>();
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.Subscribe(w => _statuses.Clear()).AddTo(this);
+            DeleteCommand = new ReactiveCommand();
+            DeleteCommand.Subscribe(w => timelineService.RemoveAsync(timeline)).AddTo(this);
         }
 
         private void Initialize()
