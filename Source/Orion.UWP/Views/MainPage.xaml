@@ -142,13 +142,25 @@
                     </Grid>
                 </ScrollViewer>
             </SplitView.Pane>
-            <StackPanel Orientation="Horizontal">
-                <p:PostArea Width="250" />
-                <ItemsControl Margin="0"
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <p:PostArea Grid.Column="0" />
+                <ItemsControl Grid.Column="1"
+                              Margin="0"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch"
                               HorizontalContentAlignment="Left"
                               ItemsSource="{x:Bind ViewModel.Timelines, Mode=OneWay}">
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel Orientation="Horizontal" />
@@ -160,7 +172,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </StackPanel>
+            </Grid>
         </SplitView>
         <ToggleButton Width="48"
                       Height="48"
