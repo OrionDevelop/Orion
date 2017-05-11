@@ -38,6 +38,7 @@
                   RelativePanel.AlignLeftWithPanel="True"
                   RelativePanel.AlignRightWithPanel="True"
                   RelativePanel.Below="AccountText"
+                  SelectedIndex="{x:Bind ViewModel.FirstSelectedAccount, Mode=OneTime}"
                   SelectionChanged="Accounts_OnSelectionChanged"
                   SelectionMode="Multiple">
             <GridView.ItemsPanel>

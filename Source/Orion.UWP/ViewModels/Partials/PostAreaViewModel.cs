@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 
 using Orion.UWP.Models;
@@ -27,6 +28,7 @@ namespace Orion.UWP.ViewModels.Partials
                           .AddTo(this);
             Accounts = accountService.Accounts.ToReadOnlyReactiveCollection(w => new AccountViewModel(w));
             SelectedAccounts = new ReactiveCollection<AccountViewModel>();
+            FirstSelectedAccount = Accounts.Select((w, i) => (w, i)).Single(w => w.Item1.Account.MarkAsDefault).Item2;
             StatusBody = new ReactiveProperty<string>();
             StatusBody.Subscribe(w => history.Store(w)).AddTo(this);
             SendStatusCommand = new[]
@@ -41,5 +43,17 @@ namespace Orion.UWP.ViewModels.Partials
                 StatusBody.Value = null;
             }).AddTo(this);
         }
+
+        #region FirstSelectedAccount
+
+        private int _firstSelectedAccount;
+
+        public int FirstSelectedAccount
+        {
+            get => _firstSelectedAccount;
+            set => SetProperty(ref _firstSelectedAccount, value);
+        }
+
+        #endregion
     }
 }
