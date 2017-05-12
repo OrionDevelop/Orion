@@ -50,7 +50,8 @@ namespace Orion.UWP.ViewModels
                 if (await _clientWrapper.AuthorizeAsync(verifierCode))
                 {
                     await accountService.RegisterAsync(_clientWrapper.Account);
-                    await timelineService.InitializeAsync();
+                    if (accountService.Accounts.Count == 1)
+                        await timelineService.InitializeAsync();
                 }
                 CanClose = true;
             });
