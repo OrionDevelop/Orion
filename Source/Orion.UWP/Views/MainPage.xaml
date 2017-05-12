@@ -1,9 +1,11 @@
 ﻿<Page x:Class="Orion.UWP.Views.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:behaviors="using:Orion.UWP.Behaviors"
       xmlns:contents="using:Orion.UWP.Views.Contents"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:localControls="using:Orion.UWP.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:p="using:Orion.UWP.Views.Partials"
@@ -157,6 +159,9 @@
                     <ItemsControl.Template>
                         <ControlTemplate TargetType="ItemsControl">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:ScrollingBehavior HorizontalScrollOffset="{Binding HorizontalOffset, Mode=OneWay}" />
+                                </i:Interaction.Behaviors>
                                 <ItemsPresenter />
                             </ScrollViewer>
                         </ControlTemplate>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 
@@ -36,10 +35,11 @@ namespace Orion.UWP.ViewModels
             _timelineService = timelineService;
 
             SelectedTimeline = new ReactiveProperty<TimelineViewModel>();
-            SelectedTimeline.Where(w => w != null).Subscribe(w => { Debug.WriteLine(w); }).AddTo(this);
+            SelectedTimeline.Where(w => w != null).Subscribe(w => { HorizontalOffset = Timelines.IndexOf(w) * 325; }).AddTo(this);
             SelectedMiddleItem = new ReactiveProperty<HamburgerMenuItem>();
             SelectedOptions = new ReactiveProperty<HamburgerMenuItem>();
             SelectedMiddleItem.Merge(SelectedOptions).Where(w => w != null).Subscribe(w => _dialogService.ShowDialogAsync(w.TargetPageType)).AddTo(this);
+
             Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, timelineService, w)).AddTo(this);
         }
 
@@ -62,6 +62,18 @@ namespace Orion.UWP.ViewModels
         {
             get => _defaultAccount;
             set => SetProperty(ref _defaultAccount, value);
+        }
+
+        #endregion
+
+        #region HorizontalOffset
+
+        private double _horizontalOffset;
+
+        public double HorizontalOffset
+        {
+            get => _horizontalOffset;
+            set => SetProperty(ref _horizontalOffset, value);
         }
 
         #endregion
