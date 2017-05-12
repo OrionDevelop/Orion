@@ -66,7 +66,20 @@ namespace Orion.UWP.Models.Clients
 
         protected IObservable<StatusBase> Merge(Func<Task<IEnumerable<StatusBase>>> firstAction, Func<IObservable<StatusBase>> streamAction)
         {
-            return Task.Run(async () => streamAction.Invoke().StartWith((await firstAction.Invoke()).Reverse())).Result;
+            return Observable.Create<StatusBase>(async observer =>
+            {
+                try
+                {
+                    var statuses = await firstAction.Invoke();
+                    foreach (var status in statuses.Reverse())
+                        observer.OnNext(status);
+                    observer.OnCompleted();
+                }
+                catch (Exception e)
+                {
+                    observer.OnError(e);
+                }
+            }).Concat(streamAction.Invoke());
         }
     }
 }
