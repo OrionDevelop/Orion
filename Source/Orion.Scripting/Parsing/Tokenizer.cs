@@ -1,0 +1,203 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Orion.Scripting.Parsing
+{
+    public static class Tokenizer
+    {
+        public static IEnumerable<Token> Tokenize(string query)
+        {
+            var strPos = 0;
+            do
+            {
+                switch (query[strPos])
+                {
+                    case ' ':
+                    case '\t':
+                    case '\r':
+                    case '\n':
+                        break;
+
+                    case '!': // !, !=
+                        if (CheckNext(query, strPos, '='))
+                        {
+                            yield return new Token(TokenType.OperatorNotEqual, "!=");
+                            strPos++;
+                        }
+                        else
+                        {
+                            yield return new Token(TokenType.OperatorNot, "!");
+                        }
+                        break;
+
+                    case '+':
+                        yield return new Token(TokenType.OperatorAdd, "+");
+                        break;
+
+                    case '-':
+                        yield return new Token(TokenType.OperatorSubtractOperator, "-");
+                        break;
+
+                    case '*':
+                        yield return new Token(TokenType.OperatorMultiply, "*");
+                        break;
+
+                    case '/':
+                        yield return new Token(TokenType.OperatorDivide, "/");
+                        break;
+
+                    case '<': // <, <=
+                        if (CheckNext(query, strPos, '='))
+                        {
+                            yield return new Token(TokenType.OperatorLessThanOrEqual, "<=");
+                            strPos++;
+                        }
+                        else
+                        {
+                            yield return new Token(TokenType.OperatorLessThan, "<");
+                        }
+                        break;
+
+                    case '>': // >, >=
+                        if (CheckNext(query, strPos, '='))
+                        {
+                            yield return new Token(TokenType.OperatorGreaterThanOrEqual, ">=");
+                            strPos++;
+                        }
+                        else
+                        {
+                            yield return new Token(TokenType.OperatorGreaterThan, ">");
+                        }
+                        break;
+
+                    case '=': // =, ==
+                        if (CheckNext(query, strPos, '='))
+                        {
+                            yield return new Token(TokenType.OperatorEqual, "==");
+                            strPos++;
+                        }
+                        else
+                        {
+                            yield return new Token(TokenType.OperatorEqual, "=");
+                        }
+                        break;
+
+                    case '&': // &, &&
+                        if (CheckNext(query, strPos, '&'))
+                        {
+                            yield return new Token(TokenType.OperatorAnd, "&&");
+                            strPos++;
+                        }
+                        else
+                        {
+                            yield return new Token(TokenType.OperatorAnd, "&");
+                        }
+                        break;
+
+                    case '|': // |, ||
+                        if (CheckNext(query, strPos, '|'))
+                        {
+                            yield return new Token(TokenType.OperatorOr, "||");
+                            strPos++;
+                        }
+                        else
+                        {
+                            yield return new Token(TokenType.OperatorOr, "|");
+                        }
+                        break;
+
+                    case '"': // String
+                        yield return new Token(TokenType.String, GetString(query, ref strPos));
+                        break;
+
+                    case '.':
+                        yield return new Token(TokenType.Period, ".");
+                        break;
+
+                    case '(':
+                        yield return new Token(TokenType.BracketsStart, "(");
+                        break;
+
+                    case ')':
+                        yield return new Token(TokenType.BracketsEnd, ")");
+                        break;
+
+                    default:
+                        yield return ParseOtherToken(query, ref strPos);
+                        break;
+                }
+            } while (++strPos < query.Length);
+        }
+
+        private static string GetString(string query, ref int strPos)
+        {
+            var begin = strPos;
+            strPos++;
+
+            while (strPos < query.Length)
+            {
+                if (query[strPos] == '\\')
+                    if (CheckNext(query, strPos, '\\') || CheckNext(query, strPos, '"'))
+                        strPos++;
+                    else if (strPos + 1 >= query.Length)
+                        throw new QueryParsingException("文字列は \" で終了する必要があります。");
+                    else
+                        throw new QueryParsingException("不正な文字列です: \\");
+                else if (query[strPos] == '"')
+                    return query.Substring(begin + 1, strPos - begin - 1);
+                strPos++;
+            }
+            throw new QueryParsingException("文字列は \" で終了する必要があります。");
+        }
+
+        private static Token ParseOtherToken(string query, ref int strPos)
+        {
+            const string splitters = " \t\r\n!+-*/<>=&|\".()";
+            var begin = strPos;
+
+            while (strPos < query.Length)
+            {
+                if (splitters.Contains(query[strPos]))
+                    return CreateToken(query.Substring(begin, strPos-- - begin));
+                strPos++;
+            }
+            return CreateToken(query.Substring(begin, strPos - begin));
+        }
+
+        private static Token CreateToken(string value)
+        {
+            string[] operators = {"contains", "containsIgnoreCase", "startswith", "startswithignorecase", "endswith", "endswithignorecase"};
+            if (!operators.Contains(value.ToLower()))
+                return new Token(TokenType.Literal, value);
+            switch (value.ToLower())
+            {
+                case "contains":
+                    return new Token(TokenType.OperatorContains, value);
+
+                case "containsIgnoreCase":
+                    return new Token(TokenType.OperatorContainsIgnoreCase, value);
+
+                case "startswith":
+                    return new Token(TokenType.OperatorStartsWith, value);
+
+                case "startswithignorecase":
+                    return new Token(TokenType.OperatorStartsWithIgnoreCase, value);
+
+                case "endswith":
+                    return new Token(TokenType.OperatorEndsWith, value);
+
+                case "endswithignorecase":
+                    return new Token(TokenType.OperatorEndsWithIgnoreCase, value);
+            }
+            throw new ArgumentException();
+        }
+
+        private static bool CheckNext(string query, int strPos, char next)
+        {
+            if (strPos >= query.Length)
+                return false;
+            return query[strPos + 1] == next;
+        }
+    }
+}
