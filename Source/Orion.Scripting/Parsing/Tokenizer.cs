@@ -9,6 +9,8 @@ namespace Orion.Scripting.Parsing
         public static IEnumerable<Token> Tokenize(string query)
         {
             var strPos = 0;
+            if (string.IsNullOrWhiteSpace(query))
+                yield break;
             do
             {
                 switch (query[strPos])
@@ -195,7 +197,7 @@ namespace Orion.Scripting.Parsing
 
         private static bool CheckNext(string query, int strPos, char next)
         {
-            if (strPos >= query.Length)
+            if (strPos + 1 >= query.Length)
                 return false;
             return query[strPos + 1] == next;
         }

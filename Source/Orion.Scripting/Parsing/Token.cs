@@ -10,5 +10,15 @@
             Value = value;
             Type = type;
         }
+
+        public bool Is(TokenType type)
+        {
+            return Type == type;
+        }
+
+        public bool Is(TokenType type, string value)
+        {
+            return Type == type && Value == value;
+        }
     }
 }
