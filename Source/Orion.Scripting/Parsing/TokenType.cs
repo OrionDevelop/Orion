@@ -95,12 +95,17 @@
         /// <summary>
         ///     -
         /// </summary>
-        OperatorSubtractOperator,
+        OperatorSubtract,
 
         /// <summary>
         ///     "STRING"
         /// </summary>
         String,
+
+        /// <summary>
+        ///     123456789
+        /// </summary>
+        Numeric,
 
         /// <summary>
         ///     .

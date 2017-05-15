@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Expressions\" />
-    <Folder Include="Sources\" />
   </ItemGroup>
 
 </Project>

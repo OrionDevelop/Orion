@@ -38,7 +38,7 @@ namespace Orion.Scripting.Parsing
                         break;
 
                     case '-':
-                        yield return new Token(TokenType.OperatorSubtractOperator, "-");
+                        yield return new Token(TokenType.OperatorSubtract, "-");
                         break;
 
                     case '*':
@@ -123,6 +123,22 @@ namespace Orion.Scripting.Parsing
 
                     case ')':
                         yield return new Token(TokenType.BracketsEnd, ")");
+                        break;
+
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9': // Numeric
+                        var begin = strPos;
+                        while (++strPos < query.Length && int.TryParse(query.Substring(begin, strPos - begin), out int _)) { }
+                        strPos--;
+                        yield return new Token(TokenType.Numeric, query.Substring(begin, strPos - begin));
                         break;
 
                     default:

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using Orion.Scripting.Expressions;
-
 namespace Orion.Scripting.Parsing
 {
     public class TokenReader
@@ -20,6 +18,8 @@ namespace Orion.Scripting.Parsing
 
         public Token Read()
         {
+            if (IsEOT)
+                throw new QueryException("構文解析中にファイルの終わりに達しました。");
             return _tokens[_cursor++];
         }
 
