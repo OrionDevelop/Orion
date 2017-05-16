@@ -1,4 +1,4 @@
-﻿using Orion.UWP.Models;
+﻿using Orion.Shared.Absorb.Objects;
 using Orion.UWP.Mvvm;
 
 namespace Orion.UWP.ViewModels.Contents

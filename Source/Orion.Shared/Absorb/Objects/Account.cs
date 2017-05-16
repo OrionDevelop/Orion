@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
+using Orion.Shared.Absorb.Clients;
+using Orion.Shared.Enums;
+using Orion.UWP.Models;
 using Orion.UWP.Models.Clients;
-using Orion.UWP.Models.Enum;
 
-namespace Orion.UWP.Models
+namespace Orion.Shared.Absorb.Objects
 {
     public class Account
     {

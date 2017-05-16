@@ -2,9 +2,9 @@
 
 using Microsoft.Practices.Unity;
 
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Emoji;
 using Orion.UWP.Models;
-using Orion.UWP.Models.Absorb;
-using Orion.UWP.Models.Emoji;
 using Orion.UWP.Mvvm;
 
 using Reactive.Bindings;

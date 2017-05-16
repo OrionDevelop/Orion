@@ -7,13 +7,13 @@ using CoreTweet;
 using CoreTweet.Streaming;
 
 using Orion.Service.FkStreaming;
-using Orion.UWP.Models.Absorb;
-using Orion.UWP.Models.Enum;
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Enums;
 
-using Status = Orion.UWP.Models.Absorb.Status;
-using User = Orion.UWP.Models.Absorb.User;
+using Status = Orion.Shared.Absorb.Objects.Status;
+using User = Orion.Shared.Absorb.Objects.User;
 
-namespace Orion.UWP.Models.Clients
+namespace Orion.Shared.Absorb.Clients
 {
     internal class TwitterClientWrapper : BaseClientWrapper
     {
@@ -29,7 +29,7 @@ namespace Orion.UWP.Models.Clients
 
         public override async Task<string> GetAuthorizeUrlAsync()
         {
-            _session = await OAuth.AuthorizeAsync(Provider.ClientId, Provider.ClientSecret, Constants.OAuthCallback);
+            _session = await OAuth.AuthorizeAsync(Provider.ClientId, Provider.ClientSecret, SharedConstants.OAuthCallback);
             return _session.AuthorizeUri.ToString();
         }
 

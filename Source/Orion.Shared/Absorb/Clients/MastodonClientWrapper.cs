@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 using Orion.Service.Mastodon;
 using Orion.Service.Mastodon.Enum;
 using Orion.Service.Mastodon.Models.Streaming;
-using Orion.UWP.Models.Absorb;
-using Orion.UWP.Models.Enum;
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Enums;
 
 using Notification = Orion.Service.Mastodon.Models.Notification;
-using NotificationType = Orion.Service.Mastodon.Enum.NotificationType;
 
-namespace Orion.UWP.Models.Clients
+namespace Orion.Shared.Absorb.Clients
 {
     internal class MastodonClientWrapper : BaseClientWrapper
     {
@@ -122,7 +121,7 @@ namespace Orion.UWP.Models.Clients
         {
             if (notification.Type == NotificationType.Mention)
                 return new Status(notification.Status);
-            return new Absorb.Notification(notification);
+            return new Objects.Notification(notification);
         }
 
         private StatusBase Convert(NotificationMessage message)

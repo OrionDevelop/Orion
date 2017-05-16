@@ -2,9 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Enums;
+using Orion.UWP.Extensions;
 using Orion.UWP.Models;
-using Orion.UWP.Models.Absorb;
-using Orion.UWP.Models.Enum;
 using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 

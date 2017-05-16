@@ -4,10 +4,11 @@ using System.Text.RegularExpressions;
 
 using Newtonsoft.Json;
 
+using Orion.Shared.Absorb.Clients;
+using Orion.Shared.Enums;
 using Orion.UWP.Models.Clients;
-using Orion.UWP.Models.Enum;
 
-namespace Orion.UWP.Models
+namespace Orion.Shared
 {
     public class Provider
     {

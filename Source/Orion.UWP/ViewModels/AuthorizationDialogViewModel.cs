@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
-using Orion.UWP.Models;
-using Orion.UWP.Models.Clients;
+using Orion.Shared;
+using Orion.Shared.Absorb.Clients;
 using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 
@@ -14,7 +14,7 @@ namespace Orion.UWP.ViewModels
     public class AuthorizationDialogViewModel : ViewModel
     {
         private BaseClientWrapper _clientWrapper;
-        public ReadOnlyCollection<Provider> Providers => Constants.Providers;
+        public ReadOnlyCollection<Provider> Providers => SharedConstants.Providers;
 
         public ReactiveProperty<Provider> SelectedProvider { get; }
         public ReactiveProperty<bool> HasHost { get; }

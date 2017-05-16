@@ -7,7 +7,7 @@ using Windows.Security.Credentials;
 
 using Newtonsoft.Json;
 
-using Orion.UWP.Models;
+using Orion.Shared.Absorb.Objects;
 using Orion.UWP.Services.Interfaces;
 
 namespace Orion.UWP.Services

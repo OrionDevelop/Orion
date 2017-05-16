@@ -1,4 +1,5 @@
-﻿using Orion.UWP.Models.Enum;
+﻿using Orion.Shared.Enums;
+using Orion.UWP.Extensions;
 using Orion.UWP.Mvvm;
 
 namespace Orion.UWP.ViewModels.Contents

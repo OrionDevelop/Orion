@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Orion.UWP.Models.Emoji
+namespace Orion.Shared.Emoji
 {
     public static class EmojiConverter
     {

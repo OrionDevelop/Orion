@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 
 using Orion.Service.GnuSocial;
-using Orion.UWP.Models.Absorb;
-using Orion.UWP.Models.Enum;
+using Orion.Shared;
+using Orion.Shared.Absorb.Clients;
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Enums;
 
 namespace Orion.UWP.Models.Clients
 {
@@ -27,7 +29,7 @@ namespace Orion.UWP.Models.Clients
 
         public override async Task<string> GetAuthorizeUrlAsync()
         {
-            await _gnuSocialClient.OAuth.RequestTokenAsync(Constants.OAuthCallback);
+            await _gnuSocialClient.OAuth.RequestTokenAsync(SharedConstants.OAuthCallback);
             return _gnuSocialClient.OAuth.GetAuthorizeUrl();
         }
 

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-using Orion.UWP.Models.Absorb;
-using Orion.UWP.Models.Enum;
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Enums;
+using Orion.UWP.Models;
 
-namespace Orion.UWP.Models.Clients
+namespace Orion.Shared.Absorb.Clients
 {
     public abstract class BaseClientWrapper
     {

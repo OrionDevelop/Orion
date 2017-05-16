@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Orion.UWP.Models
+namespace Orion.Shared
 {
     // F**king mstdn.jp
     internal static class ProviderRedirect

@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 
 using Orion.Service.Croudia;
-using Orion.UWP.Models.Absorb;
-using Orion.UWP.Models.Enum;
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Enums;
 
-namespace Orion.UWP.Models.Clients
+namespace Orion.Shared.Absorb.Clients
 {
     internal class CroudiaClientWrapper : BaseClientWrapper
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Orion.UWP.Models.Absorb
+namespace Orion.Shared.Absorb.Objects
 {
     /// <summary>
     ///     User object

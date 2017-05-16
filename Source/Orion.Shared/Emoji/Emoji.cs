@@ -1,4 +1,4 @@
-﻿namespace Orion.UWP.Models.Emoji
+﻿namespace Orion.Shared.Emoji
 {
     public class Emoji
     {

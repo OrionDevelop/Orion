@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-using Orion.UWP.Models;
+using Orion.Shared.Absorb.Objects;
 
 namespace Orion.UWP.Services.Interfaces
 {

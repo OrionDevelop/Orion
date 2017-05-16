@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Orion.UWP.Models.Emoji
+namespace Orion.Shared.Emoji
 {
     public static class EmojiConstants
     {
@@ -1338,7 +1340,6 @@ namespace Orion.UWP.Models.Emoji
             new Emoji { Shortname = ":person_bouncing_ball:", Unicode = "\u000026f9" },
             new Emoji { Shortname = ":person_bouncing_ball_tone1:", Unicode = "\u000026f9\u0001f3fb" },
             new Emoji { Shortname = ":person_bouncing_ball_tone2:", Unicode = "\u000026f9\u0001f3fc" },
-
             new Emoji { Shortname = ":person_bouncing_ball_tone3:", Unicode = "\u000026f9\u0001f3fd" },
             new Emoji { Shortname = ":person_bouncing_ball_tone4:", Unicode = "\u000026f9\u0001f3fe" },
             new Emoji { Shortname = ":person_bouncing_ball_tone5:", Unicode = "\u000026f9\u0001f3ff" },
@@ -2342,7 +2343,6 @@ namespace Orion.UWP.Models.Emoji
             new Emoji { Shortname = ":flag_se:", Unicode = "\u0001f1f8\u0001f1ea" },
             new Emoji { Shortname = ":flag_ch:", Unicode = "\u0001f1e8\u0001f1ed" },
             new Emoji { Shortname = ":flag_sy:", Unicode = "\u0001f1f8\u0001f1fe" },
-
             new Emoji { Shortname = ":flag_tw:", Unicode = "\u0001f1f9\u0001f1fc" },
             new Emoji { Shortname = ":flag_tj:", Unicode = "\u0001f1f9\u0001f1ef" },
             new Emoji { Shortname = ":flag_tz:", Unicode = "\u0001f1f9\u0001f1ff" },

@@ -3,9 +3,10 @@
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Emoji;
 using Orion.UWP.Models;
 using Orion.UWP.Models.Absorb;
-using Orion.UWP.Models.Emoji;
 
 namespace Orion.UWP.ViewModels.Contents
 {

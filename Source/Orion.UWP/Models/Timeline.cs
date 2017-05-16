@@ -2,7 +2,8 @@
 
 using Newtonsoft.Json;
 
-using Orion.UWP.Models.Enum;
+using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Enums;
 
 namespace Orion.UWP.Models
 {

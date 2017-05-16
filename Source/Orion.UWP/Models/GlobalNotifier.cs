@@ -1,4 +1,4 @@
-﻿using Orion.UWP.Models.Absorb;
+﻿using Orion.Shared.Absorb.Objects;
 
 using Prism.Mvvm;
 
