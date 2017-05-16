@@ -16,13 +16,13 @@ namespace Orion.Scripting.Parsing
                 Source.Add(source);
         }
 
-        public static FilterQuery Compile(string query)
+        public static FilterQuery Compile<T>(string query)
         {
             var reader = new TokenReader(Tokenizer.Tokenize(query));
             var filter = new FilterQuery();
 
             CompileSourceQuery(reader, filter);
-            CompileFilterQuery(reader, filter);
+            CompileFilterQuery<T>(reader, filter);
 
             return filter;
         }
@@ -56,7 +56,7 @@ namespace Orion.Scripting.Parsing
 
         #region Filter query
 
-        private static void CompileFilterQuery(TokenReader reader, FilterQuery filter)
+        private static void CompileFilterQuery<T>(TokenReader reader, FilterQuery filter)
         {
             if (reader.IsEOT)
                 return;
@@ -68,6 +68,7 @@ namespace Orion.Scripting.Parsing
                 throw new QueryParsingException("WHERE 句に式がありません。");
 
             filter.DebugInfo = CompileConditionalOrExpression(reader);
+            filter.Delegate = filter.DebugInfo.EvaluateRootFunc<T>().Compile();
             if (!reader.IsEOT)
                 Debug.WriteLine($"{reader.LookAhead().Type}: {reader.LookAhead().Value}");
         }

@@ -105,6 +105,7 @@
     <Compile Include="Controls\DataTemplateCollection.cs" />
     <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
     <Compile Include="Converters\HtmlStringToBlockCollectionConverter.cs" />
+    <Compile Include="Extensions\NotificationTypeEx.cs" />
     <Compile Include="Extensions\TimelineTypeEx.cs" />
     <Compile Include="Models\GlobalNotifier.cs" />
     <Compile Include="Models\History.cs" />
