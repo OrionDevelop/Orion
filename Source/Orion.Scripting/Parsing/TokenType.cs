@@ -108,6 +108,11 @@
         Numeric,
 
         /// <summary>
+        ///     true, false
+        /// </summary>
+        Boolean,
+
+        /// <summary>
         ///     .
         /// </summary>
         Period,

@@ -135,10 +135,7 @@ namespace Orion.Scripting.Parsing
                     case '7':
                     case '8':
                     case '9': // Numeric
-                        var begin = strPos;
-                        while (++strPos < query.Length && int.TryParse(query.Substring(begin, strPos - begin), out int _)) { }
-                        strPos--;
-                        yield return new Token(TokenType.Numeric, query.Substring(begin, strPos - begin));
+                        yield return new Token(TokenType.Numeric, GetNumeric(query, ref strPos));
                         break;
 
                     default:
@@ -169,6 +166,23 @@ namespace Orion.Scripting.Parsing
             throw new QueryParsingException("文字列は \" で終了する必要があります。");
         }
 
+        private static string GetNumeric(string query, ref int strPos)
+        {
+            var begin = strPos;
+
+            while (strPos < query.Length)
+                if ('0' <= query[strPos] && query[strPos] <= '9')
+                {
+                    strPos++;
+                }
+                else
+                {
+                    strPos--;
+                    return query.Substring(begin, strPos + 1 - begin);
+                }
+            return query.Substring(begin, strPos - begin);
+        }
+
         private static Token ParseOtherToken(string query, ref int strPos)
         {
             const string splitters = " \t\r\n!+-*/<>=&|\".()";
@@ -185,7 +199,11 @@ namespace Orion.Scripting.Parsing
 
         private static Token CreateToken(string value)
         {
-            string[] operators = {"contains", "containsIgnoreCase", "startswith", "startswithignorecase", "endswith", "endswithignorecase"};
+            string[] boolValues = {"true", "false"};
+            if (boolValues.Contains(value))
+                return new Token(TokenType.Boolean, value);
+
+            string[] operators = {"contains", "containsignorecase", "startswith", "startswithignorecase", "endswith", "endswithignorecase"};
             if (!operators.Contains(value.ToLower()))
                 return new Token(TokenType.Literal, value);
             switch (value.ToLower())
@@ -193,7 +211,7 @@ namespace Orion.Scripting.Parsing
                 case "contains":
                     return new Token(TokenType.OperatorContains, value);
 
-                case "containsIgnoreCase":
+                case "containsignorecase":
                     return new Token(TokenType.OperatorContainsIgnoreCase, value);
 
                 case "startswith":
