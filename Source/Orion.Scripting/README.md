@@ -43,10 +43,10 @@ FROM fedreated
 
 | Source      | `home` | `public` | `federated` | `*` | `mentions` | `messages` | `notifications` |
 | :---------- | :----: | :------: | :---------: | :-: | :--------: | :--------: | :-------------: |
-| Twitter     | x      | <-       | <-          | <-  | x          | x          | x               |
-| Croudia     | x      | x        | <-          | <-  | x          | x          |                 |
-| GNU social  | x      | x        | x           | <-  | x          |            |                 |
-| Mastodon    | x      | x        | x           | <-  | x          |            | x               |
+| Twitter     | x      | ←        | ←           |  ←  | x          | x          | x               |
+| Croudia     | x      | x        | ←           |  ←  | x          | x          |                 |
+| GNU social  | x      | x        | x           |  ←  | x          |            |                 |
+| Mastodon    | x      | x        | x           |  ←  | x          |            | x               |
 
 プロバイダがサポートしていないソースを指定した場合、ステータスは取得されません。  
 また、一部ソースは、 Orion を起動する以前のステータスは取得されないものがあります。
