@@ -107,7 +107,11 @@ Orion Query Language には、基本として以下の型が存在します。
 
 #### `Status` 型
 ステータスそのものを表します。  
-`WHERE ReblogsCount > 10` のように使用できます。
+以下のように使用できます。
+
+```sql
+WHERE ReblogsCount > 10
+```
 
 以下のプロパティを持っています。
 
@@ -129,8 +133,8 @@ Orion Query Language には、基本として以下の型が存在します。
 `User` を介することで使用できます。  
 例:
 
-```
-WHERE User.StatusesCount > 10`
+```sql
+WHERE User.StatusesCount > 10
 ```
 
 
