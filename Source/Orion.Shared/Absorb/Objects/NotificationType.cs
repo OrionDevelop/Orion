@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Orion.UWP.Models.Absorb
+namespace Orion.Shared.Absorb.Objects
 {
     public enum NotificationType
     {
@@ -27,27 +27,6 @@ namespace Orion.UWP.Models.Absorb
 
     public static class NotificationTypeEx
     {
-        public static string ToIcon(this NotificationType obj)
-        {
-            switch (obj)
-            {
-                case NotificationType.Followed:
-                    return "\uE8FA"; // AddFriend
-
-                case NotificationType.Favorited:
-                    return "\uE735"; // FavoriteStarFill
-
-                case NotificationType.Reblogged:
-                    return "\uE8EE"; // RepeatAll
-
-                case NotificationType.Mention:
-                    throw new NotSupportedException(); // As status.
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
-            }
-        }
-
         public static string ToMessage(this NotificationType obj)
         {
             switch (obj)

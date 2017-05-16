@@ -10,6 +10,7 @@ using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Enums;
 
 using Notification = Orion.Service.Mastodon.Models.Notification;
+using NotificationType = Orion.Service.Mastodon.Enum.NotificationType;
 
 namespace Orion.Shared.Absorb.Clients
 {

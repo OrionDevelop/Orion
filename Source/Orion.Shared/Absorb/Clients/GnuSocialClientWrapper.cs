@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 
 using Orion.Service.GnuSocial;
-using Orion.Shared;
-using Orion.Shared.Absorb.Clients;
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Enums;
 
-namespace Orion.UWP.Models.Clients
+namespace Orion.Shared.Absorb.Clients
 {
     internal class GnuSocialClientWrapper : BaseClientWrapper
     {

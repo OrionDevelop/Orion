@@ -5,8 +5,8 @@ using Windows.UI.Xaml.Media;
 
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Emoji;
+using Orion.UWP.Extensions;
 using Orion.UWP.Models;
-using Orion.UWP.Models.Absorb;
 
 namespace Orion.UWP.ViewModels.Contents
 {

@@ -1,6 +1,4 @@
-﻿using Orion.UWP.Models.Absorb;
-
-namespace Orion.Shared.Absorb.Objects
+﻿namespace Orion.Shared.Absorb.Objects
 {
     public class Status : StatusBase
     {

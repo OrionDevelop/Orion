@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Enums;
-using Orion.UWP.Models;
 
 namespace Orion.Shared.Absorb.Clients
 {

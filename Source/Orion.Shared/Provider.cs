@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 using Orion.Shared.Absorb.Clients;
 using Orion.Shared.Enums;
-using Orion.UWP.Models.Clients;
 
 namespace Orion.Shared
 {

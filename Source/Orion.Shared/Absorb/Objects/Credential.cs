@@ -1,4 +1,4 @@
-﻿namespace Orion.UWP.Models
+﻿namespace Orion.Shared.Absorb.Objects
 {
     public class Credential
     {
