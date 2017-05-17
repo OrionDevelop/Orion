@@ -51,7 +51,7 @@ namespace Orion.UWP.ViewModels
                 await _dialogService.ShowDialogAsync<AuthorizationDialog>();
             else
                 await _timelineService.RestoreAsync();
-            DefaultAccount = new AccountViewModel(_accountService.Accounts.First(w => w.MarkAsDefault));
+            DefaultAccount = new AccountViewModel(_accountService.Accounts.First(w => w.IsMarkAsDefault));
         }
 
         #region DefaultAccount

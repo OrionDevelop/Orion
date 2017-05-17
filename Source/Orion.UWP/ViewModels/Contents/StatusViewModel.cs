@@ -16,9 +16,9 @@ namespace Orion.UWP.ViewModels.Contents
         private readonly Status _status;
 
         public string ScreenName => $"@{_status.User.ScreenName}";
-        public string Username => EmojiConverter.Convert(_status.User.Username);
+        public string Username => EmojiConverter.Convert(_status.User.Name);
         public string Icon { get; }
-        public string Body => EmojiConverter.Convert(_status.Body);
+        public string Body => EmojiConverter.Convert(_status.Text);
         public string Via => _status.Source;
 
         public ReactiveCommand ReplyCommand { get; }
@@ -32,9 +32,9 @@ namespace Orion.UWP.ViewModels.Contents
         public StatusViewModel(GlobalNotifier globalNotifier, Status status) : base(status)
         {
             _status = status;
-            Icon = Uri.TryCreate(status.User.Icon, UriKind.Absolute, out Uri _)
-                ? status.User.Icon
-                : $"https://{new Uri(status.User.Url).Host}{status.User.Icon}";
+            Icon = Uri.TryCreate(status.User.IconUrl, UriKind.Absolute, out Uri _)
+                ? status.User.IconUrl
+                : $"https://{new Uri(status.User.Url).Host}{status.User.IconUrl}";
             ReplyCommand = new ReactiveCommand();
             ReplyCommand.Subscribe(() => globalNotifier.InReplyStatus = _status).AddTo(this);
         }

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Reactive.Linq;
 
-using Orion.Shared;
-using Orion.Shared.Absorb.Objects;
-using Orion.Shared.Enums;
+using Orion.Shared.Models;
 using Orion.UWP.Extensions;
 using Orion.UWP.Models;
 using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 
 using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
 
 namespace Orion.UWP.ViewModels.Contents
 {
@@ -21,9 +17,9 @@ namespace Orion.UWP.ViewModels.Contents
         private readonly ObservableCollection<StatusBaseViewModel> _statuses;
         private readonly Timeline _timeline;
         private bool _isInitialized;
-        public string Name => _timeline.TimelineType.ToName();
-        public string User => _timeline.Account.Credential.Username;
-        public string Icon => _timeline.TimelineType.ToIcon();
+        public string Name => _timeline.Name;
+        public string User => _timeline.Account.Credential.User.ScreenNameWithHost;
+        public string Icon => _timeline.ToIcon();
         public ReactiveCommand ClearCommand { get; }
         public ReactiveCommand DeleteCommand { get; }
 
@@ -53,16 +49,7 @@ namespace Orion.UWP.ViewModels.Contents
 
         private void Initialize()
         {
-            _timeline.Account.ClientWrapper.GetTimelineAsObservable(_timeline.TimelineType)
-                     .ObserveOnUIDispatcher()
-                     .Select(w =>
-                     {
-                         if (w.Type == StatusType.Status)
-                             return new StatusViewModel(_globalNotifier, (Status) w) as StatusBaseViewModel;
-                         return new NotificationViewModel(_globalNotifier, (Notification) w) as StatusBaseViewModel;
-                     })
-                     .Subscribe(w => _statuses.Insert(0, w))
-                     .AddTo(this);
+            //
         }
     }
 }

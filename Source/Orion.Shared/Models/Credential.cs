@@ -1,11 +1,18 @@
-﻿namespace Orion.Shared.Absorb.Objects
+﻿using Newtonsoft.Json;
+
+using Orion.Shared.Absorb.Objects;
+
+namespace Orion.Shared.Models
 {
     public class Credential
     {
         /// <summary>
-        ///     Username
+        ///     User ID per services.
         /// </summary>
-        public string Username { get; set; }
+        public long UserId { get; set; }
+
+        [JsonIgnore]
+        public User User { get; set; }
 
         /// <summary>
         ///     Access token

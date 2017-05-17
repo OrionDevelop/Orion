@@ -7,7 +7,7 @@ using Windows.Storage;
 
 using Newtonsoft.Json;
 
-using Orion.Shared;
+using Orion.Shared.Models;
 using Orion.UWP.Services.Interfaces;
 
 namespace Orion.UWP.Services
@@ -28,9 +28,9 @@ namespace Orion.UWP.Services
 
         public async Task InitializeAsync()
         {
-            var defaultAccount = _accountService.Accounts.Single(w => w.MarkAsDefault);
-            foreach (var timeline in defaultAccount.DefaultTimelines())
-                _timelines.Add(new Timeline {Account = defaultAccount, AccountId = defaultAccount.Id, TimelineType = timeline});
+            var defaultAccount = _accountService.Accounts.Single(w => w.IsMarkAsDefault);
+            foreach (var preset in defaultAccount.DefaultTimelines())
+                _timelines.Add(preset.CreateTimeline(defaultAccount));
 
             await SaveAsync();
         }

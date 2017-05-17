@@ -7,7 +7,7 @@ using Windows.Security.Credentials;
 
 using Newtonsoft.Json;
 
-using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Models;
 using Orion.UWP.Services.Interfaces;
 
 namespace Orion.UWP.Services
@@ -17,13 +17,13 @@ namespace Orion.UWP.Services
         private readonly ObservableCollection<Account> _accounts;
         private int _counter;
 
+        public ReadOnlyObservableCollection<Account> Accounts => new ReadOnlyObservableCollection<Account>(_accounts);
+
         public AccountService()
         {
             _accounts = new ObservableCollection<Account>();
             _counter = 0;
         }
-
-        public ReadOnlyObservableCollection<Account> Accounts => new ReadOnlyObservableCollection<Account>(_accounts);
 
         public Task ClearAsync()
         {
@@ -31,23 +31,6 @@ namespace Orion.UWP.Services
             var vault = new PasswordVault();
             foreach (var credential in vault.RetrieveAll())
                 vault.Remove(credential);
-            return Task.CompletedTask;
-        }
-
-        public Task RegisterAsync(Account account)
-        {
-            try
-            {
-                if (_accounts.Count == 0)
-                    account.MarkAsDefault = true;
-                var vault = new PasswordVault();
-                vault.Add(new PasswordCredential("Orion.Accounts", $"{_counter++}-{account.Provider.Name}", JsonConvert.SerializeObject(account)));
-                _accounts.Add(account);
-            }
-            catch
-            {
-                // ignored
-            }
             return Task.CompletedTask;
         }
 
@@ -70,6 +53,23 @@ namespace Orion.UWP.Services
             {
                 Debug.WriteLine(e.Message);
             }
+        }
+
+        public Task RegisterAsync(Account account)
+        {
+            try
+            {
+                if (_accounts.Count == 0)
+                    account.IsMarkAsDefault = true;
+                var vault = new PasswordVault();
+                vault.Add(new PasswordCredential("Orion.Accounts", $"{_counter++}-{account.Provider.Name}", JsonConvert.SerializeObject(account)));
+                _accounts.Add(account);
+            }
+            catch
+            {
+                // ignored
+            }
+            return Task.CompletedTask;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 
 using Orion.Shared;
@@ -15,24 +16,24 @@ namespace Orion.UWP.ViewModels
     public class AddTimelineDialogViewModel : ViewModel
     {
         public ReadOnlyObservableCollection<AccountViewModel> Accounts { get; }
-        public ObservableCollection<TimelineTypeViewModel> Timelines { get; }
+        public ObservableCollection<TimelinePresetViewModel> Timelines { get; }
         public ReactiveProperty<AccountViewModel> SelectedAccount { get; }
-        public ReactiveProperty<TimelineTypeViewModel> SelectedTimeline { get; }
+        public ReactiveProperty<TimelinePresetViewModel> SelectedTimeline { get; }
         public ReactiveProperty<bool> IsEnableOkCommand { get; }
         public AsyncReactiveCommand OkCommand { get; }
 
         public AddTimelineDialogViewModel(IAccountService accountService, ITimelineService timelineService)
         {
             Accounts = accountService.Accounts.ToReadOnlyReactiveCollection(w => new AccountViewModel(w));
-            Timelines = new ObservableCollection<TimelineTypeViewModel>();
+            Timelines = new ObservableCollection<TimelinePresetViewModel>();
             SelectedAccount = new ReactiveProperty<AccountViewModel>();
             SelectedAccount.Where(w => w != null).Subscribe(w =>
             {
                 Timelines.Clear();
-                foreach (var timelineType in w.Account.Provider.GetSupportTimelineTypes())
-                    Timelines.Add(new TimelineTypeViewModel(timelineType));
+                foreach (var timelineType in SharedConstants.TimelinePresets.Where(v => v.ProviderType == w.Account.Provider.ProviderType))
+                    Timelines.Add(new TimelinePresetViewModel(timelineType));
             }).AddTo(this);
-            SelectedTimeline = new ReactiveProperty<TimelineTypeViewModel>();
+            SelectedTimeline = new ReactiveProperty<TimelinePresetViewModel>();
             IsEnableOkCommand = new[]
             {
                 SelectedAccount.Select(w => w != null),
@@ -42,7 +43,7 @@ namespace Orion.UWP.ViewModels
             OkCommand.Subscribe(async () =>
             {
                 var account = SelectedAccount.Value.Account;
-                await timelineService.AddAsync(new Timeline {Account = account, AccountId = account.Id, TimelineType = SelectedTimeline.Value.TimelineType});
+                await timelineService.AddAsync(SelectedTimeline.Value.TimelinePreset.CreateTimeline(account));
             });
         }
     }

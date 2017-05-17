@@ -1,32 +1,26 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Orion.Service.Croudia;
 using Orion.Shared.Absorb.Objects;
-using Orion.Shared.Enums;
+using Orion.Shared.Models;
 
 namespace Orion.Shared.Absorb.Clients
 {
-    internal class CroudiaClientWrapper : BaseClientWrapper
+    public class CroudiaClientWrapper : BaseClientWrapper
     {
         private readonly CroudiaClient _croudiaClient;
 
-        public CroudiaClientWrapper(Provider provider) : base(provider)
+        public CroudiaClientWrapper(Provider provider, Credential credential) : base(provider, credential)
         {
-            _croudiaClient = new CroudiaClient(provider.ClientId, provider.ClientSecret);
+            _croudiaClient = new CroudiaClient(Provider.ClientId, Provider.ClientSecret);
+            if (credential == null)
+                return;
+
+            _croudiaClient.AccessToken = Credential.AccessToken;
+            _croudiaClient.RefreshToken = Credential.RefreshToken;
         }
 
-        public CroudiaClientWrapper(Account account) : base(account)
-        {
-            _croudiaClient = new CroudiaClient(Provider.ClientId, Provider.ClientSecret)
-            {
-                AccessToken = account.Credential.AccessToken,
-                AccessTokenSecret = account.Credential.AccessTokenSecret,
-                RefreshToken = account.Credential.RefreshToken
-            };
-        }
-
-        public override Task<string> GetAuthorizeUrlAsync()
+        public override Task<string> GetAuthorizedUrlAsync()
         {
             return Task.FromResult(_croudiaClient.OAuth.GetAuthorizeUrl());
         }
@@ -36,12 +30,12 @@ namespace Orion.Shared.Absorb.Clients
             try
             {
                 await _croudiaClient.OAuth.AccessTokenAsync(verifier);
-                Account.Credential.AccessToken = _croudiaClient.AccessToken;
-                Account.Credential.AccessTokenSecret = _croudiaClient.AccessTokenSecret;
-                Account.Credential.RefreshToken = _croudiaClient.RefreshToken;
+                Credential.AccessToken = _croudiaClient.AccessToken;
+                Credential.RefreshToken = _croudiaClient.RefreshToken;
 
-                User = new User(await _croudiaClient.Account.VerifyCredentialsAsync());
-                Account.Credential.Username = User.ScreenName;
+                var credentials = await _croudiaClient.Account.VerifyCredentialsAsync();
+                Credential.UserId = credentials.Id;
+                Credential.User = new User(await _croudiaClient.Account.VerifyCredentialsAsync());
 
                 return true;
             }
@@ -56,30 +50,29 @@ namespace Orion.Shared.Absorb.Clients
             try
             {
                 await _croudiaClient.OAuth.RefreshTokenAsync();
-                User = new User(await _croudiaClient.Account.VerifyCredentialsAsync());
+                Credential.AccessToken = _croudiaClient.AccessToken;
+                Credential.AccessTokenSecret = _croudiaClient.AccessTokenSecret;
+                Credential.RefreshToken = _croudiaClient.RefreshToken;
+                Credential.User = new User(await _croudiaClient.Account.VerifyCredentialsAsync());
+
                 return true;
             }
             catch
             {
-                // Revoke access permission, invalid credentials or service unavailable (Croudia API don't trusted).
                 return false;
             }
         }
 
-        public override IObservable<StatusBase> GetTimelineAsObservable(TimelineType type)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override async Task UpdateAsync(string status, long? inReplyToStatusId = null)
+        public override async Task<bool> UpdateAsync(string body, long? inReplyToStatusId = null)
         {
             try
             {
-                await _croudiaClient.Statuses.UpdateAsync(status, (int?) inReplyToStatusId);
+                await _croudiaClient.Statuses.UpdateAsync(body, (int?) inReplyToStatusId);
+                return true;
             }
             catch
             {
-                // TODO: Notify to user.
+                return false;
             }
         }
     }

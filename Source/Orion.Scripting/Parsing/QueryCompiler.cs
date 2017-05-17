@@ -12,7 +12,7 @@ namespace Orion.Scripting.Parsing
 
         public static void RegisterSource(FilterSourceBase source)
         {
-            if (Source.All(w => w.KeyWithProvider != source.KeyWithProvider))
+            if (Source.All(w => w.Key != source.Key))
                 Source.Add(source);
         }
 

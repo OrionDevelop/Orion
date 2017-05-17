@@ -1,31 +1,26 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Orion.Service.GnuSocial;
 using Orion.Shared.Absorb.Objects;
-using Orion.Shared.Enums;
+using Orion.Shared.Models;
 
 namespace Orion.Shared.Absorb.Clients
 {
-    internal class GnuSocialClientWrapper : BaseClientWrapper
+    public class GnuSocialClientWrapper : BaseClientWrapper
     {
         private readonly GnuSocialClient _gnuSocialClient;
 
-        public GnuSocialClientWrapper(Provider provider) : base(provider)
+        public GnuSocialClientWrapper(Provider provider, Credential credential) : base(provider, credential)
         {
-            _gnuSocialClient = new GnuSocialClient(provider.Host, provider.ClientId, provider.ClientSecret);
+            _gnuSocialClient = new GnuSocialClient(Provider.Host, Provider.ConsumerKey, Provider.ConsumerSecret);
+            if (credential == null)
+                return;
+
+            _gnuSocialClient.AccessToken = Credential.AccessToken;
+            _gnuSocialClient.AccessTokenSecret = Credential.AccessTokenSecret;
         }
 
-        public GnuSocialClientWrapper(Account account) : base(account)
-        {
-            _gnuSocialClient = new GnuSocialClient(Provider.Host, Provider.ClientId, Provider.ClientSecret)
-            {
-                AccessToken = account.Credential.AccessToken,
-                AccessTokenSecret = account.Credential.AccessTokenSecret
-            };
-        }
-
-        public override async Task<string> GetAuthorizeUrlAsync()
+        public override async Task<string> GetAuthorizedUrlAsync()
         {
             await _gnuSocialClient.OAuth.RequestTokenAsync(SharedConstants.OAuthCallback);
             return _gnuSocialClient.OAuth.GetAuthorizeUrl();
@@ -36,11 +31,12 @@ namespace Orion.Shared.Absorb.Clients
             try
             {
                 await _gnuSocialClient.OAuth.AccessTokenAsync(verifier);
-                Account.Credential.AccessToken = _gnuSocialClient.AccessToken;
-                Account.Credential.AccessTokenSecret = _gnuSocialClient.AccessTokenSecret;
+                Credential.AccessToken = _gnuSocialClient.AccessToken;
+                Credential.AccessTokenSecret = _gnuSocialClient.AccessTokenSecret;
 
-                User = new User(await _gnuSocialClient.Account.VerifyCredentialsAsync());
-                Account.Credential.Username = User.ScreenName;
+                var credential = await _gnuSocialClient.Account.VerifyCredentialsAsync();
+                Credential.UserId = credential.Id;
+                Credential.User = new User(credential);
 
                 return true;
             }
@@ -54,54 +50,26 @@ namespace Orion.Shared.Absorb.Clients
         {
             try
             {
-                User = new User(await _gnuSocialClient.Account.VerifyCredentialsAsync());
-                Account.Credential.Username = User.ScreenName;
+                var credential = await _gnuSocialClient.Account.VerifyCredentialsAsync();
+                Credential.User = new User(credential);
                 return true;
             }
             catch
             {
-                // Revoke access permission or invalid credentials.
                 return false;
             }
         }
 
-        public override IObservable<StatusBase> GetTimelineAsObservable(TimelineType type)
-        {
-            switch (type)
-            {
-                case TimelineType.HomeTimeline:
-                    break;
-
-                case TimelineType.Mentions:
-                    break;
-
-                case TimelineType.DirectMessages:
-                    break;
-
-                case TimelineType.Notifications:
-                    break;
-
-                case TimelineType.PublicTimeline:
-                    break;
-
-                case TimelineType.FederatedTimeline:
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-            throw new NotImplementedException();
-        }
-
-        public override async Task UpdateAsync(string status, long? inReplyToStatusId = null)
+        public override async Task<bool> UpdateAsync(string body, long? inReplyToStatusId = null)
         {
             try
             {
-                await _gnuSocialClient.Statuses.UpdateAsync(status, (int?) inReplyToStatusId);
+                await _gnuSocialClient.Statuses.UpdateAsync(body, (int?) inReplyToStatusId);
+                return true;
             }
             catch
             {
-                // TODO: Notify to user.
+                return false;
             }
         }
     }

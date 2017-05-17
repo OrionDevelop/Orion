@@ -1,24 +1,24 @@
 ﻿namespace Orion.Shared.Enums
 {
-    public enum ServiceType
+    public enum ProviderType
     {
         /// <summary>
-        ///     Twitter (https://twitter.com)
+        ///     Twitter
         /// </summary>
         Twitter,
 
         /// <summary>
-        ///     Croudia (https://croudia.com)
+        ///     Croudia
         /// </summary>
         Croudia,
 
         /// <summary>
-        ///     GNU social instance
+        ///     GNU social
         /// </summary>
         GnuSocial,
 
         /// <summary>
-        ///     Mastodon instance
+        ///     Mastodon
         /// </summary>
         Mastodon
     }
