@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Enums;
 
-namespace Orion.UWP.Models
+namespace Orion.Shared
 {
     public class Timeline
     {

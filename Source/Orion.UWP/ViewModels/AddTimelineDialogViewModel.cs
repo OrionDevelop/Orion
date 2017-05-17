@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
-using Orion.UWP.Models;
+using Orion.Shared;
 using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 using Orion.UWP.ViewModels.Contents;

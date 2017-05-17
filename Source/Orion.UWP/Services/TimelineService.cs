@@ -7,7 +7,7 @@ using Windows.Storage;
 
 using Newtonsoft.Json;
 
-using Orion.UWP.Models;
+using Orion.Shared;
 using Orion.UWP.Services.Interfaces;
 
 namespace Orion.UWP.Services

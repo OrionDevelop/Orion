@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
+using Orion.Shared;
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Enums;
 using Orion.UWP.Extensions;

@@ -121,7 +121,6 @@
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />
     <Compile Include="Converters\ReverseBooleanToVisibilityConverter.cs" />
-    <Compile Include="Models\Timeline.cs" />
     <Compile Include="Mvvm\ViewModel.cs" />
     <Compile Include="Mvvm\ViewModelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
