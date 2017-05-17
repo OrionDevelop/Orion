@@ -15,9 +15,9 @@ namespace Orion.Scripting.Ast
             return Expression.Lambda<Func<T, bool>>(FieldAccess<T>(parameter), parameter);
         }
 
-        public override Expression EvaluateFunc<T>(ParameterExpression expression)
+        public override Expression EvaluateFunc<T>(ParameterExpression parameter)
         {
-            return FieldAccess<T>(expression);
+            return FieldAccess<T>(parameter);
         }
 
         private Expression FieldAccess<T>(ParameterExpression parameter)

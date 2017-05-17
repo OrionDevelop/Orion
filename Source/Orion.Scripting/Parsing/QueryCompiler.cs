@@ -82,7 +82,7 @@ namespace Orion.Scripting.Parsing
             if (!reader.LookAhead().Is(TokenType.OperatorOr))
                 return left; // EMPTY
 
-            return CreateAstTree(new AstOperator(reader.Read().Value), left, CompileConditionalOrExpression(reader));
+            return CreateAstTree(new AstConditionalOrOperator(reader.Read().Value), left, CompileConditionalOrExpression(reader));
         }
 
         private static AstNode CompileConditionalAndExpression(TokenReader reader)
@@ -94,7 +94,7 @@ namespace Orion.Scripting.Parsing
             if (!reader.LookAhead().Is(TokenType.OperatorAnd))
                 return left; // EMPTY
 
-            return CreateAstTree(new AstOperator(reader.Read().Value), left, CompileConditionalAndExpression(reader));
+            return CreateAstTree(new AstConditionalAndOperator(reader.Read().Value), left, CompileConditionalAndExpression(reader));
         }
 
         private static AstNode CompileEqualityExpression(TokenReader reader)
@@ -106,14 +106,28 @@ namespace Orion.Scripting.Parsing
             switch (reader.LookAhead().Type)
             {
                 case TokenType.OperatorEqual:
+                    return CreateAstTree(new AstEqualOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
+
                 case TokenType.OperatorNotEqual:
+                    return CreateAstTree(new AstNotEqualOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
+
                 case TokenType.OperatorContains:
+                    return CreateAstTree(new AstContainsOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
+
                 case TokenType.OperatorContainsIgnoreCase:
+                    return CreateAstTree(new AstContainsIgnoreCaseOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
+
                 case TokenType.OperatorStartsWith:
+                    return CreateAstTree(new AstStartsWithOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
+
                 case TokenType.OperatorStartsWithIgnoreCase:
+                    return CreateAstTree(new AstStartsWithIgnoreCaseOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
+
                 case TokenType.OperatorEndsWith:
+                    return CreateAstTree(new AstEndsWithOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
+
                 case TokenType.OperatorEndsWithIgnoreCase:
-                    return CreateAstTree(new AstOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
+                    return CreateAstTree(new AstEndsWithIgnoreCaseOperator(reader.Read().Value), left, CompileEqualityExpression(reader));
             }
             return left; // EMPTY
         }
@@ -127,10 +141,16 @@ namespace Orion.Scripting.Parsing
             switch (reader.LookAhead().Type)
             {
                 case TokenType.OperatorLessThan:
+                    return CreateAstTree(new AstLessThanOperator(reader.Read().Value), left, CompileRelationalExpression(reader));
+
                 case TokenType.OperatorLessThanOrEqual:
+                    return CreateAstTree(new AstLessThanOrEqualOperator(reader.Read().Value), left, CompileRelationalExpression(reader));
+
                 case TokenType.OperatorGreaterThan:
+                    return CreateAstTree(new AstGreaterThanOperator(reader.Read().Value), left, CompileRelationalExpression(reader));
+
                 case TokenType.OperatorGreaterThanOrEqual:
-                    return CreateAstTree(new AstOperator(reader.Read().Value), left, CompileRelationalExpression(reader));
+                    return CreateAstTree(new AstGreaterThanOrEqualOperator(reader.Read().Value), left, CompileRelationalExpression(reader));
             }
             return left; // EMPTY
         }
@@ -144,7 +164,9 @@ namespace Orion.Scripting.Parsing
             if (!reader.LookAhead().Is(TokenType.OperatorAdd) && !reader.LookAhead().Is(TokenType.OperatorSubtract))
                 return left; // EMPTY
 
-            return CreateAstTree(new AstOperator(reader.Read().Value), left, CompileAdditiveExpression(reader));
+            return reader.LookAhead().Is(TokenType.OperatorAdd)
+                ? CreateAstTree(new AstAddOperator(reader.Read().Value), left, CompileAdditiveExpression(reader))
+                : CreateAstTree(new AstSubtractOperator(reader.Read().Value), left, CompileAdditiveExpression(reader));
         }
 
         private static AstNode CompileMultiplicativeExpression(TokenReader reader)
@@ -156,7 +178,9 @@ namespace Orion.Scripting.Parsing
             if (!reader.LookAhead().Is(TokenType.OperatorMultiply) && !reader.LookAhead().Is(TokenType.OperatorDivide))
                 return left; // EMPTY
 
-            return CreateAstTree(new AstOperator(reader.Read().Value), left, CompileMultiplicativeExpression(reader));
+            return reader.LookAhead().Is(TokenType.OperatorMultiply)
+                ? CreateAstTree(new AstMultiplyOperator(reader.Read().Value), left, CompileMultiplicativeExpression(reader))
+                : CreateAstTree(new AstDivideOperator(reader.Read().Value), left, CompileMultiplicativeExpression(reader));
         }
 
         private static AstNode CompilePrimary(TokenReader reader)
