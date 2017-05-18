@@ -2,6 +2,7 @@
 
 using Orion.Service.Mastodon;
 using Orion.Service.Mastodon.Enum;
+using Orion.Shared.Absorb.DataSources;
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Models;
 
@@ -15,7 +16,8 @@ namespace Orion.Shared.Absorb.Clients
         public MastodonClientWrapper(Provider provider, Credential credential) : base(provider, credential)
         {
             _mastodonClient = new MastodonClient(Provider.Host);
-            if (credential == null)
+            DataSource = new MastodonDataSource(_mastodonClient);
+            if (string.IsNullOrWhiteSpace(credential.AccessToken))
                 return;
 
             _mastodonClient.ClientId = Provider.ClientId;

@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
+using Orion.Shared.Absorb.DataSources;
+using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Models;
 
 namespace Orion.Shared.Absorb.Clients
@@ -8,11 +11,14 @@ namespace Orion.Shared.Absorb.Clients
     {
         protected readonly Credential Credential;
         protected readonly Provider Provider;
+        public BaseDataSource DataSource { get; protected set; }
+        protected string ID { get; }
 
         protected BaseClientWrapper(Provider provider, Credential credential)
         {
             Provider = provider;
             Credential = credential;
+            ID = Guid.NewGuid().ToString();
         }
 
         /// <summary>
@@ -41,5 +47,23 @@ namespace Orion.Shared.Absorb.Clients
         /// <param name="inReplyToStatusId"></param>
         /// <returns></returns>
         public abstract Task<bool> UpdateAsync(string body, long? inReplyToStatusId = null);
+
+        /// <summary>
+        ///     ストリーミング接続を開始します。
+        /// </summary>
+        /// <returns></returns>
+        public IObservable<StatusBase> CreateOrGetConnection(string sourceStr)
+        {
+            return DataSource.MergeSource(sourceStr);
+        }
+
+        /// <summary>
+        /// 接続を切断します。
+        /// </summary>
+        /// <param name="sourceStr"></param>
+        public void Disconnect(string sourceStr)
+        {
+            DataSource.DisposeSource(sourceStr);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Orion.Service.GnuSocial;
+using Orion.Shared.Absorb.DataSources;
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Models;
 
@@ -13,7 +14,8 @@ namespace Orion.Shared.Absorb.Clients
         public GnuSocialClientWrapper(Provider provider, Credential credential) : base(provider, credential)
         {
             _gnuSocialClient = new GnuSocialClient(Provider.Host, Provider.ConsumerKey, Provider.ConsumerSecret);
-            if (credential == null)
+            DataSource = new GnuSocialDataSource(this);
+            if (string.IsNullOrWhiteSpace(credential.AccessToken))
                 return;
 
             _gnuSocialClient.AccessToken = Credential.AccessToken;

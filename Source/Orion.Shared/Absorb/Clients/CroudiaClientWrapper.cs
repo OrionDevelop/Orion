@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Orion.Service.Croudia;
+using Orion.Shared.Absorb.DataSources;
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Models;
 
@@ -13,7 +14,8 @@ namespace Orion.Shared.Absorb.Clients
         public CroudiaClientWrapper(Provider provider, Credential credential) : base(provider, credential)
         {
             _croudiaClient = new CroudiaClient(Provider.ClientId, Provider.ClientSecret);
-            if (credential == null)
+            DataSource = new CroudiaDataSource(this);
+            if (string.IsNullOrWhiteSpace(credential.AccessToken))
                 return;
 
             _croudiaClient.AccessToken = Credential.AccessToken;

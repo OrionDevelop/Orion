@@ -2,6 +2,7 @@
 
 using CoreTweet;
 
+using Orion.Shared.Absorb.DataSources;
 using Orion.Shared.Models;
 
 using User = Orion.Shared.Absorb.Objects.User;
@@ -15,8 +16,9 @@ namespace Orion.Shared.Absorb.Clients
 
         public TwitterClientWrapper(Provider provider, Credential credential) : base(provider, credential)
         {
-            if (credential != null)
+            if (!string.IsNullOrWhiteSpace(credential.AccessToken))
                 _twitterClient = Tokens.Create(Provider.ConsumerKey, Provider.ConsumerSecret, Credential.AccessToken, Credential.AccessTokenSecret);
+            DataSource = new TwitterDataSource(this);
         }
 
         public override async Task<string> GetAuthorizedUrlAsync()

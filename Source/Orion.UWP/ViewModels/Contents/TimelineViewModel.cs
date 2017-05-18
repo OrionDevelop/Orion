@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 
+using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Models;
 using Orion.UWP.Extensions;
 using Orion.UWP.Models;
@@ -8,6 +10,7 @@ using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Orion.UWP.ViewModels.Contents
 {
@@ -44,12 +47,22 @@ namespace Orion.UWP.ViewModels.Contents
             ClearCommand = new ReactiveCommand();
             ClearCommand.Subscribe(w => _statuses.Clear()).AddTo(this);
             DeleteCommand = new ReactiveCommand();
-            DeleteCommand.Subscribe(w => timelineService.RemoveAsync(timeline)).AddTo(this);
+            DeleteCommand.Subscribe(w =>
+            {
+                timeline.Disconnect();
+                timelineService.RemoveAsync(timeline);
+            }).AddTo(this);
         }
 
         private void Initialize()
         {
-            //
+            _timeline.GetAsObservable()
+                     .OfType<Status>()
+                     .Where(w => (bool) _timeline.Filter.Delegate.DynamicInvoke(w))
+                     .ObserveOnUIDispatcher()
+                     .Select(w => new StatusViewModel(_globalNotifier, w))
+                     .Subscribe(w => _statuses.Insert(0, w))
+                     .AddTo(this);
         }
     }
 }
