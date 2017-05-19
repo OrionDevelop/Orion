@@ -43,6 +43,14 @@ namespace Orion.Shared
             Query = "FROM notifications"
         };
 
+        public static readonly TimelinePreset TwitterCustomTimelinePreset = new TimelinePreset
+        {
+            Name = "Custom",
+            ProviderType = ProviderType.Twitter,
+            Query = "",
+            IsEditable = true
+        };
+
         #endregion
 
         #region Croudia
@@ -75,6 +83,14 @@ namespace Orion.Shared
             Query = "FROM messages"
         };
 
+        public static readonly TimelinePreset CroudiaCustomTimelinePreset = new TimelinePreset
+        {
+            Name = "Custom",
+            ProviderType = ProviderType.Croudia,
+            Query = "",
+            IsEditable = true
+        };
+
         #endregion
 
         #region GNU social
@@ -105,6 +121,14 @@ namespace Orion.Shared
             Name = "Mentions",
             ProviderType = ProviderType.Croudia,
             Query = "FROM mentions"
+        };
+
+        public static readonly TimelinePreset GnuSocialCustomTimelinePreset = new TimelinePreset
+        {
+            Name = "Custom",
+            ProviderType = ProviderType.GnuSocial,
+            Query = "",
+            IsEditable = true
         };
 
         #endregion
@@ -146,6 +170,14 @@ namespace Orion.Shared
             Query = "FROM notifications"
         };
 
+        public static readonly TimelinePreset MastodonCustomTimelinePreset = new TimelinePreset
+        {
+            Name = "Custom",
+            ProviderType = ProviderType.Mastodon,
+            Query = "",
+            IsEditable = true
+        };
+
         #endregion
 
         public static ReadOnlyCollection<TimelinePreset> TimelinePresets { get; } = new List<TimelinePreset>
@@ -154,19 +186,23 @@ namespace Orion.Shared
             TwitterMentionsTimelinePreset,
             TwitterDirectMessagesTimelinePreset,
             TwitterNotificationTimelinePreset,
+            TwitterCustomTimelinePreset,
             CroudiaHomeTimelinePreset,
             CroudiaPublicTimelinePreset,
             CroudiaMentionsTimelinePreset,
             CroudiaDirectMessagesTimelinePreset,
+            CroudiaCustomTimelinePreset,
             GnuSocialHomeTimelinePreset,
             GnuSocialLocalTimelinePreset,
             GnuSocialFederatedTimelinePreset,
             GnuSocialMentionsTimelinePreset,
+            GnuSocialCustomTimelinePreset,
             MastodonHomeTimelinePreset,
             MastodonLocalTimelinePreset,
             MastodonFederatedTimelinePreset,
             MastodonMentionsTimelinePreset,
-            MastodonNotificationsTimelinePreset
+            MastodonNotificationsTimelinePreset,
+            MastodonCustomTimelinePreset
         }.AsReadOnly();
 
         #endregion

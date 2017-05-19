@@ -9,7 +9,7 @@
                Title="タイムラインの追加"
                d:DataContext="{d:DesignInstance vm:AddTimelineDialogViewModel}"
                prism:ViewModelLocator.AutoWireViewModel="True"
-               IsPrimaryButtonEnabled="{x:Bind ViewModel.IsEnableOkCommand.Value, Mode=OneWay}"
+               IsPrimaryButtonEnabled="{x:Bind ViewModel.IsEnableOkCommand, Mode=OneWay}"
                PrimaryButtonCommand="{x:Bind ViewModel.OkCommand, Mode=OneWay}"
                PrimaryButtonText="OK"
                SecondaryButtonText="キャンセル"
@@ -18,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
@@ -73,5 +74,60 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+
+        <Grid Grid.Row="2"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Visibility="{x:Bind ViewModel.IsEditable, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="300" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"
+                       Text="名前: " />
+            <TextBox Grid.Row="0"
+                     Grid.Column="1"
+                     Margin="0,1"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top"
+                     PlaceholderText="カスタムタイムライン"
+                     Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
+
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"
+                       Text="クエリ式: " />
+            <TextBox Grid.Row="1"
+                     Grid.RowSpan="2"
+                     Grid.Column="1"
+                     Margin="0,1"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top"
+                     AcceptsReturn="True"
+                     PlaceholderText="FROM * WHERE Text.Length &gt;= 100"
+                     Text="{Binding Query.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Grid.Row="3"
+                       TextWrapping="Wrap"
+                       Grid.Column="1"
+                       Foreground="OrangeRed"
+                       Text="{x:Bind ViewModel.ErrorMessage.Value, Mode=OneWay}" />
+
+            <TextBlock Grid.Row="4"
+                       Grid.Column="1"
+                       HorizontalAlignment="Right">
+                <Run>クエリ式については、</Run>
+                <Hyperlink NavigateUri="https://github.com/mika-f/Orion/blob/develop/Source/Orion.Scripting/README.md">こちら</Hyperlink>
+                <Run>を参照してください。</Run>
+            </TextBlock>
+        </Grid>
     </Grid>
 </ContentDialog>
