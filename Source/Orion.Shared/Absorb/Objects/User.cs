@@ -100,8 +100,14 @@ namespace Orion.Shared.Absorb.Objects
         public bool IsProtected =>
             _croudiaUser?.IsProtected ?? _gnuSocialUser?.IsProtected ?? _mastodonUser?.IsLocked ?? _twitterUser.IsProtected;
 
+        /// <summary>
+        ///     Local user
+        /// </summary>
         public bool IsLocal =>
             _gnuSocialUser?.IsLocal ?? _mastodonUser?.Acct?.Contains("@").Equals(false) ?? true;
+
+        public bool IsFollowing =>
+            _croudiaUser?.IsFollowing ?? _gnuSocialUser?.IsFollowing ?? false;
 
         public User(CroudiaUser user)
         {
