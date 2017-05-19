@@ -54,7 +54,7 @@ namespace Orion.Shared.Absorb.Clients
         /// <returns></returns>
         public IObservable<StatusBase> CreateOrGetConnection(string sourceStr)
         {
-            return DataSource.MergeSource(sourceStr);
+            return DataSource.Connect(sourceStr);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Orion.Shared.Absorb.Clients
         /// <param name="sourceStr"></param>
         public void Disconnect(string sourceStr)
         {
-            DataSource.DisposeSource(sourceStr);
+            DataSource.Disconnect(sourceStr);
         }
     }
 }

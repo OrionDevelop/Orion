@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
-using System.Threading.Tasks;
 
 using Orion.Shared.Absorb.Objects;
 
@@ -13,21 +11,21 @@ namespace Orion.Shared.Absorb.DataSources
 {
     public abstract class BaseDataSource : IDisposable
     {
-        private readonly List<long> _ids;
+        private readonly Dictionary<string, List<long>> _ids;
         private readonly object _lockObj;
-        private readonly IObservable<StatusBase> _observable;
-        private readonly Subject<StatusBase> _observer;
+        private readonly Dictionary<string, Subject<StatusBase>> _observers;
         private readonly List<string> _sources;
+        protected Dictionary<string, IDisposable> Disposables { get; }
         protected ReadOnlyCollection<string> Sources => _sources.AsReadOnly();
         protected CancellationTokenSource CancellationToken { get; private set; }
 
         protected BaseDataSource()
         {
             _lockObj = new object();
-            _ids = new List<long>();
+            _ids = new Dictionary<string, List<long>>();
             _sources = new List<string>();
-            _observer = new Subject<StatusBase>();
-            _observable = _observer.AsObservable();
+            _observers = new Dictionary<string, Subject<StatusBase>>();
+            Disposables = new Dictionary<string, IDisposable>();
             CancellationToken = new CancellationTokenSource();
         }
 
@@ -35,56 +33,67 @@ namespace Orion.Shared.Absorb.DataSources
         {
             CancellationToken.Dispose();
             CancellationToken = null;
-            _observer.OnCompleted();
+            foreach (var disposable in Disposables.Select(w => w.Value))
+                disposable.Dispose();
+            foreach (var observer in _observers.Select(w => w.Value))
+                observer.Dispose();
         }
 
-        protected abstract void UpdateConnection();
+        protected abstract void Connect(Source source);
 
-        public IObservable<StatusBase> MergeSource(string source)
+        protected abstract string NormalizedSource(string source);
+
+        public IObservable<StatusBase> Connect(string source)
         {
-            if (_sources.Contains(source))
-                return _observable;
+            var sourceStr = NormalizedSource(source);
+            if (_sources.Contains(sourceStr))
+                return _observers[sourceStr];
 
-            _sources.Add(source);
-            UpdateConnection();
-            return _observable;
+            _sources.Add(sourceStr);
+            RegisterObserver(sourceStr);
+            Connect(new Source {IsAdded = true, Name = sourceStr});
+            return _observers[sourceStr];
         }
 
-        public void DisposeSource(string source)
+        public void Disconnect(string source)
         {
-            if (!_sources.Contains(source))
+            var sourceStr = NormalizedSource(source);
+            if (!_sources.Contains(sourceStr))
                 return;
-            _sources.Remove(source);
-            UpdateConnection();
+            _sources.Remove(sourceStr);
+
+            if (_sources.Contains(sourceStr))
+                return; // multiple connection to same source.
+
+            Connect(new Source {IsAdded = false, Name = sourceStr});
+            Disposables[sourceStr].Dispose();
+            Disposables.Remove(sourceStr);
+            _observers[sourceStr].Dispose();
+            _observers.Remove(sourceStr);
+            _ids.Remove(sourceStr);
         }
 
-        protected void AddStatus(StatusBase status)
+        protected bool IsConnected(string source)
+        {
+            return Disposables.ContainsKey(NormalizedSource(source));
+        }
+
+        protected void AddStatus(string source, StatusBase status)
         {
             lock (_lockObj)
             {
-                if (_ids.Contains(status.Id))
+                if (_ids[NormalizedSource(source)].Contains(status.Id))
                     return;
-                _ids.Add(status.Id);
-                _observer.OnNext(status);
+                _ids[NormalizedSource(source)].Add(status.Id);
+                _observers[NormalizedSource(source)].OnNext(status);
             }
         }
 
-        protected IObservable<StatusBase> Merge(Func<Task<IEnumerable<StatusBase>>> firstAction, Func<IObservable<StatusBase>> streamAction)
+        private void RegisterObserver(string source)
         {
-            return Observable.Create<StatusBase>(async observer =>
-            {
-                try
-                {
-                    var statuses = await firstAction.Invoke();
-                    foreach (var status in statuses.Reverse())
-                        observer.OnNext(status);
-                    observer.OnCompleted();
-                }
-                catch (Exception e)
-                {
-                    observer.OnError(e);
-                }
-            }).Concat(streamAction.Invoke());
+            var observer = new Subject<StatusBase>();
+            _observers.Add(NormalizedSource(source), observer);
+            _ids.Add(NormalizedSource(source), new List<long>());
         }
     }
 }

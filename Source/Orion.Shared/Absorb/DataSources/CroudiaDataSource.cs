@@ -13,7 +13,12 @@ namespace Orion.Shared.Absorb.DataSources
             _croudiaClient = croudiaClient;
         }
 
-        protected override void UpdateConnection()
+        protected override void Connect(Source source)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override string NormalizedSource(string source)
         {
             throw new NotImplementedException();
         }
