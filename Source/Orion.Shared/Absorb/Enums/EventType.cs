@@ -2,16 +2,12 @@
 {
     public enum EventType
     {
-        Follow,
+        Delete,
 
         Favorite,
 
-        Unfavorite,
+        Follow,
 
-        ListAdded,
-
-        ListRemoved,
-
-        Quoted
+        Reblog
     }
 }

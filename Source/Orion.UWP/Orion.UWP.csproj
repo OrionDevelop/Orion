@@ -105,6 +105,7 @@
     <Compile Include="Controls\DataTemplateCollection.cs" />
     <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
     <Compile Include="Converters\HtmlStringToBlockCollectionConverter.cs" />
+    <Compile Include="Extensions\EventTypeEx.cs" />
     <Compile Include="Extensions\TimelineEx.cs" />
     <Compile Include="Extensions\TimelinePresetEx.cs" />
     <Compile Include="Models\GlobalNotifier.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
     <Compile Include="ViewModels\AddTimelineDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />
+    <Compile Include="ViewModels\Contents\NotificationViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
     <Compile Include="ViewModels\Contents\TimelinePresetViewModel.cs" />

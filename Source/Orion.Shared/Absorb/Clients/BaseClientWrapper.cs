@@ -12,13 +12,11 @@ namespace Orion.Shared.Absorb.Clients
         protected readonly Credential Credential;
         protected readonly Provider Provider;
         public BaseDataSource DataSource { get; protected set; }
-        protected string ID { get; }
 
         protected BaseClientWrapper(Provider provider, Credential credential)
         {
             Provider = provider;
             Credential = credential;
-            ID = Guid.NewGuid().ToString();
         }
 
         /// <summary>
@@ -58,7 +56,7 @@ namespace Orion.Shared.Absorb.Clients
         }
 
         /// <summary>
-        /// 接続を切断します。
+        ///     接続を切断します。
         /// </summary>
         /// <param name="sourceStr"></param>
         public void Disconnect(string sourceStr)

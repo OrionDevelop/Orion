@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
 using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Absorb.Objects.Events;
 using Orion.Shared.Models;
 using Orion.UWP.Extensions;
 using Orion.UWP.Models;
@@ -57,10 +58,24 @@ namespace Orion.UWP.ViewModels.Contents
         private void Initialize()
         {
             _timeline.GetAsObservable()
-                     .OfType<Status>()
-                     .Where(w => (bool) _timeline.Filter.Delegate.DynamicInvoke(w))
+                     .Where(w =>
+                     {
+                         if (w is Status)
+                             return (bool) _timeline.Filter.Delegate.DynamicInvoke(w);
+                         return true;
+                     })
                      .ObserveOnUIDispatcher()
-                     .Select(w => new StatusViewModel(_globalNotifier, w))
+                     .Select(w =>
+                     {
+                         if (w is Status status)
+                             return new StatusViewModel(_globalNotifier, status) as StatusBaseViewModel;
+                         if (w is DeleteEvent)
+                             return null;
+                         if (w is EventBase @event)
+                             return new NotificationViewModel(_globalNotifier, @event) as StatusBaseViewModel;
+                         return null;
+                     })
+                     .Where(w => w != null)
                      .Subscribe(w => _statuses.Insert(0, w))
                      .AddTo(this);
         }

@@ -25,37 +25,37 @@ namespace Orion.Shared.Absorb.Objects
         ///     In reply to status ID
         /// </summary>
         public long? InReplyToStatusId =>
-            _croudiaStatus?.InReplyToStatusId ?? _gnuSocialStatus?.InReplyToStatusId ?? _mastodonStatus?.InReplyToId ?? _twitterStatus.InReplyToStatusId;
+            _croudiaStatus?.InReplyToStatusId ?? _gnuSocialStatus?.InReplyToStatusId ?? _mastodonStatus?.InReplyToId ?? _twitterStatus?.InReplyToStatusId ?? 0;
 
         /// <summary>
         ///     In reply to user ID
         /// </summary>
         public long? InReplyToUserId =>
-            _croudiaStatus?.InReplyToUserId ?? _gnuSocialStatus?.InReplyToUserId ?? _mastodonStatus?.InReplyToAccountId ?? _twitterStatus.InReplyToUserId;
+            _croudiaStatus?.InReplyToUserId ?? _gnuSocialStatus?.InReplyToUserId ?? _mastodonStatus?.InReplyToAccountId ?? _twitterStatus?.InReplyToUserId ?? 0;
 
         /// <summary>
         ///     Reblogs count
         /// </summary>
         public long? ReblogsCount =>
-            _croudiaStatus?.SpreadCount ?? _gnuSocialStatus?.RepeatNum ?? _mastodonStatus?.ReblogsCount ?? _twitterStatus.RetweetCount;
+            _croudiaStatus?.SpreadCount ?? _gnuSocialStatus?.RepeatNum ?? _mastodonStatus?.ReblogsCount ?? _twitterStatus?.RetweetCount ?? 0;
 
         /// <summary>
         ///     Favorites count
         /// </summary>
         public long? FavoritesCount =>
-            _croudiaStatus?.FavoritedCount ?? _gnuSocialStatus?.FavNum ?? _mastodonStatus?.FavouritesCount ?? _twitterStatus.FavoriteCount;
+            _croudiaStatus?.FavoritedCount ?? _gnuSocialStatus?.FavNum ?? _mastodonStatus?.FavouritesCount ?? _twitterStatus?.FavoriteCount ?? 0;
 
         /// <summary>
         ///     Is reblogged?
         /// </summary>
         public bool? IsReblogged =>
-            _croudiaStatus?.Spread ?? _gnuSocialStatus?.IsRepeated ?? _mastodonStatus?.IsReblogged ?? _twitterStatus.IsRetweeted;
+            _croudiaStatus?.Spread ?? _gnuSocialStatus?.IsRepeated ?? _mastodonStatus?.IsReblogged ?? _twitterStatus?.IsRetweeted ?? false;
 
         /// <summary>
         ///     Is favorited?
         /// </summary>
         public bool? IsFavorited =>
-            _croudiaStatus?.IsFavorited ?? _gnuSocialStatus?.IsFavorited ?? _mastodonStatus?.IsFavourited ?? _twitterStatus.IsFavorited;
+            _croudiaStatus?.IsFavorited ?? _gnuSocialStatus?.IsFavorited ?? _mastodonStatus?.IsFavourited ?? _twitterStatus?.IsFavorited ?? false;
 
         /// <summary>
         ///     Reblogged status

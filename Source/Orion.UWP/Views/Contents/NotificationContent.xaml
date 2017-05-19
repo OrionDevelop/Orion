@@ -5,6 +5,7 @@
              xmlns:local="using:Orion.UWP.Views.Contents"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Orion.UWP.ViewModels.Contents"
+             d:DataContext="{d:DesignInstance vm:NotificationViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
