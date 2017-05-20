@@ -24,11 +24,11 @@ namespace Orion.UWP.ViewModels.Partials
         {
             var history = new History<string>(2);
             globalNotifier.ObserveProperty(w => w.InReplyStatus).Where(w => w != null)
-                          .Subscribe(w => { StatusBody.Value = $"@{w.User.NormalizedScreenName} "; })
+                          .Subscribe(w => { StatusBody.Value = $"@{w.User.ScreenName} "; })
                           .AddTo(this);
             Accounts = accountService.Accounts.ToReadOnlyReactiveCollection(w => new AccountViewModel(w));
             SelectedAccounts = new ReactiveCollection<AccountViewModel>();
-            FirstSelectedAccount = Accounts.Select((w, i) => (w, i)).Single(w => w.Item1.Account.MarkAsDefault).Item2;
+            FirstSelectedAccount = Accounts.Select((w, i) => new {Value = w, Index = i}).SingleOrDefault(w => w.Value.Account.IsMarkAsDefault)?.Index ?? -1;
             StatusBody = new ReactiveProperty<string>();
             StatusBody.Subscribe(w => history.Store(w)).AddTo(this);
             SendStatusCommand = new[]

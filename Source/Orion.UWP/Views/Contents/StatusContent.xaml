@@ -31,7 +31,8 @@
                        MaxWidth="115"
                        Text="{Binding Username}"
                        TextTrimming="CharacterEllipsis" />
-            <TextBlock Padding="5,0,0,0"
+            <TextBlock x:Name="ScreenName"
+                       Padding="5,0,0,0"
                        VerticalAlignment="Bottom"
                        FontSize="13"
                        Foreground="Silver"
@@ -48,7 +49,6 @@
                        Text="{Binding CreatedAt}" />
         </RelativePanel>
         <RichTextBlock x:Name="Body"
-                       MinHeight="35"
                        Padding="10,0,0,0"
                        RelativePanel.AlignRightWithPanel="True"
                        RelativePanel.Below="UserLine"

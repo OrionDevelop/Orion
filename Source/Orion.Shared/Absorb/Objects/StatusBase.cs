@@ -5,23 +5,23 @@ namespace Orion.Shared.Absorb.Objects
     public class StatusBase
     {
         /// <summary>
-        ///     ID
+        ///     ステータス ID (numeric)
         /// </summary>
-        public long Id { get; set; }
+        public long Id { get; protected set; }
 
         /// <summary>
-        ///     Created at
+        ///     投稿日時
         /// </summary>
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; protected set; }
 
         /// <summary>
-        ///     User
+        ///     投稿ユーザー (User)
         /// </summary>
-        public User User { get; set; }
+        public User User { get; protected  set; }
 
         /// <summary>
-        ///     Type
+        ///     型
         /// </summary>
-        public StatusType Type { get; set; }
+        public string Type { get; protected set; }
     }
 }

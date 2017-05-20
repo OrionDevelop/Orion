@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
 using Orion.Shared;
-using Orion.Shared.Absorb.Clients;
+using Orion.Shared.Models;
 using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 
@@ -13,7 +13,7 @@ namespace Orion.UWP.ViewModels
 {
     public class AuthorizationDialogViewModel : ViewModel
     {
-        private BaseClientWrapper _clientWrapper;
+        private Account _account;
         public ReadOnlyCollection<Provider> Providers => SharedConstants.Providers;
 
         public ReactiveProperty<Provider> SelectedProvider { get; }
@@ -32,10 +32,10 @@ namespace Orion.UWP.ViewModels
             CanClose = false;
             SelectedProvider = new ReactiveProperty<Provider>();
             SelectedProvider.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
-            HasHost = SelectedProvider.Select(w => w?.RequireHost ?? false).ToReactiveProperty();
+            HasHost = SelectedProvider.Select(w => w?.IsRequireHost ?? false).ToReactiveProperty();
             Host = new ReactiveProperty<string>();
             Host.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
-            HasApiKey = SelectedProvider.Select(w => w?.RequireApiKeys ?? false).ToReactiveProperty();
+            HasApiKey = SelectedProvider.Select(w => w?.IsRequireApiKeys ?? false).ToReactiveProperty();
             ConsumerKey = new ReactiveProperty<string>();
             ConsumerKey.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
             ConsumerSecret = new ReactiveProperty<string>();
@@ -43,13 +43,13 @@ namespace Orion.UWP.ViewModels
             Source = new ReactiveProperty<Uri>(new Uri("https://ori.kokoiroworks.com/"));
             Source.Subscribe(async w =>
             {
-                var regex = SelectedProvider?.Value?.ParseRegex;
+                var regex = SelectedProvider?.Value?.UrlParseRegex;
                 if (regex == null || !regex.IsMatch(w.ToString()))
                     return;
                 var verifierCode = regex.Match(w.ToString()).Groups["verifier"].Value;
-                if (await _clientWrapper.AuthorizeAsync(verifierCode))
+                if (await _account.ClientWrapper.AuthorizeAsync(verifierCode))
                 {
-                    await accountService.RegisterAsync(_clientWrapper.Account);
+                    await accountService.RegisterAsync(_account);
                     if (accountService.Accounts.Count == 1)
                         await timelineService.InitializeAsync();
                 }
@@ -62,15 +62,15 @@ namespace Orion.UWP.ViewModels
                 IsFirstPage = false;
                 var provider = SelectedProvider.Value;
                 provider.Configure(Host.Value, ConsumerKey.Value, ConsumerSecret.Value);
-                _clientWrapper = provider.CreateClientWrapper();
-                IsEnableVerifierInput = provider.ParseRegex == null;
-                Source.Value = new Uri(await _clientWrapper.GetAuthorizeUrlAsync());
+                _account = new Account {Provider = provider};
+                _account.CreateClientWrapper();
+                Source.Value = new Uri(await _account.ClientWrapper.GetAuthorizedUrlAsync());
             }).AddTo(this);
         }
 
         private void UpdateCanExecuteGoAuthorizePage()
         {
-            CanExecuteGoAuthorizePage = SelectedProvider?.Value?.ValidateConfiguration(Host?.Value, ConsumerKey?.Value, ConsumerSecret?.Value) ?? false;
+            CanExecuteGoAuthorizePage = SelectedProvider?.Value?.Validate(Host?.Value, ConsumerKey?.Value, ConsumerSecret?.Value) ?? false;
         }
 
         #region Title
@@ -105,18 +105,6 @@ namespace Orion.UWP.ViewModels
         {
             get => _isFirstPage;
             set => SetProperty(ref _isFirstPage, value);
-        }
-
-        #endregion
-
-        #region IsEnableVerifierInput
-
-        private bool _isEnableVerifierInput;
-
-        public bool IsEnableVerifierInput
-        {
-            get => _isEnableVerifierInput;
-            set => SetProperty(ref _isEnableVerifierInput, value);
         }
 
         #endregion

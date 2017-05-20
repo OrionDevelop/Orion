@@ -1,133 +1,136 @@
 ﻿using System;
 
+using CroudiaUser = Orion.Service.Croudia.Models.User;
+using GnuSocialUser = Orion.Service.GnuSocial.Models.User;
+using MastodonUser = Orion.Service.Mastodon.Models.Account;
+using TwitterUser = CoreTweet.User;
+
 namespace Orion.Shared.Absorb.Objects
 {
     /// <summary>
-    ///     User object
+    ///     User
     /// </summary>
     public class User
     {
-        private readonly Service.Croudia.Models.User _croudiaUser;
-        private readonly Service.GnuSocial.Models.User _gnuSocialUser;
-        private readonly Service.Mastodon.Models.Account _mastodonUser;
-        private readonly CoreTweet.User _twitterUser;
+        private readonly CroudiaUser _croudiaUser;
+        private readonly GnuSocialUser _gnuSocialUser;
+        private readonly MastodonUser _mastodonUser;
+        private readonly TwitterUser _twitterUser;
 
         /// <summary>
-        ///     ScreenName with instance host.
+        ///     ID
         /// </summary>
-        public string ScreenName { get; }
+        public long? Id =>
+            _croudiaUser?.Id ?? _gnuSocialUser?.Id ?? _mastodonUser?.Id ?? _twitterUser.Id;
 
         /// <summary>
-        ///     ScreenName
+        ///     Name
         /// </summary>
-        public string NormalizedScreenName { get; }
+        public string Name =>
+            _croudiaUser?.Name ?? _gnuSocialUser?.Name ?? _mastodonUser?.DisplayName ?? _twitterUser.Name;
 
         /// <summary>
-        ///     Username
+        ///     Screen name
         /// </summary>
-        public string Username
-            => _croudiaUser?.Name ??
-               _gnuSocialUser?.Name ??
-               (string.IsNullOrWhiteSpace(_mastodonUser?.DisplayName) ? _mastodonUser?.Username : _mastodonUser?.DisplayName) ??
-               _twitterUser.Name;
+        public string ScreenName =>
+            _croudiaUser?.ScreenName ?? _gnuSocialUser?.ScreenName ?? _mastodonUser?.Acct ?? _twitterUser.ScreenName;
 
         /// <summary>
-        ///     Location (Mastodon don't have location)
+        ///     Screen name with hostname
         /// </summary>
-        public string Location
-            => _croudiaUser?.Location ?? _gnuSocialUser?.Location ?? _twitterUser?.Location ?? "";
-
-        /// <summary>
-        ///     Description
-        /// </summary>
-        public string Description
-            => _croudiaUser?.Description ?? _gnuSocialUser?.Description ?? _mastodonUser?.Note ?? _twitterUser.Description;
+        public string ScreenNameWithHost { get; }
 
         /// <summary>
         ///     Icon url
         /// </summary>
-        public string Icon
-            => _croudiaUser?.ProfileImageUrl ?? _gnuSocialUser?.ProfileImageUrlOriginal ?? _mastodonUser?.Avatar ?? _twitterUser.ProfileImageUrlHttps;
+        public string IconUrl =>
+            _croudiaUser?.ProfileImageUrl ?? _gnuSocialUser?.ProfileImageUrl ?? _mastodonUser?.Avatar ?? _twitterUser.ProfileImageUrlHttps;
 
         /// <summary>
-        ///     Website
+        ///     Background image url
         /// </summary>
-        public string Url => _croudiaUser?.Url ?? _gnuSocialUser?.Url ?? _mastodonUser?.Url ?? _twitterUser.Url;
+        public string BackgroundUrl =>
+            _croudiaUser?.CoverImageUrl ?? _gnuSocialUser?.ProfileBannerUrl ?? _mastodonUser?.HeaderStatic ?? _twitterUser.ProfileBannerUrl;
 
         /// <summary>
-        ///     Followers count
+        ///     Description
         /// </summary>
-        public int FollowersCount
-            => _croudiaUser?.FollowersCount ?? _gnuSocialUser?.FollowersCount ?? _mastodonUser?.FollowersCount ?? _twitterUser.FollowersCount;
+        public string Description =>
+            _croudiaUser?.Description ?? _gnuSocialUser?.Description ?? _mastodonUser?.Note ?? _twitterUser.Description;
 
         /// <summary>
-        ///     Friends count
+        ///     Location
         /// </summary>
-        public int FriendsCount
-            => _croudiaUser?.FriendsCount ?? _gnuSocialUser?.FriendsCount ?? _mastodonUser?.FollowingCount ?? _twitterUser.FriendsCount;
+        public string Location =>
+            _croudiaUser?.Location ?? _gnuSocialUser?.Location ?? _twitterUser.Location;
+
+        /// <summary>
+        ///     Url
+        /// </summary>
+        public string Url =>
+            _croudiaUser?.Url ?? _gnuSocialUser?.Url ?? _mastodonUser?.Url ?? _twitterUser.Url;
 
         /// <summary>
         ///     Statuses count
         /// </summary>
-        public int StatusesCount
-            => _croudiaUser?.StatusesCount ?? _gnuSocialUser?.StatusesCount ?? _mastodonUser?.StatuesCount ?? _twitterUser.StatusesCount;
+        public long StatusesCount =>
+            _croudiaUser?.StatusesCount ?? _gnuSocialUser?.StatusesCount ?? _mastodonUser?.StatuesCount ?? _twitterUser.StatusesCount;
 
         /// <summary>
-        ///     Background image
+        ///     Favorites count
         /// </summary>
-        public string Cover
-            => _croudiaUser?.CoverImageUrl ?? _gnuSocialUser?.CoverPhoto ?? _mastodonUser?.Header ?? _twitterUser.ProfileBackgroundImageUrlHttps;
+        public long FavoritesCount =>
+            _croudiaUser?.FavoritesCount ?? _gnuSocialUser?.FavouritesCount ?? _twitterUser?.FavouritesCount ?? 0;
 
         /// <summary>
-        ///     Favorites count (Mastodon don't have favorites count)
+        ///     Followers count
         /// </summary>
-        public int FavoritesCount
-            => _croudiaUser?.FavoritesCount ?? _gnuSocialUser?.FavouritesCount ?? _twitterUser?.FavouritesCount ?? 0;
+        public long FollowersCount =>
+            _croudiaUser?.FollowersCount ?? _gnuSocialUser?.FollowersCount ?? _mastodonUser?.FollowersCount ?? _twitterUser.FollowersCount;
 
         /// <summary>
-        ///     Initialize with Croudia.*.User
+        ///     Following count
         /// </summary>
-        /// <param name="user"></param>
-        public User(Service.Croudia.Models.User user)
+        public long FriendsCount =>
+            _croudiaUser?.FriendsCount ?? _gnuSocialUser?.FriendsCount ?? _mastodonUser?.FollowingCount ?? _twitterUser.FriendsCount;
+
+        /// <summary>
+        ///     Protected or No
+        /// </summary>
+        public bool IsProtected =>
+            _croudiaUser?.IsProtected ?? _gnuSocialUser?.IsProtected ?? _mastodonUser?.IsLocked ?? _twitterUser.IsProtected;
+
+        /// <summary>
+        ///     Local user
+        /// </summary>
+        public bool IsLocal =>
+            _gnuSocialUser?.IsLocal ?? _mastodonUser?.Acct?.Contains("@").Equals(false) ?? true;
+
+        public bool IsFollowing =>
+            _croudiaUser?.IsFollowing ?? _gnuSocialUser?.IsFollowing ?? false;
+
+        public User(CroudiaUser user)
         {
             _croudiaUser = user;
-            ScreenName = $"{user.ScreenName}@croudia.com";
-            NormalizedScreenName = user.ScreenName;
+            ScreenNameWithHost = $"{user.ScreenName}@croudia.com";
         }
 
-        /// <summary>
-        ///     Initialize with GnuSocial.*.User
-        /// </summary>
-        /// <param name="user"></param>
-        public User(Service.GnuSocial.Models.User user)
+        public User(GnuSocialUser user)
         {
             _gnuSocialUser = user;
-            ScreenName = $"{user.ScreenName}@{user.OStatusUri.Host}";
-            NormalizedScreenName = user.ScreenName;
+            ScreenNameWithHost = $"{user.ScreenName}@{new Uri(user.StatusnetProfileUrl).Host}";
         }
 
-        /// <summary>
-        ///     Initialize with Mastodon.*.Account
-        /// </summary>
-        /// <param name="user"></param>
-        public User(Service.Mastodon.Models.Account user)
+        public User(MastodonUser user)
         {
             _mastodonUser = user;
-            ScreenName = $"{user.Acct}";
-            if (!user.Acct.Contains("@"))
-                ScreenName += $"@{new Uri(user.Url).Host}";
-            NormalizedScreenName = user.Acct;
+            ScreenNameWithHost = ScreenName.Contains("@") ? ScreenName : $"{user.Acct}@{new Uri(user.Url).Host}";
         }
 
-        /// <summary>
-        ///     Initialize with CoreTweet.User
-        /// </summary>
-        /// <param name="user"></param>
-        public User(CoreTweet.User user)
+        public User(TwitterUser user)
         {
             _twitterUser = user;
-            ScreenName = $"{user.ScreenName}@twitter.com";
-            NormalizedScreenName = user.ScreenName;
+            ScreenNameWithHost = $"{user.ScreenName}@twitter.com";
         }
     }
 }

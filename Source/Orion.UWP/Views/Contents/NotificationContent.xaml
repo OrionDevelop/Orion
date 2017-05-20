@@ -29,7 +29,7 @@
               RelativePanel.AlignRightWithPanel="True"
               RelativePanel.Below="Message"
               Visibility="{Binding IsShowStatus, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <local:StatusContent DataContext="{Binding StatusViewModel}" />
+            <local:StatusContent DataContext="{Binding StatusViewModel}" IsMiniMode="True" />
         </Grid>
     </RelativePanel>
 </UserControl>

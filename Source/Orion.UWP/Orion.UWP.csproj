@@ -105,8 +105,9 @@
     <Compile Include="Controls\DataTemplateCollection.cs" />
     <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
     <Compile Include="Converters\HtmlStringToBlockCollectionConverter.cs" />
-    <Compile Include="Extensions\NotificationTypeEx.cs" />
-    <Compile Include="Extensions\TimelineTypeEx.cs" />
+    <Compile Include="Extensions\EventTypeEx.cs" />
+    <Compile Include="Extensions\TimelineEx.cs" />
+    <Compile Include="Extensions\TimelinePresetEx.cs" />
     <Compile Include="Models\GlobalNotifier.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Models\Software.cs" />
@@ -116,7 +117,7 @@
     <Compile Include="ViewModels\Contents\NotificationViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
-    <Compile Include="ViewModels\Contents\TimelineTypeViewModel.cs" />
+    <Compile Include="ViewModels\Contents\TimelinePresetViewModel.cs" />
     <Compile Include="ViewModels\Contents\TimelineViewModel.cs" />
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />

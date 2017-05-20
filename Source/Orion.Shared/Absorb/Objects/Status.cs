@@ -1,90 +1,130 @@
-﻿namespace Orion.Shared.Absorb.Objects
+﻿using CroudiaStatus = Orion.Service.Croudia.Models.Status;
+using GnuSocialStatus = Orion.Service.GnuSocial.Models.Status;
+using MastodonStatus = Orion.Service.Mastodon.Models.Status;
+using TwitterStatus = CoreTweet.Status;
+
+namespace Orion.Shared.Absorb.Objects
 {
+    /// <summary>
+    ///     Status (a.k.a Tweet, Whisper, Quip and others.)
+    /// </summary>
     public class Status : StatusBase
     {
-        private readonly Service.Croudia.Models.Status _croudiaStatus;
-        private readonly Service.GnuSocial.Models.Status _gnuSocialStatus;
-        private readonly Service.Mastodon.Models.Status _mastodonStatus;
-        private readonly CoreTweet.Status _twitterStatus;
+        private readonly CroudiaStatus _croudiaStatus;
+        private readonly GnuSocialStatus _gnuSocialStatus;
+        private readonly MastodonStatus _mastodonStatus;
+        private readonly TwitterStatus _twitterStatus;
 
         /// <summary>
-        ///     Body (Show as HTML parsed content)
+        ///     Status body
         /// </summary>
-        public string Body => _croudiaStatus?.Text ?? _gnuSocialStatus?.Text ?? _mastodonStatus?.Content ?? _twitterStatus.Text;
+        public string Text =>
+            _croudiaStatus?.Text ?? _gnuSocialStatus?.Text ?? _mastodonStatus?.Content ?? _twitterStatus.Text;
 
         /// <summary>
-        ///     In reply to status id
+        ///     In reply to status ID
         /// </summary>
         public long? InReplyToStatusId =>
-            _croudiaStatus?.InReplyToStatusId ?? _gnuSocialStatus?.InReplyToStatusId ?? _mastodonStatus?.InReplyToId ?? _twitterStatus?.InReplyToStatusId;
+            _croudiaStatus?.InReplyToStatusId ?? _gnuSocialStatus?.InReplyToStatusId ?? _mastodonStatus?.InReplyToId ?? _twitterStatus?.InReplyToStatusId ?? 0;
 
         /// <summary>
-        ///     Reblog count
+        ///     In reply to user ID
         /// </summary>
-        public int ReblogsCount =>
-            _croudiaStatus?.SpreadCount ?? _gnuSocialStatus?.RepeatNum ?? _mastodonStatus?.ReblogsCount ?? _twitterStatus.RetweetCount ?? 0;
+        public long? InReplyToUserId =>
+            _croudiaStatus?.InReplyToUserId ?? _gnuSocialStatus?.InReplyToUserId ?? _mastodonStatus?.InReplyToAccountId ?? _twitterStatus?.InReplyToUserId ?? 0;
 
         /// <summary>
-        ///     Favorite count
+        ///     Reblogs count
         /// </summary>
-        public int FavoritesCount =>
-            _croudiaStatus?.FavoritedCount ?? _gnuSocialStatus?.FavNum ?? _mastodonStatus?.FavouritesCount ?? _twitterStatus.FavoriteCount ?? 0;
+        public long? ReblogsCount =>
+            _croudiaStatus?.SpreadCount ?? _gnuSocialStatus?.RepeatNum ?? _mastodonStatus?.ReblogsCount ?? _twitterStatus?.RetweetCount ?? 0;
 
         /// <summary>
-        ///     Is relobbed?
+        ///     Favorites count
         /// </summary>
-        public bool IsReblogged =>
-            _croudiaStatus?.Spread ?? _gnuSocialStatus?.IsRepeated ?? _mastodonStatus?.IsReblogged ?? _twitterStatus.IsRetweeted ?? false;
+        public long? FavoritesCount =>
+            _croudiaStatus?.FavoritedCount ?? _gnuSocialStatus?.FavNum ?? _mastodonStatus?.FavouritesCount ?? _twitterStatus?.FavoriteCount ?? 0;
+
+        /// <summary>
+        ///     Is reblogged?
+        /// </summary>
+        public bool? IsReblogged =>
+            _croudiaStatus?.Spread ?? _gnuSocialStatus?.IsRepeated ?? _mastodonStatus?.IsReblogged ?? _twitterStatus?.IsRetweeted ?? false;
 
         /// <summary>
         ///     Is favorited?
         /// </summary>
-        public bool IsFavorited =>
-            _croudiaStatus?.IsFavorited ?? _gnuSocialStatus?.IsFavorited ?? _mastodonStatus?.IsFavourited ?? _twitterStatus.IsFavorited ?? false;
+        public bool? IsFavorited =>
+            _croudiaStatus?.IsFavorited ?? _gnuSocialStatus?.IsFavorited ?? _mastodonStatus?.IsFavourited ?? _twitterStatus?.IsFavorited ?? false;
 
         /// <summary>
-        ///     Source
+        ///     Reblogged status
         /// </summary>
-        public string Source => _croudiaStatus?.Source?.Name ?? _gnuSocialStatus?.Source ?? _mastodonStatus?.Application?.Name ?? _twitterStatus?.Source;
+        public Status RebloggedStatus { get; }
 
-        #region Initialize from Status
+        /// <summary>
+        ///     Quoted status
+        /// </summary>
+        public Status QuotedStatus { get; }
 
-        public Status(Service.Croudia.Models.Status status)
+        /// <summary>
+        ///     via
+        /// </summary>
+        public string Source =>
+            _croudiaStatus?.Source?.Name ?? _gnuSocialStatus?.Source ?? _mastodonStatus?.Application?.Name ?? _twitterStatus?.Source;
+
+        /// <summary>
+        ///     ローカルステータスか (for OStatus)
+        /// </summary>
+        public bool IsLocal =>
+            _gnuSocialStatus?.IsLocal ?? _mastodonStatus?.Account?.Acct?.Contains("@").Equals(false) ?? true;
+
+        /// <summary>
+        ///     for OStatus
+        /// </summary>
+        public string ExternalUrl =>
+            _gnuSocialStatus?.ExternalUrl ?? _mastodonStatus?.Url ?? "";
+
+        public Status(CroudiaStatus status)
         {
+            Type = nameof(Status);
+            Id = status.Id;
+            CreatedAt = status.CreatedAt;
+            User = new User(status.User);
+            RebloggedStatus = status.SpreadStatus != null ? new Status(status.SpreadStatus) : null;
+            QuotedStatus = status.QuoteStatus != null ? new Status(status.QuoteStatus) : null;
             _croudiaStatus = status;
-            Type = StatusType.Status;
-            Id = status.Id;
-            CreatedAt = status.CreatedAt;
-            User = new User(_croudiaStatus.User);
         }
 
-        public Status(Service.GnuSocial.Models.Status status)
+        public Status(GnuSocialStatus status)
         {
+            Type = nameof(Status);
+            Id = status.Id;
+            CreatedAt = status.CreatedAt;
+            User = new User(status.User);
+            RebloggedStatus = status.Source == "share" ? new Status(status) : null;
             _gnuSocialStatus = status;
-            Type = StatusType.Status;
-            Id = status.Id;
-            CreatedAt = status.CreatedAt;
-            User = new User(_gnuSocialStatus.User);
         }
 
-        public Status(Service.Mastodon.Models.Status status)
+        public Status(MastodonStatus status)
         {
+            Type = nameof(Status);
+            Id = status.Id;
+            CreatedAt = status.CreatedAt;
+            User = new User(status.Account);
+            RebloggedStatus = status.Reblog != null ? new Status(status.Reblog) : null;
             _mastodonStatus = status;
-            Type = StatusType.Status;
-            Id = status.Id;
-            CreatedAt = status.CreatedAt;
-            User = new User(_mastodonStatus.Account);
         }
 
-        public Status(CoreTweet.Status status)
+        public Status(TwitterStatus status)
         {
-            _twitterStatus = status;
-            Type = StatusType.Status;
+            Type = nameof(Status);
             Id = status.Id;
-            CreatedAt = status.CreatedAt.DateTime;
-            User = new User(_twitterStatus.User);
+            CreatedAt = status.CreatedAt.ToLocalTime().LocalDateTime;
+            User = new User(status.User);
+            RebloggedStatus = status.RetweetedStatus != null ? new Status(status.RetweetedStatus) : null;
+            QuotedStatus = status.QuotedStatus != null ? new Status(status.QuotedStatus) : null;
+            _twitterStatus = status;
         }
-
-        #endregion
     }
 }

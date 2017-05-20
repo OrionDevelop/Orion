@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 
 using Orion.Scripting.Ast;
 
@@ -12,7 +14,7 @@ namespace Orion.Scripting.Parsing
 
         public static void RegisterSource(FilterSourceBase source)
         {
-            if (Source.All(w => w.KeyWithProvider != source.KeyWithProvider))
+            if (Source.All(w => w.Key != source.Key))
                 Source.Add(source);
         }
 
@@ -59,7 +61,11 @@ namespace Orion.Scripting.Parsing
         private static void CompileFilterQuery<T>(TokenReader reader, FilterQuery filter)
         {
             if (reader.IsEOT)
+            {
+                Expression<Func<T, bool>> expr = w => true;
+                filter.Delegate = expr.Compile();
                 return;
+            }
 
             if (!reader.Read().Is(TokenType.Literal, "WHERE"))
                 throw new QueryParsingException("WHERE 句がありません。");

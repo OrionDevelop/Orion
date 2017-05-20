@@ -1,35 +1,29 @@
-﻿using System;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using CoreTweet;
-using CoreTweet.Streaming;
 
-using Orion.Service.FkStreaming;
-using Orion.Shared.Absorb.Objects;
-using Orion.Shared.Enums;
+using Orion.Shared.Absorb.DataSources;
+using Orion.Shared.Models;
 
-using Status = Orion.Shared.Absorb.Objects.Status;
 using User = Orion.Shared.Absorb.Objects.User;
 
 namespace Orion.Shared.Absorb.Clients
 {
-    internal class TwitterClientWrapper : BaseClientWrapper
+    public class TwitterClientWrapper : BaseClientWrapper
     {
         private OAuth.OAuthSession _session;
         private Tokens _twitterClient;
 
-        public TwitterClientWrapper(Provider provider) : base(provider) { }
-
-        public TwitterClientWrapper(Account account) : base(account)
+        public TwitterClientWrapper(Provider provider, Credential credential) : base(provider, credential)
         {
-            _twitterClient = Tokens.Create(Provider.ClientId, Provider.ClientSecret, account.Credential.AccessToken, account.Credential.AccessTokenSecret);
+            if (!string.IsNullOrWhiteSpace(credential.AccessToken))
+                _twitterClient = Tokens.Create(Provider.ConsumerKey, Provider.ConsumerSecret, Credential.AccessToken, Credential.AccessTokenSecret);
+            DataSource = new TwitterDataSource(this);
         }
 
-        public override async Task<string> GetAuthorizeUrlAsync()
+        public override async Task<string> GetAuthorizedUrlAsync()
         {
-            _session = await OAuth.AuthorizeAsync(Provider.ClientId, Provider.ClientSecret, SharedConstants.OAuthCallback);
+            _session = await OAuth.AuthorizeAsync(Provider.ConsumerKey, Provider.ConsumerSecret, SharedConstants.OAuthCallback);
             return _session.AuthorizeUri.ToString();
         }
 
@@ -38,11 +32,10 @@ namespace Orion.Shared.Absorb.Clients
             try
             {
                 _twitterClient = await _session.GetTokensAsync(verifier);
-                Account.Credential.AccessToken = _twitterClient.AccessToken;
-                Account.Credential.AccessTokenSecret = _twitterClient.AccessTokenSecret;
-                User = new User(await _twitterClient.Account.VerifyCredentialsAsync());
-                Account.Credential.Username = User.ScreenName;
-
+                Credential.AccessToken = _twitterClient.AccessToken;
+                Credential.AccessTokenSecret = _twitterClient.AccessTokenSecret;
+                Credential.UserId = _twitterClient.UserId;
+                Credential.User = new User(await _twitterClient.Account.VerifyCredentialsAsync());
                 return true;
             }
             catch
@@ -55,52 +48,25 @@ namespace Orion.Shared.Absorb.Clients
         {
             try
             {
-                User = new User(await _twitterClient.Account.VerifyCredentialsAsync());
-                Account.Credential.Username = User.ScreenName;
+                Credential.User = new User(await _twitterClient.Account.VerifyCredentialsAsync());
                 return true;
             }
             catch
             {
-                // Revoke access permission or invalid credentials.
                 return false;
             }
         }
 
-        public override IObservable<StatusBase> GetTimelineAsObservable(TimelineType type)
-        {
-            switch (type)
-            {
-                case TimelineType.HomeTimeline:
-                    return Merge(async () => (await _twitterClient.Statuses.HomeTimelineAsync()).Select(w => new Status(w)),
-                                 () => _twitterClient.Streaming.UserAsObservable().OfType<StatusMessage>().Select(w => new Status(w.Status)));
-
-                case TimelineType.Mentions:
-                    return FkStreamClient.AsObservable(async (Status w) =>
-                                                           (await _twitterClient.Statuses.MentionsTimelineAsync(since_id: w?.Id)).Select(v => new Status(v)),
-                                                       TimeSpan.FromSeconds(15));
-
-                case TimelineType.DirectMessages:
-                    throw new NotImplementedException();
-
-                case TimelineType.Notifications:
-                case TimelineType.PublicTimeline:
-                case TimelineType.FederatedTimeline:
-                    throw new NotSupportedException();
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-        }
-
-        public override async Task UpdateAsync(string status, long? inReplyToStatusId = null)
+        public override async Task<bool> UpdateAsync(string body, long? inReplyToStatusId = null)
         {
             try
             {
-                await _twitterClient.Statuses.UpdateAsync(status, inReplyToStatusId);
+                await _twitterClient.Statuses.UpdateAsync(body, inReplyToStatusId);
+                return true;
             }
             catch
             {
-                // TODO: notif to user.
+                return false;
             }
         }
     }

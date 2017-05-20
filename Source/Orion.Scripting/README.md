@@ -127,6 +127,8 @@ WHERE ReblogsCount > 10
 | `IsFavorited`    | `boolean` |
 | `Source`         | `string`  |
 
+詳しくは、 [`Source/Orion.Shared/Absorb/Objects/StatusBase.cs`](https://github.com/mika-f/Orion/blob/develop/Source/Orion.Shared/Absorb/Objects/StatusBase.cs) を参照してください。
+
 
 #### `User` 型
 ユーザーを表します。  
@@ -136,7 +138,6 @@ WHERE ReblogsCount > 10
 ```sql
 WHERE User.StatusesCount > 10
 ```
-
 
 以下のプロパティを持っています。
 
@@ -153,6 +154,8 @@ WHERE User.StatusesCount > 10
 | `FriendsCount`   | `numeric` |
 | `StatusesCount`  | `numeric` |
 | `FavoritesCount` | `numeric` |
+
+詳しくは、 [`Source/Orion.Shared/Absorb/Objects/User.cs`](https://github.com/mika-f/Orion/blob/develop/Source/Orion.Shared/Absorb/Objects/User.cs) を参照してください。
 
 
 ### 演算子
