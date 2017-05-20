@@ -59,7 +59,7 @@
                   RelativePanel.Below="Header">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Standard" />
+                    <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Recycling" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemContainerStyle>
