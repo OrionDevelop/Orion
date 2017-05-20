@@ -34,6 +34,7 @@ namespace Orion.UWP.Views.Contents
             Loaded += OnLoaded;
             AppBar.Visibility = Visibility.Collapsed;
             AppBar.Height = 0;
+            Body.IsTextSelectionEnabled = false;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -77,6 +78,7 @@ namespace Orion.UWP.Views.Contents
                 RootPanel.Height = RootPanel.ActualHeight - 40;
             AppBar.Visibility = Visibility.Collapsed;
             AppBar.Height = 0;
+            Body.IsTextSelectionEnabled = false;
         }
 
         private void ExpandCommandBar()
@@ -84,6 +86,7 @@ namespace Orion.UWP.Views.Contents
             RootPanel.Height = RootPanel.ActualHeight + 40;
             AppBar.Visibility = Visibility.Visible;
             AppBar.Height = 40;
+            Body.IsTextSelectionEnabled = true;
         }
     }
 }
