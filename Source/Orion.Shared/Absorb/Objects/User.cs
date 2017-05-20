@@ -27,7 +27,7 @@ namespace Orion.Shared.Absorb.Objects
         ///     Name
         /// </summary>
         public string Name =>
-            _croudiaUser?.Name ?? _gnuSocialUser?.Name ?? _mastodonUser?.DisplayName ?? _twitterUser.Name;
+            _croudiaUser?.Name ?? _gnuSocialUser?.Name ?? _mastodonUser?.DisplayName ?? _mastodonUser?.Username ?? _twitterUser.Name;
 
         /// <summary>
         ///     Screen name
