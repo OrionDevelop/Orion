@@ -79,6 +79,17 @@
                 </DataTemplate>
             </ListView.Resources>
         </ListView>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+              CornerRadius="12"
+              Opacity=".8"
+              RelativePanel.AlignBottomWithPanel="True"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              Visibility="{Binding IsReconnecting, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Margin="10"
+                       HorizontalAlignment="Center"
+                       Text="ストリームが切断されたため、再接続しています..." />
+        </Grid>
     </RelativePanel>
 </UserControl>
 

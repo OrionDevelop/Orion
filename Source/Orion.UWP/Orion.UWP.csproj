@@ -111,6 +111,7 @@
     <Compile Include="Models\GlobalNotifier.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Models\Software.cs" />
+    <Compile Include="Models\Waiter.cs" />
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
     <Compile Include="ViewModels\AddTimelineDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />

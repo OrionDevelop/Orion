@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Absorb.Objects.Events;
@@ -20,6 +21,8 @@ namespace Orion.UWP.ViewModels.Contents
         private readonly GlobalNotifier _globalNotifier;
         private readonly ObservableCollection<StatusBaseViewModel> _statuses;
         private readonly Timeline _timeline;
+
+        private int _counter;
         private bool _isInitialized;
         public string Name => _timeline.Name;
         public string User => _timeline.Account.Credential.User.ScreenNameWithHost;
@@ -34,7 +37,7 @@ namespace Orion.UWP.ViewModels.Contents
                 if (!_isInitialized)
                 {
                     _isInitialized = true;
-                    Initialize();
+                    Connect();
                 }
                 return new ReadOnlyObservableCollection<StatusBaseViewModel>(_statuses);
             }
@@ -53,9 +56,10 @@ namespace Orion.UWP.ViewModels.Contents
                 timeline.Disconnect();
                 timelineService.RemoveAsync(timeline);
             }).AddTo(this);
+            IsReconnecting = false;
         }
 
-        private void Initialize()
+        private void Connect()
         {
             _timeline.GetAsObservable()
                      .Where(w =>
@@ -76,8 +80,31 @@ namespace Orion.UWP.ViewModels.Contents
                          return null;
                      })
                      .Where(w => w != null)
-                     .Subscribe(w => _statuses.Insert(0, w))
+                     .Subscribe(w =>
+                     {
+                         IsReconnecting = false;
+                         _counter = 0;
+                         _statuses.Insert(0, w);
+                     }, async w =>
+                     {
+                         IsReconnecting = true;
+                         _counter++;
+                         await Task.Delay(Waiter.WaitSpan(_counter));
+                         Connect();
+                     })
                      .AddTo(this);
         }
+
+        #region IsReconnecting
+
+        private bool _isReconnecting;
+
+        public bool IsReconnecting
+        {
+            get => _isReconnecting;
+            set => SetProperty(ref _isReconnecting, value);
+        }
+
+        #endregion
     }
 }

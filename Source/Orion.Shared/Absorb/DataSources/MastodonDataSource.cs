@@ -50,7 +50,8 @@ namespace Orion.Shared.Absorb.DataSources
                     break;
             }
 
-            Disposables.Add(source.Name, connection.Select(Convert).Where(w => w != null).Subscribe(w => AddStatus(source.Name, w)));
+            Disposables.Add(source.Name,
+                            connection.Select(Convert).Where(w => w != null).Subscribe(w => AddStatus(source.Name, w), w => OnError(source.Name, w)));
         }
 
         protected override string NormalizedSource(string source)

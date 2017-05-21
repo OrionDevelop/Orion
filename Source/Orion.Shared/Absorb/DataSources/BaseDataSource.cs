@@ -55,7 +55,7 @@ namespace Orion.Shared.Absorb.DataSources
             return _observers[sourceStr];
         }
 
-        public void Disconnect(string source)
+        public void Disconnect(string source, bool clearIds = true)
         {
             var sourceStr = NormalizedSource(source);
             if (!_sources.Contains(sourceStr))
@@ -68,9 +68,11 @@ namespace Orion.Shared.Absorb.DataSources
             Connect(new Source {IsAdded = false, Name = sourceStr});
             Disposables[sourceStr].Dispose();
             Disposables.Remove(sourceStr);
+            _observers[sourceStr].OnCompleted();
             _observers[sourceStr].Dispose();
             _observers.Remove(sourceStr);
-            _ids.Remove(sourceStr);
+            if (clearIds)
+                _ids.Remove(sourceStr);
         }
 
         protected bool IsConnected(string source)
@@ -78,14 +80,23 @@ namespace Orion.Shared.Absorb.DataSources
             return Disposables.ContainsKey(NormalizedSource(source));
         }
 
-        protected void AddStatus(string source, StatusBase status)
+        protected void OnError(string sourceStr, Exception e)
         {
             lock (_lockObj)
             {
-                if (_ids[NormalizedSource(source)].Contains(status.Id))
+                _observers[NormalizedSource(sourceStr)].OnError(e);
+                Disconnect(sourceStr, false);
+            }
+        }
+
+        protected void AddStatus(string sourceStr, StatusBase status)
+        {
+            lock (_lockObj)
+            {
+                if (_ids[NormalizedSource(sourceStr)].Contains(status.Id))
                     return;
-                _ids[NormalizedSource(source)].Add(status.Id);
-                _observers[NormalizedSource(source)].OnNext(status);
+                _ids[NormalizedSource(sourceStr)].Add(status.Id);
+                _observers[NormalizedSource(sourceStr)].OnNext(status);
             }
         }
 
@@ -93,7 +104,8 @@ namespace Orion.Shared.Absorb.DataSources
         {
             var observer = new Subject<StatusBase>();
             _observers.Add(NormalizedSource(source), observer);
-            _ids.Add(NormalizedSource(source), new List<long>());
+            if (!_ids.ContainsKey(NormalizedSource(source)))
+                _ids.Add(NormalizedSource(source), new List<long>());
         }
     }
 }
