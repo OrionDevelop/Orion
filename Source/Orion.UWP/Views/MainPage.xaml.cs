@@ -1,6 +1,11 @@
 ﻿using Windows.UI.Xaml.Controls;
 
+using Microsoft.Practices.Unity;
+
+using Orion.UWP.Services.Interfaces;
 using Orion.UWP.ViewModels;
+
+using Prism.Unity.Windows;
 
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=234238 を参照してください
 
@@ -16,6 +21,9 @@ namespace Orion.UWP.Views
         public MainPage()
         {
             InitializeComponent();
+            var navigationService = PrismUnityApplication.Current.Container.Resolve<IOrionNavigationService>();
+            navigationService.ConfigureRootFrame(RootFrame);
+            navigationService.Navigate("PostArea");
         }
 
         private void Reset()

@@ -112,6 +112,8 @@
     <Compile Include="Models\History.cs" />
     <Compile Include="Models\Software.cs" />
     <Compile Include="Models\Waiter.cs" />
+    <Compile Include="Services\Interfaces\IOrionNavigationService.cs" />
+    <Compile Include="Services\OrionNavigationService.cs" />
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
     <Compile Include="ViewModels\AddTimelineDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />
@@ -135,7 +137,8 @@
     <Compile Include="Services\TimelineService.cs" />
     <Compile Include="ViewModels\AuthorizationDialogViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\Partials\PostAreaViewModel.cs" />
+    <Compile Include="ViewModels\Partials\AccountsPageViewModel.cs" />
+    <Compile Include="ViewModels\Partials\PostAreaPageViewModel.cs" />
     <Compile Include="Views\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
@@ -157,8 +160,11 @@
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Partials\PostArea.xaml.cs">
-      <DependentUpon>PostArea.xaml</DependentUpon>
+    <Compile Include="Views\Partials\AccountsPage.xaml.cs">
+      <DependentUpon>AccountsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partials\PostAreaPage.xaml.cs">
+      <DependentUpon>PostAreaPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -261,7 +267,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Partials\PostArea.xaml">
+    <Page Include="Views\Partials\AccountsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partials\PostAreaPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -133,7 +133,9 @@
                             <ListView.ItemsSource>
                                 <controls:HamburgerMenuItemCollection>
                                     <controls:HamburgerMenuImageItem Label="{x:Bind ViewModel.DefaultAccount.ScreenName, Mode=OneWay}" Thumbnail="{x:Bind ViewModel.DefaultAccount.IconUrl, Mode=OneWay}" />
-                                    <controls:HamburgerMenuGlyphItem Glyph="&#xE716;" Label="アカウント" />
+                                    <controls:HamburgerMenuGlyphItem Glyph="&#xE716;"
+                                                                     Label="アカウント"
+                                                                     TargetPageType="p:AccountsPage" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#xE783;"
                                                                      Label="Orion について"
@@ -149,7 +151,9 @@
                     <ColumnDefinition Width="250" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <p:PostArea Grid.Column="0" />
+                <Frame x:Name="RootFrame"
+                       Grid.Column="0"
+                       x:FieldModifier="public" />
                 <ItemsControl Grid.Column="1"
                               Margin="0"
                               HorizontalAlignment="Stretch"

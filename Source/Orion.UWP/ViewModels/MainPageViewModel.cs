@@ -38,7 +38,13 @@ namespace Orion.UWP.ViewModels
             SelectedTimeline.Where(w => w != null).Subscribe(w => { HorizontalOffset = Timelines.IndexOf(w) * 325; }).AddTo(this);
             SelectedMiddleItem = new ReactiveProperty<HamburgerMenuItem>();
             SelectedOptions = new ReactiveProperty<HamburgerMenuItem>();
-            SelectedMiddleItem.Merge(SelectedOptions).Where(w => w != null).Subscribe(w => _dialogService.ShowDialogAsync(w.TargetPageType)).AddTo(this);
+            SelectedMiddleItem.Merge(SelectedOptions).Where(w => w?.TargetPageType != null).Subscribe(w =>
+            {
+                if (w.TargetPageType.Name.EndsWith("Dialog"))
+                    _dialogService.ShowDialogAsync(w.TargetPageType);
+                else if (w.TargetPageType.Name.EndsWith("Page"))
+                    NavigationService.Navigate(w.TargetPageType);
+            }).AddTo(this);
 
             Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, timelineService, w)).AddTo(this);
         }
