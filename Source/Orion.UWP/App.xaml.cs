@@ -1,15 +1,12 @@
 ﻿using System.Threading.Tasks;
 
 using Windows.ApplicationModel.Activation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 using Microsoft.Practices.Unity;
 
 using Orion.UWP.Models;
 using Orion.UWP.Services;
 using Orion.UWP.Services.Interfaces;
-using Orion.UWP.Views;
 
 using Prism.Unity.Windows;
 
@@ -27,13 +24,6 @@ namespace Orion.UWP
         public App()
         {
             InitializeComponent();
-        }
-
-        protected override UIElement CreateShell(Frame rootFrame)
-        {
-            var shell = Container.Resolve<MainPage>();
-            shell.SetContainerFrame(rootFrame);
-            return shell;
         }
 
         protected override async Task OnInitializeAsync(IActivatedEventArgs args)
@@ -58,7 +48,7 @@ namespace Orion.UWP
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            NavigationService.Navigate("Partials.PostArea", null);
+            NavigationService.Navigate("Main", null);
             return Task.CompletedTask;
         }
     }

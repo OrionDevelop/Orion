@@ -8,6 +8,7 @@
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:localControls="using:Orion.UWP.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:p="using:Orion.UWP.Views.Partials"
       xmlns:prism="using:Prism.Windows.Mvvm"
       xmlns:v="using:Orion.UWP.Views"
       xmlns:vm="using:Orion.UWP.ViewModels"
@@ -148,7 +149,7 @@
                     <ColumnDefinition Width="250" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Border x:Name="RootGrid" Grid.Column="0" />
+                <p:PostArea Grid.Column="0" />
                 <ItemsControl Grid.Column="1"
                               Margin="0"
                               HorizontalAlignment="Stretch"

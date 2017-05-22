@@ -7,11 +7,11 @@ using Orion.UWP.ViewModels.Partials;
 
 namespace Orion.UWP.Views.Partials
 {
-    public sealed partial class PostAreaPage : Page
+    public sealed partial class PostArea : UserControl
     {
-        public PostAreaPageViewModel ViewModel => DataContext as PostAreaPageViewModel;
+        public PostAreaViewModel ViewModel => DataContext as PostAreaViewModel;
 
-        public PostAreaPage()
+        public PostArea()
         {
             InitializeComponent();
         }
