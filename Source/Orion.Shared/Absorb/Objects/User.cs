@@ -1,5 +1,7 @@
 ﻿using System;
 
+using CoreTweet;
+
 using CroudiaUser = Orion.Service.Croudia.Models.User;
 using GnuSocialUser = Orion.Service.GnuSocial.Models.User;
 using MastodonUser = Orion.Service.Mastodon.Models.Account;
@@ -44,7 +46,8 @@ namespace Orion.Shared.Absorb.Objects
         ///     Icon url
         /// </summary>
         public string IconUrl =>
-            _croudiaUser?.ProfileImageUrl ?? _gnuSocialUser?.ProfileImageUrl ?? _mastodonUser?.Avatar ?? _twitterUser.ProfileImageUrlHttps;
+            _croudiaUser?.ProfileImageUrl ??
+            _gnuSocialUser?.ProfileImageUrlOriginal ?? _mastodonUser?.Avatar ?? _twitterUser.GetProfileImageUrlHttps("orig").ToString();
 
         /// <summary>
         ///     Background image url
