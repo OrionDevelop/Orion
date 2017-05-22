@@ -51,7 +51,10 @@ namespace Orion.Shared.Absorb.DataSources
             }
 
             Disposables.Add(source.Name,
-                            connection.Select(Convert).Where(w => w != null).Subscribe(w => AddStatus(source.Name, w), w => OnError(source.Name, w)));
+                            connection.Do(w => Heartbeat(source.Name))
+                                      .Select(Convert)
+                                      .Where(w => w != null)
+                                      .Subscribe(w => AddStatus(source.Name, w), w => OnError(source.Name, w)));
         }
 
         protected override string NormalizedSource(string source)
@@ -65,11 +68,11 @@ namespace Orion.Shared.Absorb.DataSources
                 case "public":
                     return "public";
 
-                case "home":
                 case "mentions":
                 case "mention":
                 case "notifications":
                 case "notification":
+                case "home":
                     return "home";
 
                 default:

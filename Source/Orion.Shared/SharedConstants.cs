@@ -146,7 +146,7 @@ namespace Orion.Shared
         {
             Name = "Local",
             ProviderType = ProviderType.Mastodon,
-            Query = "FROM * WHERE User.IsLocal"
+            Query = "FROM public"
         };
 
         public static readonly TimelinePreset MastodonFederatedTimelinePreset = new TimelinePreset

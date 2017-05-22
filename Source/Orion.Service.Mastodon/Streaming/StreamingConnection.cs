@@ -52,10 +52,14 @@ namespace Orion.Service.Mastodon.Streaming
 
                                 var e = sr.ReadLine();
                                 if (e == ":thump" || string.IsNullOrWhiteSpace(e))
-                                    continue;
-
-                                var p = sr.ReadLine();
-                                _observer.OnNext(MessageBase.CreateMessage(e, p));
+                                {
+                                    _observer.OnNext(new ThumpMessage());
+                                }
+                                else
+                                {
+                                    var p = sr.ReadLine();
+                                    _observer.OnNext(MessageBase.CreateMessage(e, p));
+                                }
                             }
                         }
                     }

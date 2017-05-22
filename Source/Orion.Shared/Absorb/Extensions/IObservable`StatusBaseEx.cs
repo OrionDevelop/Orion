@@ -12,7 +12,7 @@ namespace Orion.Shared.Absorb.Extensions
     {
         public static IObservable<StatusBase> AsStatus(this IObservable<StatusBase> obj)
         {
-            return obj.OfType<Status>();
+            return obj.Where(w => w is Status || w is HeartbeatStatus);
         }
 
         public static IObservable<StatusBase> AsMentions(this IObservable<StatusBase> obj, Account account)
@@ -25,18 +25,18 @@ namespace Orion.Shared.Absorb.Extensions
                         return true;
                     return status.Text.Contains($"@{account.Credential.User.ScreenName}");
                 }
-                return false;
+                return w is HeartbeatStatus;
             });
         }
 
         public static IObservable<StatusBase> AsMessages(this IObservable<StatusBase> obj)
         {
-            return obj.OfType<Message>();
+            return obj.Where(w => w is Message || w is HeartbeatStatus);
         }
 
         public static IObservable<StatusBase> AsNotifications(this IObservable<StatusBase> obj)
         {
-            return obj.OfType<EventBase>();
+            return obj.Where(w => w is EventBase || w is HeartbeatStatus);
         }
     }
 }

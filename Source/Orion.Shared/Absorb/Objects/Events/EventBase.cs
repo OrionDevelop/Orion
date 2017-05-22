@@ -25,6 +25,9 @@ namespace Orion.Shared.Absorb.Objects.Events
 
         public static StatusBase CreateEventFromMessage(MastodonMessage message)
         {
+            if (message is ThumpMessage)
+                return null;
+
             switch (message.Type)
             {
                 case MessageType.Notification:

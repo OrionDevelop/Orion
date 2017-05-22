@@ -75,17 +75,19 @@ namespace Orion.UWP.ViewModels.Contents
                              return new StatusViewModel(_globalNotifier, status) as StatusBaseViewModel;
                          if (w is DeleteEvent)
                              return null;
+                         // When streaming is reconnected, DataSource send heartbeat status to all streams.
+                         if (w is HeartbeatStatus)
+                         {
+                             _counter = 0;
+                             IsReconnecting = false;
+                             return null;
+                         }
                          if (w is EventBase @event)
                              return new NotificationViewModel(_globalNotifier, @event) as StatusBaseViewModel;
                          return null;
                      })
                      .Where(w => w != null)
-                     .Subscribe(w =>
-                     {
-                         IsReconnecting = false;
-                         _counter = 0;
-                         _statuses.Insert(0, w);
-                     }, async w =>
+                     .Subscribe(w => { _statuses.Insert(0, w); }, async w =>
                      {
                          IsReconnecting = true;
                          _counter++;
