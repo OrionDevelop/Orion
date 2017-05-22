@@ -11,10 +11,17 @@ namespace Orion.Shared.Models
 {
     public class Account
     {
+        public static int GlobalOrderIndex;
+
         /// <summary>
         ///     Unique ID
         /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        ///     Index
+        /// </summary>
+        public int OrderIndex { get; set; }
 
         /// <summary>
         ///     Service provider
@@ -40,6 +47,7 @@ namespace Orion.Shared.Models
         public Account()
         {
             Id = Guid.NewGuid().ToString();
+            OrderIndex = GlobalOrderIndex++;
         }
 
         public Task<bool> RestoreAsync()

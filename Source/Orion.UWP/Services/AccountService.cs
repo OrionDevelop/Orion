@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Windows.Security.Credentials;
@@ -15,15 +16,13 @@ namespace Orion.UWP.Services
     internal class AccountService : IAccountService
     {
         private readonly ObservableCollection<Account> _accounts;
-        private int _counter;
-
-        public ReadOnlyObservableCollection<Account> Accounts => new ReadOnlyObservableCollection<Account>(_accounts);
 
         public AccountService()
         {
             _accounts = new ObservableCollection<Account>();
-            _counter = 0;
         }
+
+        public ReadOnlyObservableCollection<Account> Accounts => new ReadOnlyObservableCollection<Account>(_accounts);
 
         public Task ClearAsync()
         {
@@ -44,7 +43,7 @@ namespace Orion.UWP.Services
                     credential.RetrievePassword();
                     var account = JsonConvert.DeserializeObject<Account>(credential.Password);
                     if (await account.RestoreAsync())
-                        await RegisterAsync(account);
+                        await RegisterAsync(account, false);
                     else
                         vault.Remove(credential);
                 }
@@ -57,13 +56,26 @@ namespace Orion.UWP.Services
 
         public Task RegisterAsync(Account account)
         {
+            return RegisterAsync(account, true);
+        }
+
+        private Task RegisterAsync(Account account, bool isInint)
+        {
             try
             {
-                if (_accounts.Count == 0)
+                if (_accounts.Count == 0 && isInint)
                     account.IsMarkAsDefault = true;
                 var vault = new PasswordVault();
-                vault.Add(new PasswordCredential("Orion.Accounts", $"{_counter++}-{account.Provider.Name}", JsonConvert.SerializeObject(account)));
-                _accounts.Add(account);
+                vault.Add(new PasswordCredential("Orion.Accounts", account.Id, JsonConvert.SerializeObject(account)));
+                if (_accounts.All(w => w.OrderIndex <= account.OrderIndex))
+                {
+                    _accounts.Add(account);
+                }
+                else
+                {
+                    var index = _accounts.Select((w, i) => (w, i)).First(w => w.Item1.OrderIndex > account.OrderIndex).Item2;
+                    _accounts.Insert(index, account);
+                }
             }
             catch
             {
