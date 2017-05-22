@@ -38,7 +38,7 @@ namespace Orion.Service.GnuSocial.Models
         public string InReplyToScreenName { get; set; }
 
         [JsonProperty("geo")]
-        public string Geo { get; set; }
+        public Geo Geo { get; set; }
 
         [JsonProperty("attachments")]
         public List<Attachment> Attachments { get; }
