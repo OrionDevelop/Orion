@@ -1,6 +1,8 @@
 ﻿<Page x:Class="Orion.UWP.Views.Partials.AccountsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:contents="using:Orion.UWP.ViewModels.Contents"
+      xmlns:controls="using:Orion.UWP.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:prism="using:Prism.Windows.Mvvm"
@@ -28,6 +30,47 @@
                            FontSize="18"
                            Text="アカウント" />
             </Grid>
+            <ListView x:Name="AccountList"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      ItemsSource="{x:Bind ViewModel.Accounts, Mode=OneWay}"
+                      RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True"
+                      RelativePanel.Below="Header">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="contents:AccountViewModel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <controls:CircleImage Grid.Column="0"
+                                                  Width="36"
+                                                  Height="36"
+                                                  CornerRadius="6"
+                                                  Source="{Binding IconUrl}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock FontSize="16"
+                                           Text="{Binding Username, Mode=OneWay}"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock FontSize="12"
+                                           Foreground="Silver"
+                                           Text="{Binding ScreenName, Mode=OneWay}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button x:Name="AddButton"
+                    Width="60"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Right"
+                    Command="{x:Bind ViewModel.AddCommand, Mode=OneWay}"
+                    Content="追加"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.Below="AccountList" />
         </RelativePanel>
 
     </ScrollViewer>
