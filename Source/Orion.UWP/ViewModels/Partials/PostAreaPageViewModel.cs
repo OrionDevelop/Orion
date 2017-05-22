@@ -13,14 +13,14 @@ using Reactive.Bindings.Extensions;
 
 namespace Orion.UWP.ViewModels.Partials
 {
-    public class PostAreaViewModel : ViewModel
+    public class PostAreaPageViewModel : ViewModel
     {
         public ReadOnlyObservableCollection<AccountViewModel> Accounts { get; }
         public ReactiveProperty<string> StatusBody { get; }
         public ReactiveCollection<AccountViewModel> SelectedAccounts { get; }
         public AsyncReactiveCommand<object> SendStatusCommand { get; }
 
-        public PostAreaViewModel(GlobalNotifier globalNotifier, IAccountService accountService)
+        public PostAreaPageViewModel(GlobalNotifier globalNotifier, IAccountService accountService)
         {
             var history = new History<string>(2);
             globalNotifier.ObserveProperty(w => w.InReplyStatus).Where(w => w != null)

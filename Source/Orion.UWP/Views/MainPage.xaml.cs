@@ -18,6 +18,11 @@ namespace Orion.UWP.Views
             InitializeComponent();
         }
 
+        public void SetContainerFrame(Frame frame)
+        {
+            RootGrid.Child = frame;
+        }
+
         private void Reset()
         {
             First.SelectedIndex = -1;

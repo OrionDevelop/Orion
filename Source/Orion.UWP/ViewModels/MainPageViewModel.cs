@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
@@ -41,17 +42,15 @@ namespace Orion.UWP.ViewModels
             SelectedMiddleItem.Merge(SelectedOptions).Where(w => w != null).Subscribe(w => _dialogService.ShowDialogAsync(w.TargetPageType)).AddTo(this);
 
             Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, timelineService, w)).AddTo(this);
-        }
 
-        public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
-        {
-            base.OnNavigatedTo(e, viewModelState);
-
-            if (_accountService.Accounts.Count == 0)
-                await _dialogService.ShowDialogAsync<AuthorizationDialog>();
-            else
-                await _timelineService.RestoreAsync();
-            DefaultAccount = new AccountViewModel(_accountService.Accounts.First(w => w.IsMarkAsDefault));
+            Task.Run(async () =>
+            {
+                if (_accountService.Accounts.Count == 0)
+                    await _dialogService.ShowDialogAsync<AuthorizationDialog>();
+                else
+                    await _timelineService.RestoreAsync();
+                DefaultAccount = new AccountViewModel(_accountService.Accounts.First(w => w.IsMarkAsDefault));
+            });
         }
 
         #region DefaultAccount
