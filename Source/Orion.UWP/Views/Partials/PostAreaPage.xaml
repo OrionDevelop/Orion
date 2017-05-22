@@ -30,7 +30,7 @@
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
                            FontSize="18"
-                           Text="New Status" />
+                           Text="新規ステータス" />
             </Grid>
             <TextBlock x:Name="AccountText"
                        RelativePanel.Below="Header"

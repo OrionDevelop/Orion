@@ -30,7 +30,7 @@
         </StackPanel>
         <StackPanel Margin="0,10">
             <TextBlock Text="This software is open source software that under the MIT license." />
-            <TextBlock Text="If you have a suggestion, bug report or localization ?" />
+            <TextBlock Text="If you have a suggestion, bug report or localization?" />
             <TextBlock>
                 <Run>Contributing to project on</Run>
                 <Hyperlink NavigateUri="https://github.com/mika-f/Orion">GitHub</Hyperlink>
