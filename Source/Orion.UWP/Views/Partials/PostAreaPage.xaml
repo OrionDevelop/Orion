@@ -46,15 +46,15 @@
                       SelectionMode="Multiple">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid ItemHeight="56"
-                                       ItemWidth="56"
+                        <ItemsWrapGrid ItemHeight="60"
+                                       ItemWidth="60"
                                        Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vmc:AccountViewModel">
-                        <c:CircleImage Width="48"
-                                       Height="48"
+                        <c:CircleImage Width="52"
+                                       Height="52"
                                        CornerRadius="6"
                                        Source="{Binding IconUrl}"
                                        ToolTipService.ToolTip="{Binding ScreenName}" />
