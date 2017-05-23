@@ -99,7 +99,7 @@ namespace Orion.UWP.Controls
                 {
                     var content = (FrameworkElement) ItemsTemplate.LoadContent();
                     content.DataContext = itemsSource[i];
-                    if (i == 2)
+                    if (i == 0)
                         VariableSizedWrapGrid.SetRowSpan(content, 2);
                     _rootGrid.Children.Add(content);
                 }
