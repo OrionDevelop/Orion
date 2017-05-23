@@ -15,3 +15,7 @@ Supported services are:
 
 #### Orion for Windows
 <img width="717" alt="default" src="https://cloud.githubusercontent.com/assets/10832834/25775889/c95cbe24-32ea-11e7-82cb-bef87081334a.PNG">
+
+
+### Donate
+* Donate via Bitcoin: `1NFcYczriqTEzVgzfurTMJNbhxPY1vyki9`
