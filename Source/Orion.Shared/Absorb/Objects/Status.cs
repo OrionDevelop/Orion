@@ -1,4 +1,7 @@
-﻿using CroudiaStatus = Orion.Service.Croudia.Models.Status;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using CroudiaStatus = Orion.Service.Croudia.Models.Status;
 using GnuSocialStatus = Orion.Service.GnuSocial.Models.Status;
 using MastodonStatus = Orion.Service.Mastodon.Models.Status;
 using TwitterStatus = CoreTweet.Status;
@@ -58,6 +61,11 @@ namespace Orion.Shared.Absorb.Objects
             _croudiaStatus?.IsFavorited ?? _gnuSocialStatus?.IsFavorited ?? _mastodonStatus?.IsFavourited ?? _twitterStatus?.IsFavorited ?? false;
 
         /// <summary>
+        ///     Attachments (Image, Video or ....)
+        /// </summary>
+        public List<Attachment> Attachments { get; }
+
+        /// <summary>
         ///     Reblogged status
         /// </summary>
         public Status RebloggedStatus { get; }
@@ -91,6 +99,12 @@ namespace Orion.Shared.Absorb.Objects
             Id = status.Id;
             CreatedAt = status.CreatedAt;
             User = new User(status.User);
+            Attachments = status.Entities?.Media == null
+                ? new List<Attachment>()
+                : new List<Attachment>
+                {
+                    new Attachment(status.Entities.Media)
+                };
             RebloggedStatus = status.SpreadStatus != null ? new Status(status.SpreadStatus) : null;
             QuotedStatus = status.QuoteStatus != null ? new Status(status.QuoteStatus) : null;
             _croudiaStatus = status;
@@ -112,6 +126,7 @@ namespace Orion.Shared.Absorb.Objects
             Id = status.Id;
             CreatedAt = status.CreatedAt;
             User = new User(status.Account);
+            Attachments = status.MediaAttachments.Select(w => new Attachment(w)).ToList();
             RebloggedStatus = status.Reblog != null ? new Status(status.Reblog) : null;
             _mastodonStatus = status;
         }
@@ -122,6 +137,7 @@ namespace Orion.Shared.Absorb.Objects
             Id = status.Id;
             CreatedAt = status.CreatedAt.ToLocalTime().LocalDateTime;
             User = new User(status.User);
+            Attachments = status.ExtendedEntities.Media != null ? status.ExtendedEntities.Media.Select(w => new Attachment(w)).ToList() : new List<Attachment>();
             RebloggedStatus = status.RetweetedStatus != null ? new Status(status.RetweetedStatus) : null;
             QuotedStatus = status.QuotedStatus != null ? new Status(status.QuotedStatus) : null;
             _twitterStatus = status;

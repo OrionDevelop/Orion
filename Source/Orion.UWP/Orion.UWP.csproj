@@ -104,6 +104,7 @@
     <Compile Include="Behaviors\ScrollingBehavior.cs" />
     <Compile Include="Controls\DataTemplateCollection.cs" />
     <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
+    <Compile Include="Controls\GridPreview\GridPreview.cs" />
     <Compile Include="Converters\HtmlStringToBlockCollectionConverter.cs" />
     <Compile Include="Extensions\EventTypeEx.cs" />
     <Compile Include="Extensions\TimelineEx.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
     <Compile Include="ViewModels\AddTimelineDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />
+    <Compile Include="ViewModels\Contents\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\Contents\NotificationViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
@@ -235,6 +237,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\CircleImage\CircleImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Controls\GridPreview\GridPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

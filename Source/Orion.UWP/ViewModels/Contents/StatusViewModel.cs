@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Practices.Unity;
 
@@ -20,7 +22,8 @@ namespace Orion.UWP.ViewModels.Contents
         public string Username => EmojiConverter.Convert(_status.User.Name);
         public string Icon { get; }
         public string Body => EmojiConverter.Convert(_status.Text);
-        public string Via => _status.Source;
+        public bool HasMedia => _status.Attachments.Count > 0;
+        public List<AttachmentViewModel> Attachments { get; }
 
         public ReactiveCommand ReplyCommand { get; }
 
@@ -44,6 +47,7 @@ namespace Orion.UWP.ViewModels.Contents
                 : $"https://{new Uri(status.User.Url).Host}{status.User.IconUrl}";
             ReplyCommand = new ReactiveCommand();
             ReplyCommand.Subscribe(() => globalNotifier.InReplyStatus = _status).AddTo(this);
+            Attachments = _status.Attachments.Select(w => new AttachmentViewModel(w)).ToList();
         }
 
 #pragma warning disable 659

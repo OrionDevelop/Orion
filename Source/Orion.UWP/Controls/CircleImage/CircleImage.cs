@@ -24,6 +24,9 @@ namespace Orion.UWP.Controls
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(CircleImage), new PropertyMetadata(default(CornerRadius)));
 
+        public static readonly DependencyProperty IsCenteredProperty =
+            DependencyProperty.Register(nameof(IsCentered), typeof(bool), typeof(CircleImage), new PropertyMetadata(default(bool)));
+
         private Border _imageBorder;
         private bool _isInitialized;
 
@@ -51,6 +54,12 @@ namespace Orion.UWP.Controls
             set => SetValue(CornerRadiusProperty, value);
         }
 
+        public bool IsCentered
+        {
+            get => (bool) GetValue(IsCenteredProperty);
+            set => SetValue(IsCenteredProperty, value);
+        }
+
         private static void OnSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var control = obj as CircleImage;
@@ -72,10 +81,19 @@ namespace Orion.UWP.Controls
             if (source == null)
                 return;
 
+            ImageBrush brush;
             if (source is BitmapImage bitmap)
-                _imageBorder.Background = new ImageBrush {ImageSource = bitmap};
+                brush = new ImageBrush {ImageSource = bitmap};
             else
-                _imageBorder.Background = new ImageBrush {ImageSource = new BitmapImage(new Uri(source.ToString()))};
+                brush = new ImageBrush {ImageSource = new BitmapImage(new Uri(source.ToString()))};
+
+            if (IsCentered)
+            {
+                brush.AlignmentX = AlignmentX.Center;
+                brush.AlignmentY = AlignmentY.Center;
+                brush.Stretch = Stretch.None;
+            }
+            _imageBorder.Background = brush;
         }
 
         private static bool IsHttpUri(Uri uri)

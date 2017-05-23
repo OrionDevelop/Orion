@@ -58,6 +58,25 @@
                 <behaviors:RichTextBlockBindingBehavior BindingDocument="{Binding Body, Mode=OneWay, Converter={StaticResource HtmlStringToBlockCollectionConverter}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
+        <!--<c:GridPreview x:Name="ImagePreviews"
+                       MaxHeight="150"
+                       Padding="5"
+                       ItemHeight="130"
+                       ItemWidth="240"
+                       RelativePanel.AlignRightWithPanel="True"
+                       RelativePanel.Below="Body"
+                       RelativePanel.RightOf="Icon"
+                       Visibility="{Binding HasMedia, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <c:GridPreview.ItemsTemplate>
+                <DataTemplate x:DataType="vm:AttachmentViewModel">
+                    <c:CircleImage Margin="2.5"
+                                   HorizontalContentAlignment="Stretch"
+                                   CornerRadius="6"
+                                   IsCentered="True"
+                                   Source="{Binding PreviewUrl}" />
+                </DataTemplate>
+            </c:GridPreview.ItemsTemplate>
+        </c:GridPreview>-->
         <StackPanel x:Name="AppBar"
                     Margin="0,0,10,0"
                     HorizontalAlignment="Right"

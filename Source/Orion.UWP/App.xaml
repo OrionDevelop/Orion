@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Controls/CircleImage/CircleImage.xaml" />
+                <ResourceDictionary Source="Controls/GridPreview/GridPreview.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <c:HtmlStringToBlockCollectionConverter x:Key="HtmlStringToBlockCollectionConverter" />
