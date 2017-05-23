@@ -1,6 +1,10 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Diagnostics;
+
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+
+using Orion.UWP.ViewModels.Contents;
 
 using WinRTXamlToolkit.Controls.Extensions;
 
@@ -10,11 +14,20 @@ namespace Orion.UWP.Views.Contents
 {
     public sealed partial class StatusContent : UserControl
     {
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register(nameof(ViewModel), typeof(StatusViewModel), typeof(StatusContent), new PropertyMetadata(null, OnViewModelChanged));
+
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(StatusContent), new PropertyMetadata(false, OnIsSelectedChanged));
 
         public static readonly DependencyProperty IsMiniModeProperty =
             DependencyProperty.Register(nameof(IsMiniMode), typeof(bool), typeof(StatusContent), new PropertyMetadata(false, OnIsMiniModeChanged));
+
+        public StatusViewModel ViewModel
+        {
+            get => (StatusViewModel) GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
 
         public bool IsSelected
         {
@@ -54,6 +67,13 @@ namespace Orion.UWP.Views.Contents
             });
         }
 
+        private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            Debug.WriteLine((args.NewValue as StatusViewModel)?.Body);
+            if (args.NewValue != null && args.NewValue != args.OldValue)
+                (dependencyObject as StatusContent)?.ResetLayouts();
+        }
+
         private static void OnIsSelectedChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             if ((bool) args.NewValue)
@@ -70,6 +90,15 @@ namespace Orion.UWP.Views.Contents
                 status.Username.FontSize = status.Body.FontSize = 13;
                 status.ScreenName.FontSize = status.Timestamp.FontSize = 12;
             }
+        }
+
+        private void ResetLayouts()
+        {
+            AppBar.Visibility = Visibility.Collapsed;
+            AppBar.Height = 0;
+            Body.IsTextSelectionEnabled = false;
+            Body.InvalidateMeasure();
+            ImagePreviews.InvalidateMeasure();
         }
 
         private void ContractCommandBar()

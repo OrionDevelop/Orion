@@ -8,8 +8,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Orion.UWP.ViewModels.Contents"
              d:DataContext="{d:DesignInstance vm:StatusViewModel}"
-             d:DesignHeight="300"
-             d:DesignWidth="400"
              mc:Ignorable="d">
     <RelativePanel x:Name="RootPanel"
                    Margin="1,5,1,10"
@@ -21,7 +19,7 @@
                        CornerRadius="4"
                        RelativePanel.AlignLeftWithPanel="True"
                        RelativePanel.AlignTopWithPanel="True"
-                       Source="{Binding Icon}" />
+                       Source="{x:Bind ViewModel.Icon, Mode=OneWay}" />
         <RelativePanel x:Name="UserLine"
                        Padding="10,0,0,0"
                        RelativePanel.AlignRightWithPanel="True"
@@ -29,7 +27,7 @@
                        RelativePanel.RightOf="Icon">
             <TextBlock x:Name="Username"
                        MaxWidth="115"
-                       Text="{Binding Username}"
+                       Text="{x:Bind ViewModel.Username, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis" />
             <TextBlock x:Name="ScreenName"
                        Padding="5,0,0,0"
@@ -38,7 +36,7 @@
                        Foreground="Silver"
                        RelativePanel.LeftOf="Timestamp"
                        RelativePanel.RightOf="Username"
-                       Text="{Binding ScreenName}"
+                       Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis" />
             <TextBlock x:Name="Timestamp"
                        Padding="5,0,0,0"
@@ -46,7 +44,7 @@
                        FontSize="13"
                        Foreground="Silver"
                        RelativePanel.AlignRightWithPanel="True"
-                       Text="{Binding CreatedAt}" />
+                       Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}" />
         </RelativePanel>
         <RichTextBlock x:Name="Body"
                        Padding="10,0,0,0"
@@ -55,28 +53,29 @@
                        RelativePanel.RightOf="Icon"
                        TextWrapping="Wrap">
             <i:Interaction.Behaviors>
-                <behaviors:RichTextBlockBindingBehavior BindingDocument="{Binding Body, Mode=OneWay, Converter={StaticResource HtmlStringToBlockCollectionConverter}}" />
+                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource HtmlStringToBlockCollectionConverter}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
-        <!--<c:GridPreview x:Name="ImagePreviews"
+        <c:GridPreview x:Name="ImagePreviews"
                        MaxHeight="150"
-                       Padding="5"
+                       Margin="0,5"
                        ItemHeight="130"
                        ItemWidth="240"
+                       ItemsSource="{x:Bind ViewModel.Attachments, Mode=OneWay}"
                        RelativePanel.AlignRightWithPanel="True"
                        RelativePanel.Below="Body"
                        RelativePanel.RightOf="Icon"
-                       Visibility="{Binding HasMedia, Converter={StaticResource BooleanToVisibilityConverter}}">
+                       Visibility="{x:Bind ViewModel.HasMedia, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
             <c:GridPreview.ItemsTemplate>
                 <DataTemplate x:DataType="vm:AttachmentViewModel">
                     <c:CircleImage Margin="2.5"
                                    HorizontalContentAlignment="Stretch"
                                    CornerRadius="6"
                                    IsCentered="True"
-                                   Source="{Binding PreviewUrl}" />
+                                   Source="{x:Bind PreviewUrl, Mode=OneWay}" />
                 </DataTemplate>
             </c:GridPreview.ItemsTemplate>
-        </c:GridPreview>-->
+        </c:GridPreview>
         <StackPanel x:Name="AppBar"
                     Margin="0,0,10,0"
                     HorizontalAlignment="Right"
@@ -84,11 +83,11 @@
                     RelativePanel.AlignBottomWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.Below="Body">
+                    RelativePanel.Below="ImagePreviews">
             <Button Width="45"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Command="{Binding ReplyCommand, Mode=OneWay}">
+                    Command="{x:Bind ViewModel.ReplyCommand, Mode=OneWay}">
                 <FontIcon Glyph="&#xE97A;" />
             </Button>
         </StackPanel>

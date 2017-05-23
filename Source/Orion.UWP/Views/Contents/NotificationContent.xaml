@@ -13,8 +13,8 @@
         <FontIcon x:Name="Icon"
                   Margin="0,3,0,0"
                   FontSize="13"
-                  Foreground="{Binding Color}"
-                  Glyph="{Binding Icon}"
+                  Foreground="{x:Bind ViewModel.Color, Mode=OneWay}"
+                  Glyph="{x:Bind ViewModel.Icon, Mode=OneWay}"
                   RelativePanel.AlignLeftWithPanel="True"
                   RelativePanel.AlignTopWithPanel="True" />
         <TextBlock x:Name="Message"
@@ -23,13 +23,13 @@
                    Foreground="Silver"
                    RelativePanel.AlignTopWithPanel="True"
                    RelativePanel.RightOf="Icon"
-                   Text="{Binding Message}"
+                   Text="{x:Bind ViewModel.Message, Mode=OneWay}"
                    TextWrapping="Wrap" />
         <Grid RelativePanel.AlignLeftWithPanel="True"
               RelativePanel.AlignRightWithPanel="True"
               RelativePanel.Below="Message"
-              Visibility="{Binding IsShowStatus, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <local:StatusContent DataContext="{Binding StatusViewModel}" IsMiniMode="True" />
+              Visibility="{x:Bind ViewModel.IsShowStatus, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <local:StatusContent IsMiniMode="True" ViewModel="{x:Bind ViewModel.StatusViewModel, Mode=OneWay}" />
         </Grid>
     </RelativePanel>
 </UserControl>

@@ -73,6 +73,8 @@ namespace Orion.UWP.Controls
             if (itemsSource == null || itemsSource.Count == 0)
                 return;
 
+            _rootGrid.Children.Clear();
+
             if (itemsSource.Count == 1)
             {
                 var content = (FrameworkElement) ItemsTemplate.LoadContent();

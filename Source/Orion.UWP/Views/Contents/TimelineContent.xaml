@@ -71,11 +71,11 @@
                 <controls:DefaultDataTemplateSelector />
             </ListView.ItemTemplateSelector>
             <ListView.Resources>
-                <DataTemplate x:Key="StatusViewModel">
-                    <vc:StatusContent DataContext="{Binding}" />
+                <DataTemplate x:Key="StatusViewModel" x:DataType="vmc:StatusViewModel">
+                    <vc:StatusContent ViewModel="{x:Bind}" />
                 </DataTemplate>
-                <DataTemplate x:Key="NotificationViewModel">
-                    <vc:NotificationContent DataContext="{Binding}" />
+                <DataTemplate x:Key="NotificationViewModel" x:DataType="vmc:NotificationViewModel">
+                    <vc:NotificationContent ViewModel="{x:Bind}" />
                 </DataTemplate>
             </ListView.Resources>
         </ListView>
