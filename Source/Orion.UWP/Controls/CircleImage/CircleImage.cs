@@ -91,7 +91,7 @@ namespace Orion.UWP.Controls
             {
                 brush.AlignmentX = AlignmentX.Center;
                 brush.AlignmentY = AlignmentY.Center;
-                brush.Stretch = Stretch.None;
+                brush.Stretch = Stretch.UniformToFill;
             }
             _imageBorder.Background = brush;
         }
