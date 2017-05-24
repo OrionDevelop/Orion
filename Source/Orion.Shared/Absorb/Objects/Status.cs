@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using CroudiaStatus = Orion.Service.Croudia.Models.Status;
 using GnuSocialStatus = Orion.Service.GnuSocial.Models.Status;
@@ -16,9 +17,11 @@ namespace Orion.Shared.Absorb.Objects
     {
         private readonly CroudiaStatus _croudiaStatus;
 
+        private readonly string _formattedMastodonText;
         private readonly string _formattedTwitterText;
         private readonly GnuSocialStatus _gnuSocialStatus;
         private readonly MastodonStatus _mastodonStatus;
+        private readonly Regex _mediaLinkRegex = new Regex("<a href=\"(?<url>.*?)\" .*?>.*?</a>");
         private readonly TwitterStatus _twitterStatus;
 
         /// <summary>
@@ -26,7 +29,7 @@ namespace Orion.Shared.Absorb.Objects
         ///     <para>&lt;tco displayUrl="Display Url&gt;t.co Url&lt;/tco&gt;</para>
         /// </summary>
         public string Text =>
-            _croudiaStatus?.Text ?? _gnuSocialStatus?.Text ?? _mastodonStatus?.Content ?? _formattedTwitterText;
+            _croudiaStatus?.Text ?? _gnuSocialStatus?.Text ?? _formattedMastodonText ?? _formattedTwitterText;
 
         /// <summary>
         ///     In reply to status ID
@@ -132,6 +135,18 @@ namespace Orion.Shared.Absorb.Objects
             User = new User(status.Account);
             Attachments = status.MediaAttachments.Select(w => new Attachment(w)).ToList();
             RebloggedStatus = status.Reblog != null ? new Status(status.Reblog) : null;
+
+            // Format text (remove media urls)
+            var text = status.Content;
+            foreach (var attachment in status.MediaAttachments)
+                if (_mediaLinkRegex.IsMatch(text))
+                    foreach (Match match in _mediaLinkRegex.Matches(text))
+                        if (match.Groups["url"].Value == attachment.TextUrl)
+                        {
+                            text = text.Replace(match.Value, "");
+                            break;
+                        }
+            _formattedMastodonText = text;
             _mastodonStatus = status;
         }
 
@@ -150,9 +165,17 @@ namespace Orion.Shared.Absorb.Objects
 
             // Format text (Twitter Display Requirements)
             var text = status.Text;
+
             foreach (var entity in status.Entities.Urls)
-                if (!string.IsNullOrWhiteSpace(entity.DisplayUrl))
-                    text = text.Replace(entity.Url, $"<tco disp=\"{entity.DisplayUrl.Replace(".", "^")}\">{new Uri(entity.Url).LocalPath}</tco>");
+            {
+                if (string.IsNullOrWhiteSpace(entity.DisplayUrl))
+                    continue;
+                text = text.Replace(entity.Url,
+                                    entity.ExpandedUrl.StartsWith("https://twitter.com/i/web/status/")
+                                        ? ""
+                                        : $"<tco disp=\"{entity.DisplayUrl.Replace(".", "^")}\">{new Uri(entity.Url).LocalPath}</tco>");
+            }
+
             if (status.Entities.Media != null)
                 foreach (var entity in status.Entities.Media)
                     if (!string.IsNullOrWhiteSpace(entity.Url))
