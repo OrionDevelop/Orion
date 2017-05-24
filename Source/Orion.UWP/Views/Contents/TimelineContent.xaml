@@ -74,6 +74,9 @@
                 <DataTemplate x:Key="StatusViewModel" x:DataType="vmc:StatusViewModel">
                     <vc:StatusContent ViewModel="{x:Bind}" />
                 </DataTemplate>
+                <DataTemplate x:Key="ReblogStatusViewModel" x:DataType="vmc:ReblogStatusViewModel">
+                    <vc:ReblogStatusContent ViewModel="{x:Bind}" />
+                </DataTemplate>
                 <DataTemplate x:Key="NotificationViewModel" x:DataType="vmc:NotificationViewModel">
                     <vc:NotificationContent ViewModel="{x:Bind}" />
                 </DataTemplate>
