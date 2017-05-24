@@ -18,7 +18,7 @@ namespace Orion.Shared.Absorb.Clients
         {
             if (!string.IsNullOrWhiteSpace(credential.AccessToken))
                 _twitterClient = Tokens.Create(Provider.ConsumerKey, Provider.ConsumerSecret, Credential.AccessToken, Credential.AccessTokenSecret);
-            DataSource = new TwitterDataSource(this);
+            DataSource = new TwitterDataSource(_twitterClient);
         }
 
         public override async Task<string> GetAuthorizedUrlAsync()

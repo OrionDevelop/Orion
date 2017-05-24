@@ -51,7 +51,7 @@ namespace Orion.Shared.Absorb.DataSources
             }
 
             Disposables.Add(source.Name,
-                            connection.Do(w => Heartbeat(source.Name))
+                            connection.Do(_ => Heartbeat(source.Name))
                                       .Select(Convert)
                                       .Where(w => w != null)
                                       .Subscribe(w => AddStatus(source.Name, w), w => OnError(source.Name, w)));

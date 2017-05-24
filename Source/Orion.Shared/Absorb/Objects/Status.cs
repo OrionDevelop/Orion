@@ -137,7 +137,7 @@ namespace Orion.Shared.Absorb.Objects
             Id = status.Id;
             CreatedAt = status.CreatedAt.ToLocalTime().LocalDateTime;
             User = new User(status.User);
-            Attachments = status.ExtendedEntities.Media != null ? status.ExtendedEntities.Media.Select(w => new Attachment(w)).ToList() : new List<Attachment>();
+            Attachments = status.ExtendedEntities?.Media != null ? status.ExtendedEntities.Media.Select(w => new Attachment(w)).ToList() : new List<Attachment>();
             RebloggedStatus = status.RetweetedStatus != null ? new Status(status.RetweetedStatus) : null;
             QuotedStatus = status.QuotedStatus != null ? new Status(status.QuotedStatus) : null;
             _twitterStatus = status;
