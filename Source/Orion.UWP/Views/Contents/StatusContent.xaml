@@ -53,7 +53,7 @@
                        RelativePanel.RightOf="Icon"
                        TextWrapping="Wrap">
             <i:Interaction.Behaviors>
-                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource HtmlStringToBlockCollectionConverter}}" />
+                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
         <c:GridPreview x:Name="ImagePreviews"

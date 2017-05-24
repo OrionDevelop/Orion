@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using CroudiaStatus = Orion.Service.Croudia.Models.Status;
@@ -14,15 +15,18 @@ namespace Orion.Shared.Absorb.Objects
     public class Status : StatusBase
     {
         private readonly CroudiaStatus _croudiaStatus;
+
+        private readonly string _formattedTwitterText;
         private readonly GnuSocialStatus _gnuSocialStatus;
         private readonly MastodonStatus _mastodonStatus;
         private readonly TwitterStatus _twitterStatus;
 
         /// <summary>
         ///     Status body
+        ///     <para>&lt;tco displayUrl="Display Url&gt;t.co Url&lt;/tco&gt;</para>
         /// </summary>
         public string Text =>
-            _croudiaStatus?.Text ?? _gnuSocialStatus?.Text ?? _mastodonStatus?.Content ?? _twitterStatus.Text;
+            _croudiaStatus?.Text ?? _gnuSocialStatus?.Text ?? _mastodonStatus?.Content ?? _formattedTwitterText;
 
         /// <summary>
         ///     In reply to status ID
@@ -143,6 +147,17 @@ namespace Orion.Shared.Absorb.Objects
             RebloggedStatus = status.RetweetedStatus != null ? new Status(status.RetweetedStatus) : null;
             QuotedStatus = status.QuotedStatus != null ? new Status(status.QuotedStatus) : null;
             _twitterStatus = status;
+
+            // Format text (Twitter Display Requirements)
+            var text = status.Text;
+            foreach (var entity in status.Entities.Urls)
+                if (!string.IsNullOrWhiteSpace(entity.DisplayUrl))
+                    text = text.Replace(entity.Url, $"<tco disp=\"{entity.DisplayUrl.Replace(".", "^")}\">{new Uri(entity.Url).LocalPath}</tco>");
+            if (status.Entities.Media != null)
+                foreach (var entity in status.Entities.Media)
+                    if (!string.IsNullOrWhiteSpace(entity.Url))
+                        text = text.Replace(entity.Url, "");
+            _formattedTwitterText = text;
         }
     }
 }

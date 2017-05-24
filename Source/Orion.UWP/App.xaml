@@ -12,8 +12,8 @@
                 <ResourceDictionary Source="Controls/GridPreview/GridPreview.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <c:HtmlStringToBlockCollectionConverter x:Key="HtmlStringToBlockCollectionConverter" />
             <c:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" />
+            <c:TextToBlockCollectionConverter x:Key="TextToBlockCollectionConverter" />
         </ResourceDictionary>
     </prism:PrismUnityApplication.Resources>
 </prism:PrismUnityApplication>

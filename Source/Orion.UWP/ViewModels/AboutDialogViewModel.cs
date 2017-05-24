@@ -22,6 +22,7 @@ namespace Orion.UWP.ViewModels
             new Software {Name = "Prism", Author = "Brian Lagunas, Brian Noyes", Url = "https://github.com/PrismLibrary/Prism"},
             new Software {Name = "Reactive Extensions", Author = ".NET Foundation and Contributors", Url = "https://github.com/Reactive-Extensions/Rx.NET"},
             new Software {Name = "ReactiveProperty", Author = "neuecc xin9le okazuki", Url = "https://github.com/runceel/ReactiveProperty"},
+            new Software {Name = "ToriatamaText", Author = "azyobuzin", Url = "https://github.com/azyobuzin/ToriatamaText"},
             new Software {Name = "UWP Community Toolkit", Author = "Microsoft", Url = "https://github.com/Microsoft/UWPCommunityToolkit"},
             new Software
             {

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
@@ -94,8 +95,8 @@ namespace Orion.UWP.Views.Contents
             AppBar.Visibility = Visibility.Collapsed;
             AppBar.Height = 0;
             Body.IsTextSelectionEnabled = false;
-            Body.InvalidateMeasure();
-            ImagePreviews.InvalidateMeasure();
+            Body.Measure(new Size());
+            ImagePreviews.Measure(new Size());
         }
 
         private void ContractCommandBar()
