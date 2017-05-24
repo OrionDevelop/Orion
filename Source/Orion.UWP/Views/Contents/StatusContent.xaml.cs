@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
@@ -69,7 +67,6 @@ namespace Orion.UWP.Views.Contents
 
         private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
-            Debug.WriteLine((args.NewValue as StatusViewModel)?.Body);
             if (args.NewValue != null && args.NewValue != args.OldValue)
                 (dependencyObject as StatusContent)?.ResetLayouts();
         }
