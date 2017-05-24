@@ -71,7 +71,14 @@ namespace Orion.Shared.Absorb.DataSources
                 return; // multiple connection to same source.
 
             Connect(new Source {IsAdded = false, Name = source});
-            Disposables[source].Dispose();
+            try
+            {
+                Disposables[source].Dispose();
+            }
+            catch
+            {
+                // CoreTweet throw.
+            }
             Disposables.Remove(source);
             _observers[source].OnCompleted();
             _observers[source].Dispose();
