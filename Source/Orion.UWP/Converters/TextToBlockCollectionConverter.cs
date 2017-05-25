@@ -39,9 +39,10 @@ namespace Orion.UWP.Converters
             // Is HTML?
             if (_tagRegex.IsMatch(value) || value.Contains("br"))
                 text = FlattenHtmlText(value);
-            text = text.Replace("&lt;", "<");
-            text = text.Replace("&gt;", ">");
-            text = text.Replace("&amp;", "&");
+            text = text.Replace("&lt;", "<"); // Twitter
+            text = text.Replace("&gt;", ">"); // Twitter
+            text = text.Replace("&amp;", "&"); // Twitter
+            text = text.Replace("&apos;", "'"); // Mastodon
             text = text.Replace("\n", Environment.NewLine);
 
             var extractor = new Extractor();
