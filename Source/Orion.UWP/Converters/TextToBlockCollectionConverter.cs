@@ -33,7 +33,7 @@ namespace Orion.UWP.Converters
         private List<Block> ParseText(string value)
         {
             var text = value;
-            if (string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(text))
                 return new List<Block>();
 
             // Is HTML?

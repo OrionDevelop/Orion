@@ -51,6 +51,7 @@
                        RelativePanel.AlignRightWithPanel="True"
                        RelativePanel.Below="UserLine"
                        RelativePanel.RightOf="Icon"
+                       TextTrimming="None"
                        TextWrapping="Wrap">
             <i:Interaction.Behaviors>
                 <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
