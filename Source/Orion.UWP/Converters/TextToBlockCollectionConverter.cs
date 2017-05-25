@@ -33,6 +33,9 @@ namespace Orion.UWP.Converters
         private List<Block> ParseText(string value)
         {
             var text = value;
+            if (string.IsNullOrWhiteSpace(value))
+                return new List<Block>();
+
             // Is HTML?
             if (_tagRegex.IsMatch(value) || value.Contains("br"))
                 text = FlattenHtmlText(value);
