@@ -36,7 +36,8 @@
                       ItemsSource="{x:Bind ViewModel.Accounts, Mode=OneWay}"
                       RelativePanel.AlignLeftWithPanel="True"
                       RelativePanel.AlignRightWithPanel="True"
-                      RelativePanel.Below="Header">
+                      RelativePanel.Below="Header"
+                      SelectedItem="{x:Bind ViewModel.SelectedAccount.Value, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="contents:AccountViewModel">
                         <Grid>
@@ -62,15 +63,20 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button x:Name="AddButton"
-                    Width="60"
-                    Margin="0,5,0,0"
-                    HorizontalAlignment="Right"
-                    Command="{x:Bind ViewModel.AddCommand, Mode=OneWay}"
-                    Content="追加"
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.Below="AccountList" />
+            <StackPanel x:Name="ActionButtons"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        RelativePanel.Below="AccountList">
+                <Button Width="60"
+                        Margin="5"
+                        Command="{x:Bind ViewModel.AddCommand, Mode=OneWay}"
+                        Content="追加" />
+                <Button Width="60"
+                        Command="{x:Bind ViewModel.RemoveCommand, Mode=OneWay}"
+                        Content="削除" />
+            </StackPanel>
         </RelativePanel>
 
     </ScrollViewer>

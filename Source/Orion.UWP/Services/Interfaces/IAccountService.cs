@@ -16,6 +16,8 @@ namespace Orion.UWP.Services.Interfaces
 
         Task RegisterAsync(Account account);
 
+        Task DeleteAsync(Account account);
+
         Task RestoreAsync();
     }
 }

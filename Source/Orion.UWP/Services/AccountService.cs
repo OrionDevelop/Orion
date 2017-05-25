@@ -59,6 +59,27 @@ namespace Orion.UWP.Services
             return RegisterAsync(account, true);
         }
 
+        public Task DeleteAsync(Account account)
+        {
+            try
+            {
+                var vault = new PasswordVault();
+                foreach (var credential in vault.RetrieveAll())
+                {
+                    if (credential.UserName != account.Id)
+                        continue;
+                    credential.RetrievePassword();
+                    vault.Remove(credential);
+                    _accounts.Remove(_accounts.Single(w => w.Id == account.Id));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            return Task.CompletedTask;
+        }
+
         private Task RegisterAsync(Account account, bool isInint)
         {
             try
