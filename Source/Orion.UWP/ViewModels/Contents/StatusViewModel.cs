@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.Practices.Unity;
-
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Emoji;
 using Orion.UWP.Models;
@@ -37,7 +35,6 @@ namespace Orion.UWP.ViewModels.Contents
             _id = statusId;
         }
 
-        [InjectionConstructor]
         public StatusViewModel(GlobalNotifier globalNotifier, Status status) : base(status)
         {
             _id = status.Id;

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+using CoreTweet;
+
 using CroudiaStatus = Orion.Service.Croudia.Models.Status;
 using GnuSocialStatus = Orion.Service.GnuSocial.Models.Status;
 using MastodonStatus = Orion.Service.Mastodon.Models.Status;
@@ -156,17 +158,42 @@ namespace Orion.Shared.Absorb.Objects
             Id = status.Id;
             CreatedAt = status.CreatedAt.ToLocalTime().LocalDateTime;
             User = new User(status.User);
-            Attachments = status.ExtendedEntities?.Media != null
-                ? status.ExtendedEntities.Media.Select(w => new Attachment(w)).ToList()
-                : new List<Attachment>();
+            Attachments = status.ExtendedEntities?.Media?.Select(w => new Attachment(w))?.ToList() ??
+                          status.ExtendedTweet?.Entities?.Media?.Select(w => new Attachment(w))?.ToList() ??
+                          new List<Attachment>();
             RebloggedStatus = status.RetweetedStatus != null ? new Status(status.RetweetedStatus) : null;
             QuotedStatus = status.QuotedStatus != null ? new Status(status.QuotedStatus) : null;
             _twitterStatus = status;
 
             // Format text (Twitter Display Requirements)
-            var text = status.Text;
+            var text = status.ExtendedTweet?.FullText ?? status.Text;
+            text = ReplaceTcoHyperlinks(text, status.ExtendedTweet?.Entities?.Urls);
+            text = ReplaceTcoHyperlinks(text, status.ExtendedEntities?.Urls);
+            text = ReplaceTcoHyperlinks(text, status.Entities?.Urls);
+            text = RemoveMediaLinks(text, status.ExtendedTweet?.Entities?.Media);
+            text = RemoveMediaLinks(text, status.ExtendedEntities?.Media);
+            text = RemoveMediaLinks(text, status.Entities?.Media);
 
-            foreach (var entity in status.Entities.Urls)
+            _formattedTwitterText = text;
+        }
+
+        private string RemoveMediaLinks(string text, MediaEntity[] entities)
+        {
+            if (entities == null)
+                return text;
+
+            foreach (var entity in entities)
+                if (!string.IsNullOrWhiteSpace(entity.Url))
+                    text = text.Replace(entity.Url, "");
+            return text;
+        }
+
+        private string ReplaceTcoHyperlinks(string text, UrlEntity[] entities)
+        {
+            if (entities == null)
+                return text;
+
+            foreach (var entity in entities)
             {
                 if (string.IsNullOrWhiteSpace(entity.DisplayUrl))
                     continue;
@@ -175,12 +202,7 @@ namespace Orion.Shared.Absorb.Objects
                                         ? ""
                                         : $"<tco disp=\"{entity.DisplayUrl.Replace(".", "^")}\">{new Uri(entity.Url).LocalPath}</tco>");
             }
-
-            if (status.Entities.Media != null)
-                foreach (var entity in status.Entities.Media)
-                    if (!string.IsNullOrWhiteSpace(entity.Url))
-                        text = text.Replace(entity.Url, "");
-            _formattedTwitterText = text;
+            return text;
         }
     }
 }

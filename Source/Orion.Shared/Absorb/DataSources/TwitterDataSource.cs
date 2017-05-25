@@ -34,7 +34,8 @@ namespace Orion.Shared.Absorb.DataSources
             if (IsConnected(source.Name))
                 return;
 
-            Disposables.Add(source.Name, _twitterClient.Streaming.UserAsObservable()
+            // ReSharper disable once InconsistentNaming
+            Disposables.Add(source.Name, _twitterClient.Streaming.UserAsObservable(tweet_mode => "extended")
                                                        .Do(_ => Heartbeat(source.Name))
                                                        .Select(Convert)
                                                        .Where(w => w != null)
