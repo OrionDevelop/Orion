@@ -1,7 +1,12 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 using Microsoft.Xaml.Interactivity;
+
+using WinRTXamlToolkit.Controls.Extensions;
 
 namespace Orion.UWP.Behaviors
 {
@@ -27,16 +32,24 @@ namespace Orion.UWP.Behaviors
             set => SetValue(VerticalScrollOffsetProperty, value);
         }
 
-        private static void HorizontalScrollOffsetChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        private static async void HorizontalScrollOffsetChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             var behavior = dependencyObject as ScrollingBehavior;
-            behavior?.AssociatedObject?.ChangeView((double?) args.NewValue, null, null);
+            if (behavior?.AssociatedObject == null)
+                return;
+
+            await Task.Delay(1);
+            await behavior.AssociatedObject.ScrollToHorizontalOffsetWithAnimationAsync((double) args.NewValue);
         }
 
-        private static void VerticalScrollOffsetChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        private static async void VerticalScrollOffsetChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             var behavior = dependencyObject as ScrollingBehavior;
-            behavior?.AssociatedObject?.ChangeView(null, (double?) args.NewValue, null);
+            if (behavior?.AssociatedObject == null)
+                return;
+
+            await Task.Delay(1);
+            await behavior.AssociatedObject.ScrollToVerticalOffsetWithAnimationAsync((double) args.NewValue);
         }
     }
 }
