@@ -24,12 +24,11 @@ namespace Orion.UWP.ViewModels
         public ReactiveProperty<string> ConsumerSecret { get; }
         public ReactiveProperty<Uri> Source { get; }
         public ReactiveCommand GoAuthorizePageCommand { get; }
+        public ReactiveCommand CancelCommand { get; }
 
         public AuthorizationDialogViewModel(IAccountService accountService, ITimelineService timelineService)
         {
-            Title = "アプリケーションの認証 (1/2)";
-            IsFirstPage = true;
-            CanClose = false;
+            SetPage(1);
             SelectedProvider = new ReactiveProperty<Provider>();
             SelectedProvider.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
             HasHost = SelectedProvider.Select(w => w?.IsRequireHost ?? false).ToReactiveProperty();
@@ -58,14 +57,49 @@ namespace Orion.UWP.ViewModels
             GoAuthorizePageCommand = new ReactiveCommand();
             GoAuthorizePageCommand.Subscribe(async _ =>
             {
-                Title = "アプリケーションの認証 (2/2)";
-                IsFirstPage = false;
-                var provider = SelectedProvider.Value;
-                provider.Configure(Host.Value, ConsumerKey.Value, ConsumerSecret.Value);
-                _account = new Account {Provider = provider};
-                _account.CreateClientWrapper();
-                Source.Value = new Uri(await _account.ClientWrapper.GetAuthorizedUrlAsync());
+                try
+                {
+                    SetPage(2);
+                    var provider = SelectedProvider.Value;
+                    provider.Configure(Host.Value, ConsumerKey.Value, ConsumerSecret.Value);
+                    _account = new Account {Provider = provider};
+                    _account.CreateClientWrapper();
+                    Source.Value = new Uri(await _account.ClientWrapper.GetAuthorizedUrlAsync());
+                }
+                catch
+                {
+                    SetPage(0);
+                }
             }).AddTo(this);
+            CancelCommand = new ReactiveCommand();
+            CancelCommand.Subscribe(_ => CanClose = true).AddTo(this);
+        }
+
+        private void SetPage(int page)
+        {
+            switch (page)
+            {
+                case 0:
+                    Title = "認証エラー";
+                    IsFirstPage = false;
+                    IsSecondPage = false;
+                    IsErrorPage = true;
+                    break;
+
+                case 1:
+                    Title = "アプリケーションの認証 (1/2)";
+                    IsFirstPage = true;
+                    IsSecondPage = false;
+                    IsErrorPage = false;
+                    break;
+
+                case 2:
+                    Title = "アプリケーションの認証 (2/2)";
+                    IsFirstPage = false;
+                    IsSecondPage = true;
+                    IsErrorPage = false;
+                    break;
+            }
         }
 
         private void UpdateCanExecuteGoAuthorizePage()
@@ -105,6 +139,30 @@ namespace Orion.UWP.ViewModels
         {
             get => _isFirstPage;
             set => SetProperty(ref _isFirstPage, value);
+        }
+
+        #endregion
+
+        #region IsSecondPage
+
+        private bool _isSecondPage;
+
+        public bool IsSecondPage
+        {
+            get => _isSecondPage;
+            set => SetProperty(ref _isSecondPage, value);
+        }
+
+        #endregion
+
+        #region IsErrorPage
+
+        private bool _isErrorPage;
+
+        public bool IsErrorPage
+        {
+            get => _isErrorPage;
+            set => SetProperty(ref _isErrorPage, value);
         }
 
         #endregion

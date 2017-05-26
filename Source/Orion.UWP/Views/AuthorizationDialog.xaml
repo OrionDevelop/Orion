@@ -85,21 +85,38 @@
                      PlaceholderText="XXXXXXXXXXXXXXXX"
                      Text="{Binding ConsumerSecret.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <!--#endregion-->
-            <Button Grid.Row="4"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Width="90"
-                    HorizontalAlignment="Right"
-                    Command="{x:Bind ViewModel.GoAuthorizePageCommand, Mode=OneWay}"
-                    Content="認証する"
-                    IsEnabled="{x:Bind ViewModel.CanExecuteGoAuthorizePage, Mode=OneWay}" />
+            <StackPanel Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button Width="90"
+                        Margin="5,0"
+                        Command="{x:Bind ViewModel.GoAuthorizePageCommand, Mode=OneWay}"
+                        Content="認証する"
+                        IsEnabled="{x:Bind ViewModel.CanExecuteGoAuthorizePage, Mode=OneWay}" />
+                <Button Width="90"
+                        Command="{x:Bind ViewModel.CancelCommand, Mode=OneWay}"
+                        Content="キャンセル" />
+            </StackPanel>
         </Grid>
-        <Grid Visibility="{x:Bind ViewModel.IsFirstPage, Mode=OneWay, Converter={StaticResource ReverseBooleanToVisibilityConverter}}">
+        <Grid Visibility="{x:Bind ViewModel.IsSecondPage, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
             <WebView Grid.Row="0"
                      Width="500"
                      Height="500"
                      NavigationCompleted="WebView_OnNavigationCompleted"
                      Source="{x:Bind ViewModel.Source.Value, Mode=OneWay}" />
+        </Grid>
+        <Grid Visibility="{x:Bind ViewModel.IsErrorPage, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="認証中にエラーが発生しました。" />
+                <TextBlock Text="ネットワークの状態や、入力した値が正しいか確認してください。" />
+                <Button Width="90"
+                        Margin="0,5"
+                        HorizontalAlignment="Right"
+                        Command="{x:Bind ViewModel.CancelCommand, Mode=OneWay}"
+                        Content="キャンセル" />
+            </StackPanel>
         </Grid>
     </Grid>
 </ContentDialog>
