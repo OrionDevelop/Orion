@@ -17,8 +17,10 @@ namespace Orion.Shared.Absorb.Clients
         public TwitterClientWrapper(Provider provider, Credential credential) : base(provider, credential)
         {
             if (!string.IsNullOrWhiteSpace(credential.AccessToken))
+            {
                 _twitterClient = Tokens.Create(Provider.ConsumerKey, Provider.ConsumerSecret, Credential.AccessToken, Credential.AccessTokenSecret);
-            DataSource = new TwitterDataSource(_twitterClient);
+                DataSource = new TwitterDataSource(_twitterClient);
+            }
         }
 
         public override async Task<string> GetAuthorizedUrlAsync()
@@ -32,6 +34,7 @@ namespace Orion.Shared.Absorb.Clients
             try
             {
                 _twitterClient = await _session.GetTokensAsync(verifier);
+                DataSource = new TwitterDataSource(_twitterClient);
                 Credential.AccessToken = _twitterClient.AccessToken;
                 Credential.AccessTokenSecret = _twitterClient.AccessTokenSecret;
                 Credential.UserId = _twitterClient.UserId;
