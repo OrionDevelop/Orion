@@ -37,7 +37,7 @@ namespace Orion.UWP.ViewModels
             SelectedTimeline = new ReactiveProperty<TimelineViewModel>();
             SelectedTimeline.Where(w => w != null).Subscribe(w =>
             {
-                var offset = Timelines.IndexOf(w) * 1 + 1;
+                var offset = Timelines.IndexOf(w) * 1 + 1d;
                 if (offset <= 2)
                     offset = 0;
                 HorizontalOffset = offset;

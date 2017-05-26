@@ -161,9 +161,6 @@
     <Compile Include="Views\Contents\StatusContent.xaml.cs">
       <DependentUpon>StatusContent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Contents\TimelineContent.xaml.cs">
-      <DependentUpon>TimelineContent.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -172,6 +169,9 @@
     </Compile>
     <Compile Include="Views\Partials\PostAreaPage.xaml.cs">
       <DependentUpon>PostAreaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Timelines\StatusesTimeline.xaml.cs">
+      <DependentUpon>StatusesTimeline.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -278,10 +278,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Contents\TimelineContent.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -291,6 +287,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partials\PostAreaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Timelines\StatusesTimeline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
