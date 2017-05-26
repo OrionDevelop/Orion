@@ -4,7 +4,7 @@ namespace Orion.UWP.Extensions
 {
     public static class TimelineEx
     {
-        public static string ToIcon(this Timeline obj)
+        public static string ToIcon(this TimelineBase obj)
         {
             switch (obj.Name)
             {

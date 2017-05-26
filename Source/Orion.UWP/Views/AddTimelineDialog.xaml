@@ -4,6 +4,7 @@
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:prism="using:Prism.Windows.Mvvm"
+               xmlns:timelines="using:Orion.UWP.ViewModels.Timelines"
                xmlns:vm="using:Orion.UWP.ViewModels"
                xmlns:vmc="using:Orion.UWP.ViewModels.Contents"
                Title="タイムラインの追加"
@@ -62,7 +63,7 @@
                   ItemsSource="{x:Bind ViewModel.Timelines, Mode=OneWay}"
                   SelectedItem="{x:Bind ViewModel.SelectedTimeline.Value, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="vmc:TimelineViewModel">
+                <DataTemplate x:DataType="timelines:TimelineViewModel">
                     <StackPanel Orientation="Horizontal">
                         <FontIcon Width="36"
                                   Height="36"
@@ -116,10 +117,10 @@
                      PlaceholderText="FROM * WHERE Text.Length &gt;= 100"
                      Text="{Binding Query.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Row="3"
-                       TextWrapping="Wrap"
                        Grid.Column="1"
                        Foreground="OrangeRed"
-                       Text="{x:Bind ViewModel.ErrorMessage.Value, Mode=OneWay}" />
+                       Text="{x:Bind ViewModel.ErrorMessage.Value, Mode=OneWay}"
+                       TextWrapping="Wrap" />
 
             <TextBlock Grid.Row="4"
                        Grid.Column="1"

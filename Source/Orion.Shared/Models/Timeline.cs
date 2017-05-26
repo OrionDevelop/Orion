@@ -9,23 +9,13 @@ using Orion.Shared.Absorb.Objects;
 
 namespace Orion.Shared.Models
 {
-    public class Timeline
+    public class StatusesTimeline : TimelineBase
     {
         /// <summary>
         ///     Querystring
         /// </summary>
         [JsonIgnore]
         private string _query;
-
-        /// <summary>
-        ///     ID
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        ///     Name
-        /// </summary>
-        public string Name { get; set; }
 
         public string Query
         {
@@ -41,22 +31,9 @@ namespace Orion.Shared.Models
         [JsonIgnore]
         public FilterQuery Filter { get; set; }
 
-        /// <summary>
-        ///     Editable timeline?
-        /// </summary>
-        public bool IsEditable { get; set; } = false;
-
-        /// <summary>
-        ///     Account ID
-        /// </summary>
-        public string AccountId { get; set; }
-
-        [JsonIgnore]
-        public Account Account { get; set; }
-
-        public Timeline()
+        public StatusesTimeline()
         {
-            Id = Guid.NewGuid().ToString();
+            IsInstant = false;
         }
 
         public IObservable<StatusBase> GetAsObservable()

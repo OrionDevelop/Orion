@@ -5,10 +5,12 @@ using System.Reactive.Linq;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
+using Orion.Shared.Models;
 using Orion.UWP.Models;
 using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 using Orion.UWP.ViewModels.Contents;
+using Orion.UWP.ViewModels.Timelines;
 using Orion.UWP.Views;
 
 using Prism.Windows.Navigation;
@@ -52,7 +54,12 @@ namespace Orion.UWP.ViewModels
                     NavigationService.Navigate(w.TargetPageType);
             }).AddTo(this);
 
-            Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w => new TimelineViewModel(globalNotifier, timelineService, w)).AddTo(this);
+            Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w =>
+            {
+                if (w is StatusesTimeline timeline)
+                    return new StatusesTimelineViewModel(globalNotifier, timelineService, timeline) as TimelineViewModel;
+                return null;
+            }).AddTo(this);
         }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)

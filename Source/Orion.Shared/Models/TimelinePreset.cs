@@ -12,11 +12,11 @@ namespace Orion.Shared.Models
 
         public ProviderType ProviderType { get; set; }
 
-        public Timeline CreateTimeline(Account account, string name = null, string query = null)
+        public StatusesTimeline CreateTimeline(Account account, string name = null, string query = null)
         {
             return IsEditable
-                ? new Timeline {Name = name, Query = query, Account = account, AccountId = account.Id, IsEditable = IsEditable}
-                : new Timeline {Name = Name, Query = Query, Account = account, AccountId = account.Id, IsEditable = IsEditable};
+                ? new StatusesTimeline {Name = name, Query = query, Account = account, AccountId = account.Id, IsEditable = IsEditable}
+                : new StatusesTimeline {Name = Name, Query = Query, Account = account, AccountId = account.Id, IsEditable = IsEditable};
         }
     }
 }

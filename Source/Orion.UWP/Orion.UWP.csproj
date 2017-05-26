@@ -125,7 +125,7 @@
     <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
     <Compile Include="ViewModels\Contents\TimelinePresetViewModel.cs" />
-    <Compile Include="ViewModels\Contents\TimelineViewModel.cs" />
+    <Compile Include="ViewModels\Timelines\StatusesTimelineViewModel.cs" />
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />
     <Compile Include="Converters\ReverseBooleanToVisibilityConverter.cs" />
@@ -143,6 +143,8 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Partials\AccountsPageViewModel.cs" />
     <Compile Include="ViewModels\Partials\PostAreaPageViewModel.cs" />
+    <Compile Include="ViewModels\Timelines\TimelineViewModel.cs" />
+    <Compile Include="ViewModels\Timelines\UserTimelineViewModel.cs" />
     <Compile Include="Views\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
@@ -172,6 +174,9 @@
     </Compile>
     <Compile Include="Views\Timelines\StatusesTimeline.xaml.cs">
       <DependentUpon>StatusesTimeline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Timelines\UserTimeline.xaml.cs">
+      <DependentUpon>UserTimeline.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +296,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Timelines\StatusesTimeline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Timelines\UserTimeline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

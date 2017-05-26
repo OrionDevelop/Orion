@@ -6,29 +6,25 @@ using System.Threading.Tasks;
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Absorb.Objects.Events;
 using Orion.Shared.Models;
-using Orion.UWP.Extensions;
 using Orion.UWP.Models;
 using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
+using Orion.UWP.ViewModels.Contents;
 
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace Orion.UWP.ViewModels.Contents
+namespace Orion.UWP.ViewModels.Timelines
 {
-    public class TimelineViewModel : ViewModel
+    public class StatusesTimelineViewModel : TimelineViewModel
     {
         private readonly GlobalNotifier _globalNotifier;
         private readonly ObservableCollection<StatusBaseViewModel> _statuses;
-        private readonly Timeline _timeline;
+        private readonly StatusesTimeline _timeline;
 
         private int _counter;
         private bool _isInitialized;
-        public string Name => _timeline.Name;
-        public string User => _timeline.Account.Credential.User.ScreenNameWithHost;
-        public string Icon => _timeline.ToIcon();
         public ReactiveCommand ClearCommand { get; }
-        public ReactiveCommand DeleteCommand { get; }
 
         public ReadOnlyObservableCollection<StatusBaseViewModel> Statuses
         {
@@ -43,20 +39,19 @@ namespace Orion.UWP.ViewModels.Contents
             }
         }
 
-        public TimelineViewModel(GlobalNotifier globalNotifier, ITimelineService timelineService, Timeline timeline)
+        public StatusesTimelineViewModel(GlobalNotifier globalNotifier, ITimelineService ts, StatusesTimeline timeline) : base(ts, timeline)
         {
             _globalNotifier = globalNotifier;
             _timeline = timeline;
             _statuses = new ObservableCollection<StatusBaseViewModel>();
             ClearCommand = new ReactiveCommand();
             ClearCommand.Subscribe(w => _statuses.Clear()).AddTo(this);
-            DeleteCommand = new ReactiveCommand();
-            DeleteCommand.Subscribe(w =>
-            {
-                timeline.Disconnect();
-                timelineService.RemoveAsync(timeline);
-            }).AddTo(this);
             IsReconnecting = false;
+        }
+
+        public override void Delete()
+        {
+            _timeline.Disconnect();
         }
 
         private void Connect()

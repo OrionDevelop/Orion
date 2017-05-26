@@ -7,7 +7,7 @@ namespace Orion.UWP.Services.Interfaces
 {
     public interface ITimelineService
     {
-        ReadOnlyObservableCollection<Timeline> Timelines { get; }
+        ReadOnlyObservableCollection<TimelineBase> Timelines { get; }
 
         /// <summary>
         ///     初期タイムラインを構成します。
@@ -37,18 +37,18 @@ namespace Orion.UWP.Services.Interfaces
         ///     タイムラインを追加します。
         /// </summary>
         /// <returns></returns>
-        Task AddAsync(Timeline timeline);
+        Task AddAsync(TimelineBase timeline);
 
         /// <summary>
         ///     タイムラインを削除します。
         /// </summary>
         /// <returns></returns>
-        Task RemoveAsync(Timeline timeline);
+        Task RemoveAsync(TimelineBase timeline);
 
         /// <summary>
         ///     タイムラインを並び替えます。
         /// </summary>
         /// <returns></returns>
-        Task OrderAsync(Timeline timeline, int index);
+        Task OrderAsync(TimelineBase timeline, int index);
     }
 }

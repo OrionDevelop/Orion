@@ -15,16 +15,16 @@ namespace Orion.UWP.Services
     internal class TimelineService : ITimelineService
     {
         private readonly IAccountService _accountService;
-        private readonly ObservableCollection<Timeline> _timelines;
+        private readonly ObservableCollection<TimelineBase> _timelines;
 
         public TimelineService(IAccountService accountService)
         {
             _accountService = accountService;
-            _timelines = new ObservableCollection<Timeline>();
-            Timelines = new ReadOnlyObservableCollection<Timeline>(_timelines);
+            _timelines = new ObservableCollection<TimelineBase>();
+            Timelines = new ReadOnlyObservableCollection<TimelineBase>(_timelines);
         }
 
-        public ReadOnlyObservableCollection<Timeline> Timelines { get; }
+        public ReadOnlyObservableCollection<TimelineBase> Timelines { get; }
 
         public async Task InitializeAsync()
         {
@@ -46,7 +46,8 @@ namespace Orion.UWP.Services
             _timelines.Clear();
 
             var roamingSettings = ApplicationData.Current.RoamingSettings;
-            var timelines = JsonConvert.DeserializeObject<List<Timeline>>(roamingSettings.Values["Orion.Timeline"] as string);
+            var jsonSettings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+            var timelines = JsonConvert.DeserializeObject<List<TimelineBase>>(roamingSettings.Values["Orion.Timeline"] as string, jsonSettings);
 
             foreach (var timeline in timelines)
             {
@@ -60,24 +61,25 @@ namespace Orion.UWP.Services
         public Task SaveAsync()
         {
             var roamingSettings = ApplicationData.Current.RoamingSettings;
-            roamingSettings.Values["Orion.Timeline"] = JsonConvert.SerializeObject(_timelines.ToList());
+            var jsonSettings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+            roamingSettings.Values["Orion.Timeline"] = JsonConvert.SerializeObject(_timelines.Where(w => !w.IsInstant).ToList(), jsonSettings);
 
             return Task.CompletedTask;
         }
 
-        public async Task AddAsync(Timeline timeline)
+        public async Task AddAsync(TimelineBase timeline)
         {
             _timelines.Add(timeline);
             await SaveAsync();
         }
 
-        public async Task RemoveAsync(Timeline timeline)
+        public async Task RemoveAsync(TimelineBase timeline)
         {
             _timelines.Remove(timeline);
             await SaveAsync();
         }
 
-        public async Task OrderAsync(Timeline timeline, int index)
+        public async Task OrderAsync(TimelineBase timeline, int index)
         {
             var oldIndex = _timelines.IndexOf(timeline);
             _timelines.Move(oldIndex, index);

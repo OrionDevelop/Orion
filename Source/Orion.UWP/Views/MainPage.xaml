@@ -12,7 +12,7 @@
       xmlns:timelines="using:Orion.UWP.Views.Timelines"
       xmlns:v="using:Orion.UWP.Views"
       xmlns:vm="using:Orion.UWP.ViewModels"
-      xmlns:vmc="using:Orion.UWP.ViewModels.Contents"
+      xmlns:vmt="using:Orion.UWP.ViewModels.Timelines"
       d:DataContext="{d:DesignInstance vm:MainPageViewModel}"
       prism:ViewModelLocator.AutoWireViewModel="True"
       mc:Ignorable="d">
@@ -89,7 +89,7 @@
                                       ItemsSource="{x:Bind ViewModel.Timelines}"
                                       SelectedItem="{x:Bind ViewModel.SelectedTimeline.Value, Mode=TwoWay}">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="vmc:TimelineViewModel">
+                                    <DataTemplate x:DataType="vmt:TimelineViewModel">
                                         <Grid Width="240" Height="48">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="48" />
@@ -176,7 +176,7 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="vmc:TimelineViewModel">
+                        <DataTemplate x:DataType="vmt:TimelineViewModel">
                             <timelines:StatusesTimeline DataContext="{Binding}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

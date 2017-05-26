@@ -4,9 +4,10 @@
              xmlns:controls="using:Orion.UWP.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:timelines="using:Orion.UWP.ViewModels.Timelines"
              xmlns:vc="using:Orion.UWP.Views.Contents"
              xmlns:vmc="using:Orion.UWP.ViewModels.Contents"
-             d:DataContext="{d:DesignInstance vmc:TimelineViewModel}"
+             d:DataContext="{d:DesignInstance timelines:TimelineViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
