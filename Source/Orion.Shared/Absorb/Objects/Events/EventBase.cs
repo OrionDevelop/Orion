@@ -89,7 +89,7 @@ namespace Orion.Shared.Absorb.Objects.Events
                             throw new ArgumentOutOfRangeException();
                     }
 
-                case Service.Mastodon.Enum.MessageType.Delete:
+                case MastodonMessageType.Delete:
                     return new DeleteEvent(message as MastodonDeleteMessage);
 
                 default:
