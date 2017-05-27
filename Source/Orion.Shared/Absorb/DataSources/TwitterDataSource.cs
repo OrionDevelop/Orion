@@ -5,6 +5,7 @@ using CoreTweet;
 using CoreTweet.Streaming;
 
 using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Absorb.Objects.Events;
 
 using Status = Orion.Shared.Absorb.Objects.Status;
 
@@ -23,7 +24,7 @@ namespace Orion.Shared.Absorb.DataSources
         {
             if (message is StatusMessage statusMessage)
                 return new Status(statusMessage.Status);
-            return null;
+            return EventBase.CreateEventFromMessage(message);
         }
 
         protected override void Connect(Source source)

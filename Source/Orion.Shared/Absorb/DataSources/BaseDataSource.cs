@@ -115,9 +115,10 @@ namespace Orion.Shared.Absorb.DataSources
         protected void AddStatus(string sourceStr, StatusBase status)
         {
             var source = NormalizedSource(sourceStr);
-            if (_ids[source].Contains(status.Id))
+            if (!status.IgnoreIdDuplication && _ids[source].Contains(status.Id))
                 return;
-            _ids[source].Add(status.Id);
+            if (!status.IgnoreIdDuplication)
+                _ids[source].Add(status.Id);
             _observers[source].OnNext(status);
         }
 

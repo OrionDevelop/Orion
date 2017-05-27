@@ -1,10 +1,17 @@
 ﻿using System;
 
+using CoreTweet.Streaming;
+
 using Orion.Service.Mastodon.Enum;
 using Orion.Service.Mastodon.Models.Streaming;
 using Orion.Shared.Absorb.Enums;
 
 using MastodonMessage = Orion.Service.Mastodon.Models.Streaming.MessageBase;
+using TwitterMessage = CoreTweet.Streaming.StreamingMessage;
+using MastodonDeleteMessage = Orion.Service.Mastodon.Models.Streaming.DeleteMessage;
+using TwitterDeleteMessage = CoreTweet.Streaming.DeleteMessage;
+using MastodonMessageType = Orion.Service.Mastodon.Enum.MessageType;
+using TwitterMessageType = CoreTweet.Streaming.MessageType;
 
 namespace Orion.Shared.Absorb.Objects.Events
 {
@@ -23,6 +30,38 @@ namespace Orion.Shared.Absorb.Objects.Events
 
         public EventType EventType { get; set; }
 
+        public EventBase()
+        {
+            Id = 0;
+            IgnoreIdDuplication = true;
+        }
+
+        public static StatusBase CreateEventFromMessage(TwitterMessage message)
+        {
+            switch (message.Type)
+            {
+                case TwitterMessageType.DeleteStatus:
+                    return new DeleteEvent(message as TwitterDeleteMessage);
+
+                case TwitterMessageType.Event:
+                    var msg = (EventMessage) message;
+                    switch (msg.Event)
+                    {
+                        case EventCode.Favorite:
+                            return new FavoriteEvent(msg);
+
+                        case EventCode.Follow:
+                            return new FollowEvent(msg);
+
+                        default:
+                            return null;
+                    }
+
+                default:
+                    return null;
+            }
+        }
+
         public static StatusBase CreateEventFromMessage(MastodonMessage message)
         {
             if (message is ThumpMessage)
@@ -30,7 +69,7 @@ namespace Orion.Shared.Absorb.Objects.Events
 
             switch (message.Type)
             {
-                case MessageType.Notification:
+                case MastodonMessageType.Notification:
                     var msg = (NotificationMessage) message;
                     switch (msg.Notification.Type)
                     {
@@ -50,8 +89,8 @@ namespace Orion.Shared.Absorb.Objects.Events
                             throw new ArgumentOutOfRangeException();
                     }
 
-                case MessageType.Delete:
-                    return new DeleteEvent(message as DeleteMessage);
+                case Service.Mastodon.Enum.MessageType.Delete:
+                    return new DeleteEvent(message as MastodonDeleteMessage);
 
                 default:
                     throw new ArgumentOutOfRangeException();

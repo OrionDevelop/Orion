@@ -10,7 +10,6 @@ namespace Orion.Shared.Absorb.Objects.Events
     {
         public ReblogEvent(Notification notification)
         {
-            Id = notification.Id;
             CreatedAt = notification.CreatedAt;
             Source = new User(notification.Account);
             Target = new Status(notification.Status);

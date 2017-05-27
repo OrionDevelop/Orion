@@ -47,12 +47,14 @@ namespace Orion.UWP.ViewModels.Contents
             Attachments = _status.Attachments.Select(w => new AttachmentViewModel(w)).ToList();
         }
 
-#pragma warning disable 659
-
         public override bool Equals(object obj)
-#pragma warning restore 659
         {
             return _id == (obj as StatusViewModel)?._id;
+        }
+
+        public override int GetHashCode()
+        {
+            return _id.GetHashCode();
         }
     }
 }

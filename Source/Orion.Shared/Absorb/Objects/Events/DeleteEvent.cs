@@ -1,5 +1,7 @@
-﻿using Orion.Service.Mastodon.Models.Streaming;
-using Orion.Shared.Absorb.Enums;
+﻿using Orion.Shared.Absorb.Enums;
+
+using MastodonDeleteMessage = Orion.Service.Mastodon.Models.Streaming.DeleteMessage;
+using TwitterDeleteMessage = CoreTweet.Streaming.DeleteMessage;
 
 namespace Orion.Shared.Absorb.Objects.Events
 {
@@ -8,11 +10,20 @@ namespace Orion.Shared.Absorb.Objects.Events
     /// </summary>
     public class DeleteEvent : EventBase
     {
-        public DeleteEvent(DeleteMessage message)
+        public DeleteEvent(MastodonDeleteMessage message)
         {
             Id = message.StatusId;
             Type = nameof(DeleteEvent);
             EventType = EventType.Delete;
+            IsBroadcastStatus = true;
+        }
+
+        public DeleteEvent(TwitterDeleteMessage message)
+        {
+            Id = message.Id;
+            Type = nameof(DeleteEvent);
+            EventType = EventType.Delete;
+            IsBroadcastStatus = true;
         }
     }
 }
