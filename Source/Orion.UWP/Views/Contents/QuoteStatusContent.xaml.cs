@@ -11,20 +11,18 @@ using WinRTXamlToolkit.Controls.Extensions;
 
 namespace Orion.UWP.Views.Contents
 {
-    public sealed partial class StatusContent : UserControl
+    public sealed partial class QuoteStatusContent : UserControl
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(StatusViewModel), typeof(StatusContent), new PropertyMetadata(null, OnViewModelChanged));
+            DependencyProperty.Register(nameof(ViewModel), typeof(QuoteStatusViewModel), typeof(QuoteStatusContent),
+                                        new PropertyMetadata(null, OnViewModelChanged));
 
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(StatusContent), new PropertyMetadata(false, OnIsSelectedChanged));
 
-        public static readonly DependencyProperty IsMiniModeProperty =
-            DependencyProperty.Register(nameof(IsMiniMode), typeof(bool), typeof(StatusContent), new PropertyMetadata(false, OnIsMiniModeChanged));
-
-        public StatusViewModel ViewModel
+        public QuoteStatusViewModel ViewModel
         {
-            get => (StatusViewModel) GetValue(ViewModelProperty);
+            get => (QuoteStatusViewModel) GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
@@ -34,13 +32,7 @@ namespace Orion.UWP.Views.Contents
             set => SetValue(IsSelectedProperty, value);
         }
 
-        public bool IsMiniMode
-        {
-            get => (bool) GetValue(IsMiniModeProperty);
-            set => SetValue(IsMiniModeProperty, value);
-        }
-
-        public StatusContent()
+        public QuoteStatusContent()
         {
             InitializeComponent();
             Loaded += OnLoaded;
@@ -49,13 +41,16 @@ namespace Orion.UWP.Views.Contents
             Body.IsTextSelectionEnabled = false;
         }
 
+        private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            if (args.NewValue != null && args.NewValue != args.OldValue)
+                (dependencyObject as QuoteStatusContent)?.ResetLayouts();
+        }
+
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var root = this.GetFirstAncestorOfType<ListViewItem>();
             if (root == null)
-                return;
-
-            if (IsMiniMode)
                 return;
 
             SetBinding(IsSelectedProperty, new Binding
@@ -66,40 +61,12 @@ namespace Orion.UWP.Views.Contents
             });
         }
 
-        private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        {
-            if (args.NewValue != null && args.NewValue != args.OldValue)
-                (dependencyObject as StatusContent)?.ResetLayouts();
-        }
-
         private static void OnIsSelectedChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             if ((bool) args.NewValue)
-                (dependencyObject as StatusContent)?.ExpandCommandBar();
+                (dependencyObject as QuoteStatusContent)?.ExpandCommandBar();
             else
-                (dependencyObject as StatusContent)?.ContractCommandBar();
-        }
-
-        private static void OnIsMiniModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        {
-            if (dependencyObject is StatusContent status && (bool) args.NewValue)
-            {
-                status.Icon.Visibility = Visibility.Collapsed;
-                status.Username.FontSize = status.Body.FontSize = 13;
-                status.ScreenName.FontSize = status.Timestamp.FontSize = 12;
-                status.UserLine.Padding = status.Body.Padding = new Thickness(0);
-                status.ImagePreviews.ItemHeight = 40;
-                status.Loaded += StatusOnLoaded;
-            }
-        }
-
-        private static void StatusOnLoaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            if (sender is StatusContent status)
-            {
-                status.ImagePreviews.ItemWidth = status.DesiredSize.Width / 2 - 10;
-                status.Loaded -= StatusOnLoaded;
-            }
+                (dependencyObject as QuoteStatusContent)?.ContractCommandBar();
         }
 
         private void ResetLayouts()

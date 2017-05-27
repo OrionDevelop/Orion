@@ -10,7 +10,7 @@ namespace Orion.UWP.Views.Contents
     public sealed partial class ReblogStatusContent : UserControl
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(ReblogStatusViewModel), typeof(StatusContent), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(ReblogStatusViewModel), typeof(ReblogStatusContent), new PropertyMetadata(null));
 
         public ReblogStatusViewModel ViewModel
         {
