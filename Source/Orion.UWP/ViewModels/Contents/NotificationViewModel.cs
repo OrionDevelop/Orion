@@ -13,6 +13,7 @@ namespace Orion.UWP.ViewModels.Contents
         private readonly EventBase _notification;
         public string Icon => _notification.EventType.ToIcon();
         public SolidColorBrush Color => _notification.EventType.ToColor();
+        public string UserIcon => _notification.Source.IconUrl;
         public string Message => string.Format(_notification.EventType.ToFormatMessage(), EmojiConverter.Convert(_notification.Source.Name));
         public StatusViewModel StatusViewModel { get; }
         public bool IsShowStatus { get; }
