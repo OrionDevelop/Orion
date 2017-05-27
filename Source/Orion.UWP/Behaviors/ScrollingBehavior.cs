@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -37,8 +38,15 @@ namespace Orion.UWP.Behaviors
             if (behavior?.AssociatedObject == null)
                 return;
 
+            var offset = (double) args.NewValue;
+            if (Math.Abs(behavior.AssociatedObject.HorizontalOffset - offset) >= 1)
+                if (behavior.AssociatedObject.HorizontalOffset > offset)
+                    offset -= .1f;
+                else
+                    offset += .1f;
+
             await Task.Delay(1);
-            await behavior.AssociatedObject.ScrollToHorizontalOffsetWithAnimationAsync((double) args.NewValue);
+            await behavior.AssociatedObject.ScrollToHorizontalOffsetWithAnimationAsync(offset);
         }
 
         private static async void VerticalScrollOffsetChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
@@ -47,8 +55,15 @@ namespace Orion.UWP.Behaviors
             if (behavior?.AssociatedObject == null)
                 return;
 
+            var offset = (double) args.NewValue;
+            if (Math.Abs(behavior.AssociatedObject.VerticalOffset - offset) >= 1)
+                if (behavior.AssociatedObject.VerticalOffset > offset)
+                    offset -= .1f;
+                else
+                    offset += .1f;
+
             await Task.Delay(1);
-            await behavior.AssociatedObject.ScrollToVerticalOffsetWithAnimationAsync((double) args.NewValue);
+            await behavior.AssociatedObject.ScrollToVerticalOffsetWithAnimationAsync(offset);
         }
     }
 }

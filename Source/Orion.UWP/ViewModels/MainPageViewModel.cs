@@ -16,6 +16,7 @@ using Orion.UWP.Views;
 using Prism.Windows.Navigation;
 
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Orion.UWP.ViewModels
 {
@@ -36,11 +37,12 @@ namespace Orion.UWP.ViewModels
             _dialogService = dialogService;
             _timelineService = timelineService;
 
+            globalNotifier.ObserveProperty(w => w.TimelineAreaHorizontalOffset).Subscribe(w => HorizontalOffset = w).AddTo(this);
             SelectedTimeline = new ReactiveProperty<TimelineViewModel>();
             SelectedTimeline.Where(w => w != null).Subscribe(w =>
             {
                 var offset = Timelines.IndexOf(w) * 1 + 1d;
-                if (offset <= 2)
+                if (offset <= 1)
                     offset = 0;
                 HorizontalOffset = offset;
             }).AddTo(this);
@@ -53,7 +55,6 @@ namespace Orion.UWP.ViewModels
                 else if (w.TargetPageType.Name.EndsWith("Page"))
                     NavigationService.Navigate(w.TargetPageType);
             }).AddTo(this);
-
             Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w =>
             {
                 if (w is StatusesTimeline timeline)

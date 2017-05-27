@@ -12,7 +12,6 @@ namespace Orion.UWP.ViewModels.Timelines
     public class TimelineViewModel : ViewModel
     {
         private readonly TimelineBase _timeline;
-        private readonly ITimelineService _timelineService;
 
         public string Name => _timeline.Name;
         public string User => _timeline.Account.Credential.User.ScreenNameWithHost;
@@ -20,7 +19,7 @@ namespace Orion.UWP.ViewModels.Timelines
 
         public ReactiveCommand DeleteCommand { get; }
 
-        public TimelineViewModel(ITimelineService timelineService, TimelineBase timeline)
+        protected TimelineViewModel(ITimelineService timelineService, TimelineBase timeline)
         {
             _timeline = timeline;
             DeleteCommand = new ReactiveCommand();
@@ -31,6 +30,6 @@ namespace Orion.UWP.ViewModels.Timelines
             }).AddTo(this);
         }
 
-        public virtual void Delete() { }
+        protected virtual void Delete() { }
     }
 }

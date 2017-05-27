@@ -49,7 +49,7 @@ namespace Orion.UWP.ViewModels.Timelines
             IsReconnecting = false;
         }
 
-        public override void Delete()
+        protected override void Delete()
         {
             _timeline.Disconnect();
         }
