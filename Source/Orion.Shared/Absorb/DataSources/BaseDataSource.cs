@@ -51,7 +51,10 @@ namespace Orion.Shared.Absorb.DataSources
             {
                 var sourceStr = NormalizedSource(source);
                 if (_sources.Contains(sourceStr))
+                {
+                    _sources.Add(sourceStr);
                     return _observers[sourceStr];
+                }
 
                 _sources.Add(sourceStr);
                 RegisterObserver(sourceStr);
