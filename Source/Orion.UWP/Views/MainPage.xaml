@@ -133,6 +133,9 @@
                             <ListView.ItemsSource>
                                 <controls:HamburgerMenuItemCollection>
                                     <controls:HamburgerMenuImageItem Label="{x:Bind ViewModel.DefaultAccount.ScreenName, Mode=OneWay}" Thumbnail="{x:Bind ViewModel.DefaultAccount.IconUrl, Mode=OneWay}" />
+                                    <controls:HamburgerMenuGlyphItem Glyph="&#xE724;"
+                                                                     Label="ステータス"
+                                                                     TargetPageType="p:PostAreaPage" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#xE716;"
                                                                      Label="アカウント"
                                                                      TargetPageType="p:AccountsPage" />
