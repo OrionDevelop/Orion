@@ -38,7 +38,7 @@ namespace Orion.Service.GnuSocial.Models
         public string InReplyToScreenName { get; set; }
 
         [JsonProperty("geo")]
-        public string Geo { get; set; }
+        public Geo Geo { get; set; }
 
         [JsonProperty("attachments")]
         public List<Attachment> Attachments { get; }
@@ -53,7 +53,7 @@ namespace Orion.Service.GnuSocial.Models
         public int StatusNetConversationId { get; set; }
 
         [JsonProperty("statusnet_in_groups")]
-        public string StatusNetInGroups { get; set; }
+        public bool? StatusNetInGroups { get; set; }
 
         [JsonProperty("external_url")]
         public string ExternalUrl { get; set; }

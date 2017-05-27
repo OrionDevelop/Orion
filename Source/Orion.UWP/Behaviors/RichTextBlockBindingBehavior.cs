@@ -26,8 +26,15 @@ namespace Orion.UWP.Behaviors
             textBlock?.Blocks.Clear();
 
             var blockCollection = e.NewValue as List<Block>;
-            if (blockCollection == null)
+            if (blockCollection == null || blockCollection.Count == 0)
+            {
+                if (textBlock != null)
+                    textBlock.Visibility = Visibility.Collapsed;
                 return;
+            }
+            if (textBlock != null)
+                textBlock.Visibility = Visibility.Visible;
+
             foreach (var block in blockCollection)
                 textBlock?.Blocks.Add(block);
         }

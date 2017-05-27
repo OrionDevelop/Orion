@@ -4,4 +4,20 @@
     <TargetFramework>netstandard1.4</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CoreTweet" Version="0.8.0.384" />
+    <PackageReference Include="CoreTweetSupplement" Version="1.6.3.29" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orion.Interfaces\Orion.Interfaces.csproj" />
+    <ProjectReference Include="..\Orion.Scripting\Orion.Scripting.csproj" />
+    <ProjectReference Include="..\Orion.Service.Croudia\Orion.Service.Croudia.csproj" />
+    <ProjectReference Include="..\Orion.Service.FkStreaming\Orion.Service.FkStreaming.csproj" />
+    <ProjectReference Include="..\Orion.Service.GnuSocial\Orion.Service.GnuSocial.csproj" />
+    <ProjectReference Include="..\Orion.Service.Mastodon\Orion.Service.Mastodon.csproj" />
+    <ProjectReference Include="..\Orion.Service.Shared\Orion.Service.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

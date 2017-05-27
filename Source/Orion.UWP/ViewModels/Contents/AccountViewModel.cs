@@ -1,4 +1,5 @@
-﻿using Orion.UWP.Models;
+﻿using Orion.Shared.Emoji;
+using Orion.Shared.Models;
 using Orion.UWP.Mvvm;
 
 namespace Orion.UWP.ViewModels.Contents
@@ -7,8 +8,9 @@ namespace Orion.UWP.ViewModels.Contents
     {
         public Account Account { get; }
 
-        public string IconUrl => Account.ClientWrapper.User.Icon;
-        public string ScreenName => Account.ClientWrapper.User.ScreenName;
+        public string IconUrl => Account.Credential.User.IconUrl;
+        public string Username => EmojiConverter.Convert(Account.Credential.User.Name);
+        public string ScreenName => Account.Credential.User.ScreenNameWithHost;
 
         public AccountViewModel(Account account)
         {

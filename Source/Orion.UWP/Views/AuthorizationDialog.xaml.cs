@@ -28,10 +28,10 @@ namespace Orion.UWP.Views
                 return;
 
             // Avoid double notify
-            if (ViewModel?.SelectedProvider?.Value?.ParseRegex == null)
+            if (ViewModel?.SelectedProvider?.Value?.UrlParseRegex == null)
                 return;
 
-            if (ViewModel.SelectedProvider.Value.ParseRegex.IsMatch(args.Uri.ToString()))
+            if (ViewModel.SelectedProvider.Value.UrlParseRegex.IsMatch(args.Uri.ToString()))
                 ViewModel.Source.Value = args.Uri;
         }
 

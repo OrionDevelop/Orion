@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="Orion.UWP.Views.Timelines.StatusesTimeline"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Orion.UWP.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:timelines="using:Orion.UWP.ViewModels.Timelines"
+             xmlns:vc="using:Orion.UWP.Views.Contents"
+             xmlns:vmc="using:Orion.UWP.ViewModels.Contents"
+             d:DataContext="{d:DesignInstance timelines:TimelineViewModel}"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+    <RelativePanel Width="325"
+                   Margin="1,0"
+                   BorderBrush="Silver"
+                   BorderThickness=".5">
+        <Grid x:Name="Header"
+              Height="48"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.AlignTopWithPanel="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="48" />
+            </Grid.ColumnDefinitions>
+            <FontIcon Grid.Column="0"
+                      VerticalAlignment="Center"
+                      FontSize="24"
+                      Glyph="{Binding Icon, Mode=OneWay}" />
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock FontSize="16" Text="{Binding Name, Mode=OneWay}" />
+                <TextBlock FontSize="12"
+                           Foreground="Silver"
+                           Text="{Binding User, Mode=OneWay}"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+            <Button Grid.Column="2"
+                    Width="48"
+                    Height="48"
+                    HorizontalAlignment="Right"
+                    Background="Transparent">
+                <FontIcon Glyph="&#xE712;" />
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{Binding ClearCommand, Mode=OneWay}" Text="クリア" />
+                        <MenuFlyoutItem Command="{Binding DeleteCommand, Mode=OneWay}" Text="削除" />
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+        <ListView x:Name="Statuses"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  ItemsSource="{Binding Statuses, Mode=OneWay}"
+                  RelativePanel.AlignBottomWithPanel="True"
+                  RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.Below="Header">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Recycling" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplateSelector>
+                <controls:DefaultDataTemplateSelector />
+            </ListView.ItemTemplateSelector>
+            <ListView.Resources>
+                <DataTemplate x:Key="StatusViewModel" x:DataType="vmc:StatusViewModel">
+                    <vc:StatusContent ViewModel="{x:Bind}" />
+                </DataTemplate>
+                <DataTemplate x:Key="ReblogStatusViewModel" x:DataType="vmc:ReblogStatusViewModel">
+                    <vc:ReblogStatusContent ViewModel="{x:Bind}" />
+                </DataTemplate>
+                <DataTemplate x:Key="QuoteStatusViewModel" x:DataType="vmc:QuoteStatusViewModel">
+                    <vc:QuoteStatusContent ViewModel="{x:Bind}" />
+                </DataTemplate>
+                <DataTemplate x:Key="NotificationViewModel" x:DataType="vmc:NotificationViewModel">
+                    <vc:NotificationContent ViewModel="{x:Bind}" />
+                </DataTemplate>
+            </ListView.Resources>
+        </ListView>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+              CornerRadius="12"
+              Opacity=".8"
+              RelativePanel.AlignBottomWithPanel="True"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              Visibility="{Binding IsReconnecting, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Margin="10"
+                       HorizontalAlignment="Center"
+                       Text="ストリームが切断されたため、再接続しています..." />
+        </Grid>
+    </RelativePanel>
+</UserControl>

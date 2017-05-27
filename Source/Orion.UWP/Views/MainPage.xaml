@@ -1,16 +1,18 @@
 ﻿<Page x:Class="Orion.UWP.Views.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:contents="using:Orion.UWP.Views.Contents"
+      xmlns:behaviors="using:Orion.UWP.Behaviors"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:localControls="using:Orion.UWP.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:p="using:Orion.UWP.Views.Partials"
       xmlns:prism="using:Prism.Windows.Mvvm"
+      xmlns:timelines="using:Orion.UWP.Views.Timelines"
       xmlns:v="using:Orion.UWP.Views"
       xmlns:vm="using:Orion.UWP.ViewModels"
-      xmlns:vmc="using:Orion.UWP.ViewModels.Contents"
+      xmlns:vmt="using:Orion.UWP.ViewModels.Timelines"
       d:DataContext="{d:DesignInstance vm:MainPageViewModel}"
       prism:ViewModelLocator.AutoWireViewModel="True"
       mc:Ignorable="d">
@@ -87,7 +89,7 @@
                                       ItemsSource="{x:Bind ViewModel.Timelines}"
                                       SelectedItem="{x:Bind ViewModel.SelectedTimeline.Value, Mode=TwoWay}">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="vmc:TimelineViewModel">
+                                    <DataTemplate x:DataType="vmt:TimelineViewModel">
                                         <Grid Width="240" Height="48">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="48" />
@@ -131,7 +133,9 @@
                             <ListView.ItemsSource>
                                 <controls:HamburgerMenuItemCollection>
                                     <controls:HamburgerMenuImageItem Label="{x:Bind ViewModel.DefaultAccount.ScreenName, Mode=OneWay}" Thumbnail="{x:Bind ViewModel.DefaultAccount.IconUrl, Mode=OneWay}" />
-                                    <controls:HamburgerMenuGlyphItem Glyph="&#xE716;" Label="アカウント" />
+                                    <controls:HamburgerMenuGlyphItem Glyph="&#xE716;"
+                                                                     Label="アカウント"
+                                                                     TargetPageType="p:AccountsPage" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#xE783;"
                                                                      Label="Orion について"
@@ -147,7 +151,9 @@
                     <ColumnDefinition Width="250" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <p:PostArea Grid.Column="0" />
+                <Frame x:Name="RootFrame"
+                       Grid.Column="0"
+                       x:FieldModifier="public" />
                 <ItemsControl Grid.Column="1"
                               Margin="0"
                               HorizontalAlignment="Stretch"
@@ -157,6 +163,9 @@
                     <ItemsControl.Template>
                         <ControlTemplate TargetType="ItemsControl">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:ScrollingBehavior HorizontalScrollOffset="{Binding HorizontalOffset, Mode=OneWay}" />
+                                </i:Interaction.Behaviors>
                                 <ItemsPresenter />
                             </ScrollViewer>
                         </ControlTemplate>
@@ -167,8 +176,8 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="vmc:TimelineViewModel">
-                            <contents:TimelineContent DataContext="{Binding}" />
+                        <DataTemplate x:DataType="vmt:TimelineViewModel">
+                            <timelines:StatusesTimeline DataContext="{Binding}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

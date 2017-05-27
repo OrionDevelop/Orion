@@ -6,6 +6,8 @@ using Windows.UI.Core;
 
 using Microsoft.Practices.Unity;
 
+using Orion.UWP.Services.Interfaces;
+
 using Prism.Unity.Windows;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
@@ -14,13 +16,13 @@ namespace Orion.UWP.Mvvm
 {
     public class ViewModel : ViewModelBase, IDisposable
     {
-        private readonly INavigationService _navigationService;
+        protected IOrionNavigationService NavigationService { get; }
         public CompositeDisposable CompositeDisposable { get; }
 
         protected ViewModel()
         {
             CompositeDisposable = new CompositeDisposable();
-            _navigationService = PrismUnityApplication.Current.Container.Resolve<INavigationService>();
+            NavigationService = PrismUnityApplication.Current.Container.Resolve<IOrionNavigationService>();
         }
 
         #region Implementation of IDisposable
@@ -45,7 +47,7 @@ namespace Orion.UWP.Mvvm
             base.OnNavigatedTo(e, viewModelState);
 
             // Back Button
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _navigationService.CanGoBack()
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationService.CanGoBack()
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
         }

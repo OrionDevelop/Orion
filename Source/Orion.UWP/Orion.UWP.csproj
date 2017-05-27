@@ -18,7 +18,7 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>Orion.UWP_StoreKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>BE7C4CF17FC49D6AF75DFAD65EACE4B3E20D0D8F</PackageCertificateThumbprint>
@@ -101,45 +101,35 @@
     </Compile>
     <Compile Include="Behaviors\KeyEventTriggerBehavior.cs" />
     <Compile Include="Behaviors\RichTextBlockBindingBehavior.cs" />
+    <Compile Include="Behaviors\ScrollingBehavior.cs" />
     <Compile Include="Controls\DataTemplateCollection.cs" />
     <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
-    <Compile Include="Converters\HtmlStringToBlockCollectionConverter.cs" />
-    <Compile Include="Models\Absorb\Notification.cs" />
-    <Compile Include="Models\Absorb\NotificationType.cs" />
-    <Compile Include="Models\Absorb\Status.cs" />
-    <Compile Include="Models\Absorb\StatusBase.cs" />
-    <Compile Include="Models\Absorb\StatusType.cs" />
-    <Compile Include="Models\Absorb\User.cs" />
-    <Compile Include="Models\Emoji\Emoji.cs" />
-    <Compile Include="Models\Emoji\EmojiConstants.cs" />
-    <Compile Include="Models\Emoji\EmojiConverter.cs" />
+    <Compile Include="Controls\GridPreview\GridPreview.cs" />
+    <Compile Include="Converters\TextToBlockCollectionConverter.cs" />
+    <Compile Include="Extensions\EventTypeEx.cs" />
+    <Compile Include="Extensions\TimelineEx.cs" />
+    <Compile Include="Extensions\TimelinePresetEx.cs" />
+    <Compile Include="Models\Attacher.cs" />
     <Compile Include="Models\GlobalNotifier.cs" />
     <Compile Include="Models\History.cs" />
-    <Compile Include="Models\ProviderRedirect.cs" />
     <Compile Include="Models\Software.cs" />
+    <Compile Include="Models\Waiter.cs" />
+    <Compile Include="Services\Interfaces\IOrionNavigationService.cs" />
+    <Compile Include="Services\OrionNavigationService.cs" />
     <Compile Include="ViewModels\AboutDialogViewModel.cs" />
     <Compile Include="ViewModels\AddTimelineDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />
+    <Compile Include="ViewModels\Contents\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\Contents\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\Contents\QuoteStatusViewModel.cs" />
+    <Compile Include="ViewModels\Contents\ReblogStatusViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
-    <Compile Include="ViewModels\Contents\TimelineTypeViewModel.cs" />
-    <Compile Include="ViewModels\Contents\TimelineViewModel.cs" />
+    <Compile Include="ViewModels\Contents\TimelinePresetViewModel.cs" />
+    <Compile Include="ViewModels\Timelines\StatusesTimelineViewModel.cs" />
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />
     <Compile Include="Converters\ReverseBooleanToVisibilityConverter.cs" />
-    <Compile Include="Models\Account.cs" />
-    <Compile Include="Models\Clients\BaseClientWrapper.cs" />
-    <Compile Include="Models\Clients\CroudiaClientWrapper.cs" />
-    <Compile Include="Models\Clients\GnuSocialClientWrapper.cs" />
-    <Compile Include="Models\Clients\MastodonClientWrapper.cs" />
-    <Compile Include="Models\Clients\TwitterClientWrapper.cs" />
-    <Compile Include="Models\Constants.cs" />
-    <Compile Include="Models\Credential.cs" />
-    <Compile Include="Models\Enum\ServiceType.cs" />
-    <Compile Include="Models\Enum\TimelineType.cs" />
-    <Compile Include="Models\Provider.cs" />
-    <Compile Include="Models\Timeline.cs" />
     <Compile Include="Mvvm\ViewModel.cs" />
     <Compile Include="Mvvm\ViewModelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -152,7 +142,10 @@
     <Compile Include="Services\TimelineService.cs" />
     <Compile Include="ViewModels\AuthorizationDialogViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\Partials\PostAreaViewModel.cs" />
+    <Compile Include="ViewModels\Partials\AccountsPageViewModel.cs" />
+    <Compile Include="ViewModels\Partials\PostAreaPageViewModel.cs" />
+    <Compile Include="ViewModels\Timelines\TimelineViewModel.cs" />
+    <Compile Include="ViewModels\Timelines\UserTimelineViewModel.cs" />
     <Compile Include="Views\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
@@ -165,17 +158,29 @@
     <Compile Include="Views\Contents\NotificationContent.xaml.cs">
       <DependentUpon>NotificationContent.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\QuoteStatusContent.xaml.cs">
+      <DependentUpon>QuoteStatusContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\ReblogStatusContent.xaml.cs">
+      <DependentUpon>ReblogStatusContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\StatusContent.xaml.cs">
       <DependentUpon>StatusContent.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Contents\TimelineContent.xaml.cs">
-      <DependentUpon>TimelineContent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Partials\PostArea.xaml.cs">
-      <DependentUpon>PostArea.xaml</DependentUpon>
+    <Compile Include="Views\Partials\AccountsPage.xaml.cs">
+      <DependentUpon>AccountsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partials\PostAreaPage.xaml.cs">
+      <DependentUpon>PostAreaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Timelines\StatusesTimeline.xaml.cs">
+      <DependentUpon>StatusesTimeline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Timelines\UserTimeline.xaml.cs">
+      <DependentUpon>UserTimeline.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +215,9 @@
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.4.9.5</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Azure.Mobile.Analytics">
+      <Version>0.11.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
     </PackageReference>
@@ -234,12 +242,23 @@
     <PackageReference Include="System.Reactive">
       <Version>3.1.1</Version>
     </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="ToriatamaText">
+      <Version>1.1.0</Version>
+    </PackageReference>
     <PackageReference Include="WinRTXamlToolkit.UWP">
       <Version>2.3.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\CircleImage\CircleImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Controls\GridPreview\GridPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -260,11 +279,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Contents\StatusContent.xaml">
+    <Page Include="Views\Contents\QuoteStatusContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Contents\TimelineContent.xaml">
+    <Page Include="Views\Contents\ReblogStatusContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\StatusContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -272,7 +295,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Partials\PostArea.xaml">
+    <Page Include="Views\Partials\AccountsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partials\PostAreaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Timelines\StatusesTimeline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Timelines\UserTimeline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -281,6 +316,10 @@
     <ProjectReference Include="..\Orion.Interfaces\Orion.Interfaces.csproj">
       <Project>{04acfb94-d7cf-4ab1-b521-a3db1f902c63}</Project>
       <Name>Orion.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orion.Scripting\Orion.Scripting.csproj">
+      <Project>{b943208e-d516-4d07-8487-4601209e64e3}</Project>
+      <Name>Orion.Scripting</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orion.Service.Croudia\Orion.Service.Croudia.csproj">
       <Project>{ce99ffe9-63d8-4887-9401-e7abbb228a1a}</Project>

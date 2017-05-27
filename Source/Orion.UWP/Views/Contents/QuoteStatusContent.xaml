@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="Orion.UWP.Views.Contents.QuoteStatusContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviors="using:Orion.UWP.Behaviors"
+             xmlns:c="using:Orion.UWP.Controls"
+             xmlns:contents="using:Orion.UWP.Views.Contents"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="using:Microsoft.Xaml.Interactivity"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Orion.UWP.ViewModels.Contents"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+    <RelativePanel x:Name="RootPanel"
+                   Margin="1,5,1,10"
+                   HorizontalAlignment="Stretch">
+        <c:CircleImage x:Name="Icon"
+                       Width="48"
+                       Height="48"
+                       Margin="0,3,0,0"
+                       CornerRadius="4"
+                       RelativePanel.AlignLeftWithPanel="True"
+                       RelativePanel.AlignTopWithPanel="True"
+                       Source="{x:Bind ViewModel.Icon, Mode=OneWay}" />
+        <RelativePanel x:Name="UserLine"
+                       Padding="10,0,0,0"
+                       RelativePanel.AlignRightWithPanel="True"
+                       RelativePanel.AlignTopWithPanel="True"
+                       RelativePanel.RightOf="Icon">
+            <TextBlock x:Name="Username"
+                       MaxWidth="115"
+                       Text="{x:Bind ViewModel.Username, Mode=OneWay}"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock x:Name="ScreenName"
+                       Padding="5,0,0,0"
+                       VerticalAlignment="Bottom"
+                       FontSize="13"
+                       Foreground="Silver"
+                       RelativePanel.LeftOf="Timestamp"
+                       RelativePanel.RightOf="Username"
+                       Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock x:Name="Timestamp"
+                       Padding="5,0,0,0"
+                       VerticalAlignment="Bottom"
+                       FontSize="13"
+                       Foreground="Silver"
+                       RelativePanel.AlignRightWithPanel="True"
+                       Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}" />
+        </RelativePanel>
+        <RichTextBlock x:Name="Body"
+                       Padding="10,0,0,0"
+                       RelativePanel.AlignRightWithPanel="True"
+                       RelativePanel.Below="UserLine"
+                       RelativePanel.RightOf="Icon"
+                       TextTrimming="None"
+                       TextWrapping="Wrap">
+            <i:Interaction.Behaviors>
+                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
+            </i:Interaction.Behaviors>
+        </RichTextBlock>
+        <Border x:Name="QuotedStatus"
+                Margin="10,5,0,0"
+                Padding="5,0"
+                BorderBrush="{ThemeResource ButtonDisabledBorderThemeBrush}"
+                BorderThickness="1"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.Below="Body"
+                RelativePanel.RightOf="Icon">
+            <contents:StatusContent IsMiniMode="True" ViewModel="{x:Bind ViewModel.StatusViewModel, Mode=OneWay}" />
+        </Border>
+        <c:GridPreview x:Name="ImagePreviews"
+                       MaxHeight="150"
+                       Margin="0,5"
+                       ItemHeight="65"
+                       ItemWidth="120"
+                       ItemsSource="{x:Bind ViewModel.Attachments, Mode=OneWay}"
+                       RelativePanel.AlignRightWithPanel="True"
+                       RelativePanel.Below="QuotedStatus"
+                       RelativePanel.RightOf="Icon"
+                       Visibility="{x:Bind ViewModel.HasMedia, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <c:GridPreview.ItemsTemplate>
+                <DataTemplate x:DataType="vm:AttachmentViewModel">
+                    <c:CircleImage Margin="2.5"
+                                   HorizontalContentAlignment="Stretch"
+                                   CornerRadius="6"
+                                   IsCentered="True"
+                                   Source="{x:Bind PreviewUrl, Mode=OneWay}" />
+                </DataTemplate>
+            </c:GridPreview.ItemsTemplate>
+        </c:GridPreview>
+        <StackPanel x:Name="AppBar"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.Below="ImagePreviews">
+            <Button Width="45"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{x:Bind ViewModel.ReplyCommand, Mode=OneWay}">
+                <FontIcon Glyph="&#xE97A;" />
+            </Button>
+        </StackPanel>
+    </RelativePanel>
+</UserControl>
