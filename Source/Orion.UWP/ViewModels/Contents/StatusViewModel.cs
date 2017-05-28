@@ -17,9 +17,9 @@ namespace Orion.UWP.ViewModels.Contents
         private readonly Status _status;
 
         public string ScreenName => $"@{_status.User.ScreenName}";
-        public string Username => EmojiConverter.Convert(_status.User.Name);
+        public string Username => EmojiConverter.Convert(_status.User.Name).Trim();
         public string Icon { get; }
-        public string Body => EmojiConverter.Convert(_status.Text);
+        public string Body => EmojiConverter.Convert(_status.Text).Trim();
         public bool HasMedia => _status.Attachments.Count > 0;
         public List<AttachmentViewModel> Attachments { get; }
 

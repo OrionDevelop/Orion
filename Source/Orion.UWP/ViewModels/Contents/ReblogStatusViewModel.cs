@@ -10,7 +10,7 @@ namespace Orion.UWP.ViewModels.Contents
 
         public ReblogStatusViewModel(GlobalNotifier globalNotifier, Status status) : base(status)
         {
-            Message = $"{status.User.Name} reblogged";
+            Message = $"{status.User.Name.Trim()} reblogged";
             StatusViewModel = new StatusViewModel(globalNotifier, status.RebloggedStatus);
         }
     }
