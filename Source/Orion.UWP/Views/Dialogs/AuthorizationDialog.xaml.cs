@@ -5,12 +5,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 using Orion.UWP.ViewModels;
+using Orion.UWP.ViewModels.Dialogs;
 
 using Reactive.Bindings.Extensions;
 
 // コンテンツ ダイアログの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=234238 を参照してください
 
-namespace Orion.UWP.Views
+namespace Orion.UWP.Views.Dialogs
 {
     public sealed partial class AuthorizationDialog : ContentDialog
     {

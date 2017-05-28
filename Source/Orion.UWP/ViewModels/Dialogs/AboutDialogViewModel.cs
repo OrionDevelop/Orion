@@ -5,7 +5,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Orion.UWP.Models;
 using Orion.UWP.Mvvm;
 
-namespace Orion.UWP.ViewModels
+namespace Orion.UWP.ViewModels.Dialogs
 {
     public class AboutDialogViewModel : ViewModel
     {

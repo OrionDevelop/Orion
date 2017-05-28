@@ -9,7 +9,7 @@ using Orion.UWP.Services.Interfaces;
 
 using Reactive.Bindings;
 
-namespace Orion.UWP.ViewModels
+namespace Orion.UWP.ViewModels.Dialogs
 {
     public class AuthorizationDialogViewModel : ViewModel
     {

@@ -4,6 +4,7 @@
       xmlns:behaviors="using:Orion.UWP.Behaviors"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dialogs="using:Orion.UWP.Views.Dialogs"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:localControls="using:Orion.UWP.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -119,7 +120,7 @@
                                     <controls:HamburgerMenuItemCollection>
                                         <controls:HamburgerMenuGlyphItem Glyph="&#xE710;"
                                                                          Label="タイムラインの追加"
-                                                                         TargetPageType="v:AddTimelineDialog" />
+                                                                         TargetPageType="dialogs:AddTimelineDialog" />
                                     </controls:HamburgerMenuItemCollection>
                                 </ListView.ItemsSource>
                             </ListView>
@@ -142,7 +143,7 @@
                                     <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#xE783;"
                                                                      Label="Orion について"
-                                                                     TargetPageType="v:AboutDialog" />
+                                                                     TargetPageType="dialogs:AboutDialog" />
                                 </controls:HamburgerMenuItemCollection>
                             </ListView.ItemsSource>
                         </ListView>

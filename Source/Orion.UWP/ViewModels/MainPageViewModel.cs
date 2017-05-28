@@ -18,6 +18,8 @@ using Prism.Windows.Navigation;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
+using AuthorizationDialog = Orion.UWP.Views.Dialogs.AuthorizationDialog;
+
 namespace Orion.UWP.ViewModels
 {
     public class MainPageViewModel : ViewModel
