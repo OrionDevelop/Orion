@@ -41,8 +41,9 @@ namespace Orion.UWP.Converters
                 text = FlattenHtmlText(value);
             text = text.Replace("&lt;", "<"); // Twitter
             text = text.Replace("&gt;", ">"); // Twitter
-            text = text.Replace("&amp;", "&"); // Twitter
             text = text.Replace("&apos;", "'"); // Mastodon
+            text = text.Replace("&quot;", "\""); // Mastodon
+            text = text.Replace("&amp;", "&"); // Twitter
             text = text.Replace("\n", Environment.NewLine);
 
             var extractor = new Extractor();
