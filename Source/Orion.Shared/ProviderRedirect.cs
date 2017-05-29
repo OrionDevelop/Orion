@@ -9,7 +9,8 @@ namespace Orion.Shared
     {
         private static readonly List<Tuple<string, string>> RedirectHosts = new List<Tuple<string, string>>
         {
-            new Tuple<string, string>("mstdn.jp", "streaming.mstdn.jp")
+            new Tuple<string, string>("mstdn.jp", "streaming.mstdn.jp"),
+            new Tuple<string, string>("qiitadon.com", "streaming.qiitadon.com:4000")
         };
 
         public static string Redirect(string url)
