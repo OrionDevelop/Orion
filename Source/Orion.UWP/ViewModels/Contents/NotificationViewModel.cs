@@ -22,7 +22,7 @@ namespace Orion.UWP.ViewModels.Contents
             _notification = notification;
             if (_notification.Target != null)
             {
-                StatusViewModel = new StatusViewModel(globalNotifier, _notification.Target, null);
+                StatusViewModel = new StatusViewModel(globalNotifier, null, _notification.Target, null);
                 IsShowStatus = true;
             }
         }

@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Windows.UI.Xaml.Input;
+
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Emoji;
 using Orion.Shared.Models;
 using Orion.UWP.Models;
 using Orion.UWP.Mvvm;
+using Orion.UWP.Services.Interfaces;
+using Orion.UWP.ViewModels.Dialogs;
+using Orion.UWP.Views.Dialogs;
 
 using Reactive.Bindings;
 
@@ -14,8 +19,8 @@ namespace Orion.UWP.ViewModels.Contents
 {
     public class StatusViewModel : StatusBaseViewModel
     {
+        private readonly IDialogService _dialogService;
         private readonly Status _status;
-
         public string ScreenName => $"@{_status.User.ScreenName}";
         public string Username => EmojiConverter.Convert(_status.User.Name).Trim();
         public string Icon { get; }
@@ -30,10 +35,11 @@ namespace Orion.UWP.ViewModels.Contents
             // Design instance
         }
 
-        public StatusViewModel(Status status) : this(null, status, null) { }
+        public StatusViewModel(Status status) : this(null, null, status, null) { }
 
-        public StatusViewModel(GlobalNotifier globalNotifier, Status status, TimelineBase timeline) : base(status)
+        public StatusViewModel(GlobalNotifier globalNotifier, IDialogService dialogService, Status status, TimelineBase timeline) : base(status)
         {
+            _dialogService = dialogService;
             _status = status;
             Icon = Uri.TryCreate(status.User.IconUrl, UriKind.Absolute, out Uri _)
                 ? status.User.IconUrl
@@ -45,6 +51,11 @@ namespace Orion.UWP.ViewModels.Contents
                 globalNotifier.InReplyTimeline = timeline;
             }).AddTo(this);
             Attachments = _status.Attachments.Select(w => new AttachmentViewModel(w)).ToList();
+        }
+
+        public void OnTappedImageEvent(object sender, TappedRoutedEventArgs e)
+        {
+            _dialogService.ShowDialogAsync(new ImageViewerDialog {DataContext = new ImageViewerDialogViewModel(_status)});
         }
     }
 }

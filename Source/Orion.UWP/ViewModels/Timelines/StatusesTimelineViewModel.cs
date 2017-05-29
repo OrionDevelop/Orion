@@ -18,6 +18,7 @@ namespace Orion.UWP.ViewModels.Timelines
 {
     public class StatusesTimelineViewModel : TimelineViewModel
     {
+        private readonly IDialogService _dialogService;
         private readonly GlobalNotifier _globalNotifier;
         private readonly ObservableCollection<StatusBaseViewModel> _statuses;
         private readonly StatusesTimeline _timeline;
@@ -39,10 +40,12 @@ namespace Orion.UWP.ViewModels.Timelines
             }
         }
 
-        public StatusesTimelineViewModel(GlobalNotifier globalNotifier, ITimelineService ts, StatusesTimeline timeline) : base(ts, timeline)
+        public StatusesTimelineViewModel(GlobalNotifier globalNotifier, IDialogService dialogService, ITimelineService ts, StatusesTimeline timeline)
+            : base(ts, timeline)
         {
             _globalNotifier = globalNotifier;
             _timeline = timeline;
+            _dialogService = dialogService;
             _statuses = new ObservableCollection<StatusBaseViewModel>();
             ClearCommand = new ReactiveCommand();
             ClearCommand.Subscribe(w => _statuses.Clear()).AddTo(this);
@@ -78,7 +81,7 @@ namespace Orion.UWP.ViewModels.Timelines
                              IsReconnecting = false;
                              return null;
                          }
-                         return Attacher.Attach(_globalNotifier, w, _timeline);
+                         return Attacher.Attach(_globalNotifier, _dialogService, w, _timeline);
                      })
                      .Where(w => w != null)
                      .Subscribe(w => { _statuses.Insert(0, w); }, async w =>

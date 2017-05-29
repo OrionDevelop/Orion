@@ -11,14 +11,12 @@ using Orion.UWP.Mvvm;
 using Orion.UWP.Services.Interfaces;
 using Orion.UWP.ViewModels.Contents;
 using Orion.UWP.ViewModels.Timelines;
-using Orion.UWP.Views;
+using Orion.UWP.Views.Dialogs;
 
 using Prism.Windows.Navigation;
 
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-
-using AuthorizationDialog = Orion.UWP.Views.Dialogs.AuthorizationDialog;
 
 namespace Orion.UWP.ViewModels
 {
@@ -60,7 +58,7 @@ namespace Orion.UWP.ViewModels
             Timelines = _timelineService.Timelines.ToReadOnlyReactiveCollection(w =>
             {
                 if (w is StatusesTimeline timeline)
-                    return new StatusesTimelineViewModel(globalNotifier, timelineService, timeline) as TimelineViewModel;
+                    return new StatusesTimelineViewModel(globalNotifier, dialogService, timelineService, timeline) as TimelineViewModel;
                 return null;
             }).AddTo(this);
         }

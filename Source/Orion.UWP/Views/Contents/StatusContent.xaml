@@ -66,6 +66,7 @@
                        RelativePanel.AlignRightWithPanel="True"
                        RelativePanel.Below="Body"
                        RelativePanel.RightOf="Icon"
+                       Tapped="{x:Bind ViewModel.OnTappedImageEvent, Mode=OneWay}"
                        Visibility="{x:Bind ViewModel.HasMedia, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
             <c:GridPreview.ItemsTemplate>
                 <DataTemplate x:DataType="vm:AttachmentViewModel">
