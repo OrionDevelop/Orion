@@ -13,7 +13,6 @@ namespace Orion.UWP.ViewModels.Contents
 {
     public class StatusViewModel : StatusBaseViewModel
     {
-        private readonly long _id;
         private readonly Status _status;
 
         public string ScreenName => $"@{_status.User.ScreenName}";
@@ -30,11 +29,6 @@ namespace Orion.UWP.ViewModels.Contents
             // Design instance
         }
 
-        public StatusViewModel(long statusId) : base(null)
-        {
-            _id = statusId;
-        }
-
         public StatusViewModel(GlobalNotifier globalNotifier, Status status) : base(status)
         {
             _id = status.Id;
@@ -45,16 +39,6 @@ namespace Orion.UWP.ViewModels.Contents
             ReplyCommand = new ReactiveCommand();
             ReplyCommand.Subscribe(() => globalNotifier.InReplyStatus = _status).AddTo(this);
             Attachments = _status.Attachments.Select(w => new AttachmentViewModel(w)).ToList();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return _id == (obj as StatusViewModel)?._id;
-        }
-
-        public override int GetHashCode()
-        {
-            return _id.GetHashCode();
         }
     }
 }

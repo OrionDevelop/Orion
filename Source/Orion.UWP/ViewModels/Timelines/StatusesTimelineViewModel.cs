@@ -68,7 +68,7 @@ namespace Orion.UWP.ViewModels.Timelines
                      {
                          if (w is DeleteEvent)
                          {
-                             _statuses.Remove(new StatusViewModel(w.Id));
+                             _statuses.Remove(new StatusBaseViewModel(w.Id));
                              return null;
                          }
                          // When streaming is reconnected, DataSource send heartbeat status to all streams.
