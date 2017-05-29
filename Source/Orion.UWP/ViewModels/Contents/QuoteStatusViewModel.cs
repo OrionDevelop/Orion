@@ -1,4 +1,5 @@
 ﻿using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Models;
 using Orion.UWP.Models;
 
 namespace Orion.UWP.ViewModels.Contents
@@ -7,9 +8,9 @@ namespace Orion.UWP.ViewModels.Contents
     {
         public StatusViewModel StatusViewModel { get; }
 
-        public QuoteStatusViewModel(GlobalNotifier globalNotifier, Status status) : base(globalNotifier, status)
+        public QuoteStatusViewModel(GlobalNotifier globalNotifier, Status status, TimelineBase timeline) : base(globalNotifier, status, timeline)
         {
-            StatusViewModel = new StatusViewModel(globalNotifier, status.QuotedStatus);
+            StatusViewModel = new StatusViewModel(globalNotifier, status.QuotedStatus, timeline);
         }
     }
 }

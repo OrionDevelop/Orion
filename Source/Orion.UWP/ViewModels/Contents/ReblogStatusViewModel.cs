@@ -1,4 +1,5 @@
 ﻿using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Models;
 using Orion.UWP.Models;
 
 namespace Orion.UWP.ViewModels.Contents
@@ -8,10 +9,10 @@ namespace Orion.UWP.ViewModels.Contents
         public string Message { get; }
         public StatusViewModel StatusViewModel { get; }
 
-        public ReblogStatusViewModel(GlobalNotifier globalNotifier, Status status) : base(status)
+        public ReblogStatusViewModel(GlobalNotifier globalNotifier, Status status, TimelineBase timeline) : base(status)
         {
             Message = $"{status.User.Name.Trim()} reblogged";
-            StatusViewModel = new StatusViewModel(globalNotifier, status.RebloggedStatus);
+            StatusViewModel = new StatusViewModel(globalNotifier, status.RebloggedStatus, timeline);
         }
     }
 }

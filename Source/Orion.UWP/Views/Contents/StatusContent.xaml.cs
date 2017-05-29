@@ -22,6 +22,16 @@ namespace Orion.UWP.Views.Contents
         public static readonly DependencyProperty IsMiniModeProperty =
             DependencyProperty.Register(nameof(IsMiniMode), typeof(bool), typeof(StatusContent), new PropertyMetadata(false, OnIsMiniModeChanged));
 
+        public static readonly DependencyProperty IsShowIconProperty =
+            DependencyProperty.Register(nameof(IsShowIcon), typeof(bool), typeof(StatusContent), new PropertyMetadata(true, OnIsShowIconChanged));
+
+        public static readonly DependencyProperty IsShowImagePreviewsProperty =
+            DependencyProperty.Register(nameof(IsShowImagePreviews), typeof(bool), typeof(StatusContent),
+                                        new PropertyMetadata(true, OnIsShowImagePreviewsChanged));
+
+        public static readonly DependencyProperty IsShowTimestampProperty =
+            DependencyProperty.Register(nameof(IsShowTimestamp), typeof(bool), typeof(StatusContent), new PropertyMetadata(true, OnIsShowTimestampChanged));
+
         public StatusViewModel ViewModel
         {
             get => (StatusViewModel) GetValue(ViewModelProperty);
@@ -40,6 +50,24 @@ namespace Orion.UWP.Views.Contents
             set => SetValue(IsMiniModeProperty, value);
         }
 
+        public bool IsShowIcon
+        {
+            get => (bool) GetValue(IsShowIconProperty);
+            set => SetValue(IsShowIconProperty, value);
+        }
+
+        public bool IsShowImagePreviews
+        {
+            get => (bool) GetValue(IsShowImagePreviewsProperty);
+            set => SetValue(IsShowImagePreviewsProperty, value);
+        }
+
+        public bool IsShowTimestamp
+        {
+            get => (bool) GetValue(IsShowTimestampProperty);
+            set => SetValue(IsShowTimestampProperty, value);
+        }
+
         public StatusContent()
         {
             InitializeComponent();
@@ -49,15 +77,41 @@ namespace Orion.UWP.Views.Contents
             Body.IsTextSelectionEnabled = false;
         }
 
+        private static void OnIsShowTimestampChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (dependencyObject is StatusContent status)
+                status.Timestamp.Visibility = (bool) e.NewValue ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private static void OnIsShowImagePreviewsChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (dependencyObject is StatusContent status)
+                status.ImagePreviews.Visibility = (bool) e.NewValue ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private static void OnIsShowIconChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (dependencyObject is StatusContent status)
+                if ((bool) e.NewValue)
+                {
+                    status.Icon.Visibility = Visibility.Visible;
+                    status.UserLine.Padding = status.Body.Padding = new Thickness(10, 0, 0, 0);
+                }
+                else
+                {
+                    status.Icon.Visibility = Visibility.Collapsed;
+                    status.UserLine.Padding = status.Body.Padding = new Thickness(0);
+                }
+        }
+
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            var root = this.GetFirstAncestorOfType<ListViewItem>();
-            if (root == null)
-                return;
-
             if (IsMiniMode)
                 return;
 
+            var root = this.GetFirstAncestorOfType<ListViewItem>();
+            if (root == null)
+                return;
             SetBinding(IsSelectedProperty, new Binding
             {
                 Source = root,
@@ -84,10 +138,9 @@ namespace Orion.UWP.Views.Contents
         {
             if (dependencyObject is StatusContent status && (bool) args.NewValue)
             {
-                status.Icon.Visibility = Visibility.Collapsed;
+                status.Icon.Height = status.Icon.Width = 32;
                 status.Username.FontSize = status.Body.FontSize = 13;
                 status.ScreenName.FontSize = status.Timestamp.FontSize = 12;
-                status.UserLine.Padding = status.Body.Padding = new Thickness(0);
                 status.ImagePreviews.ItemHeight = 40;
                 status.Loaded += StatusOnLoaded;
             }

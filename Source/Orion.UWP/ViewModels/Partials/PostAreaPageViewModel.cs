@@ -17,20 +17,25 @@ namespace Orion.UWP.ViewModels.Partials
     {
         public ReadOnlyObservableCollection<AccountViewModel> Accounts { get; }
         public ReactiveProperty<string> StatusBody { get; }
+        public ReactiveProperty<StatusViewModel> InReplyViewModel { get; }
         public ReactiveCollection<AccountViewModel> SelectedAccounts { get; }
         public AsyncReactiveCommand<object> SendStatusCommand { get; }
+        public ReactiveCommand ClearInReplyCommand { get; }
 
         public PostAreaPageViewModel(GlobalNotifier globalNotifier, IAccountService accountService)
         {
             var history = new History<string>(2);
             globalNotifier.ObserveProperty(w => w.InReplyStatus).Where(w => w != null)
-                          .Subscribe(w => { StatusBody.Value = $"@{w.User.ScreenName} "; })
+                          .Subscribe(w => StatusBody.Value = $"@{w.User.ScreenName} ")
                           .AddTo(this);
             Accounts = accountService.Accounts.ToReadOnlyReactiveCollection(w => new AccountViewModel(w));
             SelectedAccounts = new ReactiveCollection<AccountViewModel>();
             FirstSelectedAccount = Accounts.Select((w, i) => new {Value = w, Index = i}).SingleOrDefault(w => w.Value.Account.IsMarkAsDefault)?.Index ?? -1;
             StatusBody = new ReactiveProperty<string>();
             StatusBody.Subscribe(w => history.Store(w)).AddTo(this);
+            InReplyViewModel = globalNotifier.ObserveProperty(w => w.InReplyStatus)
+                                             .Select(w => w != null ? new StatusViewModel(w) : null)
+                                             .ToReactiveProperty();
             SendStatusCommand = new[]
             {
                 StatusBody.Select(w => w?.TrimEnd('\n', '\r')).Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
@@ -38,11 +43,22 @@ namespace Orion.UWP.ViewModels.Partials
             }.CombineLatestValuesAreAllTrue().ToAsyncReactiveCommand();
             SendStatusCommand.Subscribe(async w =>
             {
-                var accounts = SelectedAccounts.ToList();
-                foreach (var account in accounts)
-                    await account.Account.ClientWrapper.UpdateAsync(history[(string) w == "ENTER" ? -1 : 0], globalNotifier.InReplyStatus?.InReplyToStatusId);
+                var body = history[(string) w == "ENTER" ? -1 : 0];
+                if (globalNotifier.InReplyStatus == null)
+                {
+                    var accounts = SelectedAccounts.ToList();
+                    foreach (var account in accounts)
+                        await account.Account.ClientWrapper.UpdateAsync(body);
+                }
+                else
+                {
+                    await globalNotifier.InReplyTimeline.Account.ClientWrapper.UpdateAsync(body, globalNotifier.InReplyStatus.Id);
+                    globalNotifier.ClearInReply();
+                }
                 StatusBody.Value = null;
             }).AddTo(this);
+            ClearInReplyCommand = new ReactiveCommand();
+            ClearInReplyCommand.Subscribe(_ => globalNotifier.ClearInReply()).AddTo(this);
         }
 
         #region FirstSelectedAccount

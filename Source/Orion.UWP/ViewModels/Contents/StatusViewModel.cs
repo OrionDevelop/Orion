@@ -4,6 +4,7 @@ using System.Linq;
 
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Emoji;
+using Orion.Shared.Models;
 using Orion.UWP.Models;
 using Orion.UWP.Mvvm;
 
@@ -29,15 +30,20 @@ namespace Orion.UWP.ViewModels.Contents
             // Design instance
         }
 
-        public StatusViewModel(GlobalNotifier globalNotifier, Status status) : base(status)
+        public StatusViewModel(Status status) : this(null, status, null) { }
+
+        public StatusViewModel(GlobalNotifier globalNotifier, Status status, TimelineBase timeline) : base(status)
         {
-            _id = status.Id;
             _status = status;
             Icon = Uri.TryCreate(status.User.IconUrl, UriKind.Absolute, out Uri _)
                 ? status.User.IconUrl
                 : $"https://{new Uri(status.User.Url).Host}{status.User.IconUrl}";
             ReplyCommand = new ReactiveCommand();
-            ReplyCommand.Subscribe(() => globalNotifier.InReplyStatus = _status).AddTo(this);
+            ReplyCommand.Subscribe(() =>
+            {
+                globalNotifier.InReplyStatus = _status;
+                globalNotifier.InReplyTimeline = timeline;
+            }).AddTo(this);
             Attachments = _status.Attachments.Select(w => new AttachmentViewModel(w)).ToList();
         }
     }

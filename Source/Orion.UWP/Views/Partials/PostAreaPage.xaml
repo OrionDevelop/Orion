@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:behaviors="using:Orion.UWP.Behaviors"
       xmlns:c="using:Orion.UWP.Controls"
+      xmlns:content="using:Orion.UWP.Views.Contents"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -64,6 +65,33 @@
             <TextBlock x:Name="StatusText"
                        RelativePanel.Below="Accounts"
                        Text="ステータス" />
+            <Border x:Name="InReplyStatus"
+                    BorderBrush="Silver"
+                    BorderThickness="1"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.Below="StatusText"
+                    Visibility="{x:Bind ViewModel.InReplyViewModel.Value, Mode=OneWay, Converter={StaticResource NullableToVisibilityConverter}}">
+                <Grid>
+                    <content:StatusContent Margin="2.5,0"
+                                           IsMiniMode="True"
+                                           IsShowImagePreviews="False"
+                                           IsShowTimestamp="False"
+                                           ViewModel="{x:Bind ViewModel.InReplyViewModel.Value, Mode=OneWay}" />
+                    <Button Width="24"
+                            Height="24"
+                            Margin="0"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{x:Bind ViewModel.ClearInReplyCommand, Mode=OneWay}"
+                            Content="&#xE711;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="10" />
+                </Grid>
+            </Border>
             <TextBox x:Name="StatusBox"
                      MinHeight="100"
                      Margin="0,5"
@@ -71,7 +99,7 @@
                      PlaceholderText="今何してる？"
                      RelativePanel.AlignLeftWithPanel="True"
                      RelativePanel.AlignRightWithPanel="True"
-                     RelativePanel.Below="StatusText"
+                     RelativePanel.Below="InReplyStatus"
                      Text="{Binding StatusBody.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      TextWrapping="Wrap">
                 <i:Interaction.Behaviors>

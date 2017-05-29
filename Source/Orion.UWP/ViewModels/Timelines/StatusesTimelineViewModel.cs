@@ -78,7 +78,7 @@ namespace Orion.UWP.ViewModels.Timelines
                              IsReconnecting = false;
                              return null;
                          }
-                         return Attacher.Attach(_globalNotifier, w);
+                         return Attacher.Attach(_globalNotifier, w, _timeline);
                      })
                      .Where(w => w != null)
                      .Subscribe(w => { _statuses.Insert(0, w); }, async w =>

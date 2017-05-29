@@ -105,6 +105,7 @@
     <Compile Include="Controls\DataTemplateCollection.cs" />
     <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
     <Compile Include="Controls\GridPreview\GridPreview.cs" />
+    <Compile Include="Converters\NullableToVisibilityConverter.cs" />
     <Compile Include="Converters\TextToBlockCollectionConverter.cs" />
     <Compile Include="Extensions\EventTypeEx.cs" />
     <Compile Include="Extensions\TimelineEx.cs" />

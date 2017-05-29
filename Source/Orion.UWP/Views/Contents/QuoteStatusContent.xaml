@@ -67,7 +67,9 @@
                 RelativePanel.AlignRightWithPanel="True"
                 RelativePanel.Below="Body"
                 RelativePanel.RightOf="Icon">
-            <contents:StatusContent IsMiniMode="True" ViewModel="{x:Bind ViewModel.StatusViewModel, Mode=OneWay}" />
+            <contents:StatusContent IsMiniMode="True"
+                                    IsShowIcon="False"
+                                    ViewModel="{x:Bind ViewModel.StatusViewModel, Mode=OneWay}" />
         </Border>
         <c:GridPreview x:Name="ImagePreviews"
                        MaxHeight="150"
