@@ -1,4 +1,5 @@
-﻿using Orion.Shared.Absorb.Enums;
+﻿using Orion.Service.Mastodon.Enum;
+using Orion.Shared.Absorb.Enums;
 
 using CroudiaAttachment = Orion.Service.Croudia.Models.Media;
 using MastodonAttachment = Orion.Service.Mastodon.Models.Attachment;
@@ -15,7 +16,7 @@ namespace Orion.Shared.Absorb.Objects
         /// <summary>
         ///     URL
         /// </summary>
-        public string Url => _croudiaAttachment?.MediaUrl ?? _mastodonAttachment?.Url ?? _twitterAttachment.MediaUrlHttps;
+        public string Url => _croudiaAttachment?.MediaUrl ?? _mastodonAttachment?.Url ?? _twitterAttachment.MediaUrl;
 
         /// <summary>
         ///     Preview url
@@ -33,13 +34,13 @@ namespace Orion.Shared.Absorb.Objects
         public Attachment(MastodonAttachment attachment)
         {
             _mastodonAttachment = attachment;
-            MediaType = MediaType.Image;
+            MediaType = attachment.Type == AttachmentType.Video ? MediaType.Video : MediaType.Image;
         }
 
         public Attachment(TwitterAttachment attachment)
         {
             _twitterAttachment = attachment;
-            MediaType = MediaType.Image;
+            MediaType = MediaType.Image; // ??
         }
     }
 }

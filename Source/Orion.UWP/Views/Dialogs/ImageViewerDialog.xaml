@@ -1,6 +1,7 @@
 ﻿<ContentDialog x:Class="Orion.UWP.Views.Dialogs.ImageViewerDialog"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:contents="using:Orion.UWP.ViewModels.Contents"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:vm="using:Orion.UWP.ViewModels.Dialogs"
@@ -9,8 +10,21 @@
                mc:Ignorable="d">
     <FlipView ItemsSource="{x:Bind ViewModel.Attachments, Mode=OneWay}">
         <FlipView.ItemTemplate>
-            <DataTemplate>
-                <Image Source="{Binding PreviewUrl, Mode=OneWay}" />
+            <DataTemplate x:DataType="contents:AttachmentViewModel">
+                <Grid>
+                    <Image HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Source="{x:Bind LinkUrl, Mode=OneWay}"
+                           Stretch="Uniform"
+                           Visibility="{x:Bind IsVideoMode, Mode=OneWay, Converter={StaticResource ReverseBooleanToVisibilityConverter}}" />
+                    <MediaPlayerElement HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        AreTransportControlsEnabled="True"
+                                        AutoPlay="True"
+                                        IsEnabled="{x:Bind IsVideoMode, Mode=OneWay}"
+                                        Source="{x:Bind VideoSource, Mode=OneWay}"
+                                        Visibility="{x:Bind IsVideoMode, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Grid>
             </DataTemplate>
         </FlipView.ItemTemplate>
     </FlipView>
