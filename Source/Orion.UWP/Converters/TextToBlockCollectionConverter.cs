@@ -37,15 +37,15 @@ namespace Orion.UWP.Converters
             if (_tagRegex.IsMatch(value) || value.Contains("br"))
                 text = FlattenHtmlText(value);
 
-            if (string.IsNullOrWhiteSpace(text))
-                return new List<Block>();
-
             text = text.Replace("&lt;", "<"); // Twitter
             text = text.Replace("&gt;", ">"); // Twitter
             text = text.Replace("&apos;", "'"); // Mastodon
             text = text.Replace("&quot;", "\""); // Mastodon
             text = text.Replace("&amp;", "&"); // Twitter
             text = text.Replace("\n", Environment.NewLine);
+
+            if (string.IsNullOrWhiteSpace(text))
+                return new List<Block>();
 
             var extractor = new Extractor();
             var paragraph = new Paragraph();
