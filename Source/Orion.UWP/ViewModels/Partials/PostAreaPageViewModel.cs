@@ -38,7 +38,8 @@ namespace Orion.UWP.ViewModels.Partials
             }.CombineLatestValuesAreAllTrue().ToAsyncReactiveCommand();
             SendStatusCommand.Subscribe(async w =>
             {
-                foreach (var account in SelectedAccounts)
+                var accounts = SelectedAccounts.ToList();
+                foreach (var account in accounts)
                     await account.Account.ClientWrapper.UpdateAsync(history[(string) w == "ENTER" ? -1 : 0], globalNotifier.InReplyStatus?.InReplyToStatusId);
                 StatusBody.Value = null;
             }).AddTo(this);
