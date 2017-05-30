@@ -40,7 +40,7 @@ namespace Orion.Shared.Absorb.Objects
         public Attachment(TwitterAttachment attachment)
         {
             _twitterAttachment = attachment;
-            MediaType = MediaType.Image; // ??
+            MediaType = attachment.Type == "photo" ? MediaType.Image : MediaType.Video; // ??
         }
     }
 }
