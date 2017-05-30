@@ -54,11 +54,20 @@
                 </GridView.ItemsPanel>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vmc:AccountViewModel">
-                        <c:CircleImage Width="52"
-                                       Height="52"
-                                       CornerRadius="6"
-                                       Source="{Binding IconUrl}"
-                                       ToolTipService.ToolTip="{Binding ScreenName}" />
+                        <Grid>
+                            <c:CircleImage Width="52"
+                                           Height="52"
+                                           CornerRadius="6"
+                                           Source="{Binding IconUrl}"
+                                           ToolTipService.ToolTip="{Binding ScreenName}" />
+                            <c:CircleImage Width="16"
+                                           Height="16"
+                                           Margin="1"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Top"
+                                           CornerRadius="2"
+                                           Source="{Binding FaviconUrl}" />
+                        </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>

@@ -212,7 +212,7 @@ namespace Orion.Shared
         public static Provider TwitterProvider { get; } = new Provider
         {
             Name = "Twitter",
-            Host = "api.twitter.com",
+            Host = "twitter.com",
             ProviderType = ProviderType.Twitter,
             IsRequireHost = false,
             IsRequireApiKeys = false,
@@ -224,7 +224,7 @@ namespace Orion.Shared
         public static Provider CroudiaProvider { get; } = new Provider
         {
             Name = "Croudia",
-            Host = "api.croudia.com",
+            Host = "croudia.com",
             ProviderType = ProviderType.Croudia,
             IsRequireHost = false,
             IsRequireApiKeys = false,
