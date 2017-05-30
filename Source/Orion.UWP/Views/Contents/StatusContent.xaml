@@ -80,6 +80,7 @@
         </c:GridPreview>
         <StackPanel x:Name="AppBar"
                     Margin="0,0,10,0"
+                    Height="40"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     RelativePanel.AlignBottomWithPanel="True"

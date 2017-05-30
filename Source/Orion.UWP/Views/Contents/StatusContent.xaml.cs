@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Data;
 
 using Orion.UWP.ViewModels.Contents;
 
+using WinRTXamlToolkit.AwaitableUI;
 using WinRTXamlToolkit.Controls.Extensions;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -73,8 +74,12 @@ namespace Orion.UWP.Views.Contents
             InitializeComponent();
             Loaded += OnLoaded;
             AppBar.Visibility = Visibility.Collapsed;
-            AppBar.Height = 0;
             Body.IsTextSelectionEnabled = false;
+        }
+
+        private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            (dependencyObject as StatusContent)?.CalculateCellSize();
         }
 
         private static void OnIsShowTimestampChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -112,6 +117,7 @@ namespace Orion.UWP.Views.Contents
             var root = this.GetFirstAncestorOfType<ListViewItem>();
             if (root == null)
                 return;
+
             SetBinding(IsSelectedProperty, new Binding
             {
                 Source = root,
@@ -120,10 +126,37 @@ namespace Orion.UWP.Views.Contents
             });
         }
 
-        private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        private async void CalculateCellSize()
         {
-            if (args.NewValue != null && args.NewValue != args.OldValue)
-                (dependencyObject as StatusContent)?.ResetLayouts();
+            await this.WaitForLayoutUpdateAsync();
+
+            var height = 0d;
+            // UserLine does not change height.
+            if (UserLine.DesiredSize == new Size(0, 0))
+                UserLine.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            height += UserLine.DesiredSize.Height;
+            // Body height is changed by text length. Must be re-calc.
+            Body.Measure(new Size(250, double.PositiveInfinity));
+            height += Body.DesiredSize.Height;
+            // ImagePreviews is changed by attachments. Must be re-calc. (But when it don't have attachments, set to 0)
+            if (ImagePreviews.Visibility != Visibility.Collapsed)
+            {
+                ImagePreviews.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                height += ImagePreviews.DesiredSize.Height;
+            }
+            // AppBar is changed by selection state. Must be re-calc.
+            if (IsSelected)
+            {
+                AppBar.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                height += AppBar.DesiredSize.Height;
+            }
+            // Icon does not change height.
+            if (Icon.DesiredSize == new Size(0, 0))
+                Icon.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            if (height <= Icon.DesiredSize.Height)
+                height = Icon.DesiredSize.Height;
+
+            RootPanel.Height = height;
         }
 
         private static void OnIsSelectedChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
@@ -155,30 +188,20 @@ namespace Orion.UWP.Views.Contents
             }
         }
 
-        private void ResetLayouts()
-        {
-            AppBar.Visibility = Visibility.Collapsed;
-            AppBar.Height = 0;
-            Body.IsTextSelectionEnabled = false;
-            Body.Measure(new Size());
-            ImagePreviews.Measure(new Size());
-        }
-
         private void ContractCommandBar()
         {
-            if (RootPanel.ActualHeight > 40)
-                RootPanel.Height = RootPanel.ActualHeight - 40;
             AppBar.Visibility = Visibility.Collapsed;
-            AppBar.Height = 0;
-            Body.IsTextSelectionEnabled = false;
+            if (Body.Blocks.Count > 0 && Body.IsTextSelectionEnabled)
+                Body.IsTextSelectionEnabled = false; // System.AccessViolationException
+            CalculateCellSize();
         }
 
         private void ExpandCommandBar()
         {
-            RootPanel.Height = RootPanel.ActualHeight + 40;
             AppBar.Visibility = Visibility.Visible;
-            AppBar.Height = 40;
-            Body.IsTextSelectionEnabled = true;
+            if (Body.Blocks.Count > 0)
+                Body.IsTextSelectionEnabled = true;
+            CalculateCellSize();
         }
     }
 }
