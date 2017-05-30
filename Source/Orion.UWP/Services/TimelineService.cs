@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,7 +52,14 @@ namespace Orion.UWP.Services
 
             foreach (var timeline in timelines)
             {
-                timeline.Account = _accountService.Accounts.Single(w => w.Id == timeline.AccountId);
+                var account = _accountService.Accounts.SingleOrDefault(w => w.Id == timeline.AccountId);
+                if (account == null)
+                {
+                    Debug.WriteLine($"Timeline \"{timeline.Name}\" (ID: {timeline.Id}) is removed.");
+                    Debug.WriteLine("Reason: Account credentials is invalid or unknown account.");
+                    continue;
+                }
+                timeline.Account = account;
                 _timelines.Add(timeline);
             }
 
