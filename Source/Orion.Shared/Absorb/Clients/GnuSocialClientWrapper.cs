@@ -62,17 +62,34 @@ namespace Orion.Shared.Absorb.Clients
             }
         }
 
-        public override async Task<bool> UpdateAsync(string body, long? inReplyToStatusId = null)
+        public override async Task UpdateAsync(string body, long? inReplyToStatusId = null)
         {
-            try
-            {
-                await _gnuSocialClient.Statuses.UpdateAsync(body, (int?) inReplyToStatusId);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            await _gnuSocialClient.Statuses.UpdateAsync(body, (int?) inReplyToStatusId);
+        }
+
+        public override async Task DestroyAsync(long id)
+        {
+            await _gnuSocialClient.Statuses.DestroyAsync((int) id);
+        }
+
+        public override async Task FavoriteAsync(long id)
+        {
+            await _gnuSocialClient.Favorites.CreateAsync((int) id);
+        }
+
+        public override async Task UnfavoriteAsync(long id)
+        {
+            await _gnuSocialClient.Favorites.DestroyAsync((int) id);
+        }
+
+        public override async Task ReblogAsync(long id)
+        {
+            await _gnuSocialClient.Statuses.RetweetAsync((int) id);
+        }
+
+        public override async Task UnreblogAsync(long id)
+        {
+            await DestroyAsync(id);
         }
     }
 }
