@@ -30,6 +30,7 @@ namespace Orion.UWP.Services
             var vault = new PasswordVault();
             foreach (var credential in vault.RetrieveAll())
                 vault.Remove(credential);
+            _accounts.Clear();
             return Task.CompletedTask;
         }
 
