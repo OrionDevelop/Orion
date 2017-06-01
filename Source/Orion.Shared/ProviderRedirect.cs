@@ -4,19 +4,18 @@ using System.Linq;
 
 namespace Orion.Shared
 {
-    // F**king mstdn.jp
     internal static class ProviderRedirect
     {
-        private static readonly List<Tuple<string, string>> RedirectHosts = new List<Tuple<string, string>>
+        private static readonly Dictionary<string, string> RedirectHosts = new Dictionary<string, string>
         {
-            new Tuple<string, string>("mstdn.jp", "streaming.mstdn.jp"),
-            new Tuple<string, string>("qiitadon.com", "streaming.qiitadon.com:4000")
+            ["mstdn.jp"] = "streaming.mstdn.jp",
+            ["qiitadon.com"] = "streaming.qiitadon.com:4000",
         };
 
         public static string Redirect(string url)
         {
             var host = new Uri(url).Host;
-            return RedirectHosts.Any(w => w.Item1 == host) ? RedirectHosts.First(w => w.Item1 == host).Item2 : host;
+            return RedirectHosts.Any(w => w.Key == host) ? RedirectHosts.First(w => w.Key == host).Value : host;
         }
     }
 }
