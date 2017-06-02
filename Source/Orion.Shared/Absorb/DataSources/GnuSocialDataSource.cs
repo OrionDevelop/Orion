@@ -13,12 +13,12 @@ namespace Orion.Shared.Absorb.DataSources
             _gnuSocialClient = gnuSocialClient;
         }
 
-        protected override void Connect(Source source)
+        protected override string NormalizedSource(string source)
         {
             throw new NotImplementedException();
         }
 
-        protected override string NormalizedSource(string source)
+        protected override void ConnectImpl(string sourceStr)
         {
             throw new NotImplementedException();
         }

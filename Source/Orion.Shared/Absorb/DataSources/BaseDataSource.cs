@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -17,7 +16,6 @@ namespace Orion.Shared.Absorb.DataSources
         private readonly Dictionary<string, bool> _shouldSendHeartbeat;
         private readonly List<string> _sources;
         protected Dictionary<string, IDisposable> Disposables { get; }
-        protected ReadOnlyCollection<string> Sources => _sources.AsReadOnly();
         protected CancellationTokenSource CancellationToken { get; private set; }
 
         protected BaseDataSource()
@@ -41,9 +39,9 @@ namespace Orion.Shared.Absorb.DataSources
                 observer.Dispose();
         }
 
-        protected abstract void Connect(Source source);
-
         protected abstract string NormalizedSource(string source);
+
+        protected abstract void ConnectImpl(string sourceStr);
 
         public IObservable<StatusBase> Connect(string source)
         {
@@ -58,7 +56,7 @@ namespace Orion.Shared.Absorb.DataSources
 
                 _sources.Add(sourceStr);
                 RegisterObserver(sourceStr);
-                Connect(new Source {IsAdded = true, Name = sourceStr});
+                ConnectImpl(sourceStr);
                 return _observers[sourceStr];
             }
         }
@@ -73,7 +71,6 @@ namespace Orion.Shared.Absorb.DataSources
             if (_sources.Contains(source))
                 return; // multiple connection to same source.
 
-            Connect(new Source {IsAdded = false, Name = source});
             try
             {
                 Disposables[source].Dispose();
