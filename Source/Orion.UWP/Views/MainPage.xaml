@@ -11,7 +11,6 @@
       xmlns:p="using:Orion.UWP.Views.Partials"
       xmlns:prism="using:Prism.Windows.Mvvm"
       xmlns:timelines="using:Orion.UWP.Views.Timelines"
-      xmlns:v="using:Orion.UWP.Views"
       xmlns:vm="using:Orion.UWP.ViewModels"
       xmlns:vmt="using:Orion.UWP.ViewModels.Timelines"
       d:DataContext="{d:DesignInstance vm:MainPageViewModel}"
@@ -157,7 +156,7 @@
                 </Grid.ColumnDefinitions>
                 <Frame x:Name="RootFrame"
                        Grid.Column="0"
-                       x:FieldModifier="public" />
+                       x:FieldModifier="protected" />
                 <ItemsControl Grid.Column="1"
                               Margin="0"
                               HorizontalAlignment="Stretch"
