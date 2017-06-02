@@ -48,7 +48,7 @@ namespace Orion.Shared.Absorb.Objects
         /// </summary>
         public string IconUrl =>
             _croudiaUser?.ProfileImageUrl ??
-            _gnuSocialUser?.ProfileImageUrlOriginal ?? _mastodonUser?.Avatar ?? _twitterUser.GetProfileImageUrlHttps("orig").ToString();
+            _gnuSocialUser?.ProfileImageUrlOriginal ?? _mastodonUser?.Avatar ?? _twitterUser.GetProfileImageUrlHttps("bigger").ToString();
 
         /// <summary>
         ///     Background image url
