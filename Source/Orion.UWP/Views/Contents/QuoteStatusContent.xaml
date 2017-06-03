@@ -63,7 +63,7 @@
                 Margin="10,5,0,0"
                 Padding="5,0"
                 BorderBrush="{ThemeResource ButtonDisabledBorderThemeBrush}"
-                BorderThickness="1"
+                BorderThickness="1.2"
                 RelativePanel.AlignRightWithPanel="True"
                 RelativePanel.Below="Body"
                 RelativePanel.RightOf="Icon">
