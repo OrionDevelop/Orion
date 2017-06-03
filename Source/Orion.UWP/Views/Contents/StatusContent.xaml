@@ -79,19 +79,32 @@
             </c:GridPreview.ItemsTemplate>
         </c:GridPreview>
         <StackPanel x:Name="AppBar"
-                    Margin="0,0,10,0"
                     Height="40"
+                    Margin="0,0,10,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     RelativePanel.AlignBottomWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignRightWithPanel="True"
                     RelativePanel.Below="ImagePreviews">
-            <Button Width="45"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    Command="{x:Bind ViewModel.ReplyCommand, Mode=OneWay}">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Width" Value="45" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Command="{x:Bind ViewModel.ReplyCommand, Mode=OneWay}">
                 <FontIcon Glyph="&#xE97A;" />
+            </Button>
+            <Button>
+                <FontIcon Glyph="&#xE895;" />
+            </Button>
+            <Button>
+                <FontIcon Glyph="&#xE735;" />
+            </Button>
+            <Button>
+                <FontIcon Glyph="&#xE712;" />
             </Button>
         </StackPanel>
     </RelativePanel>
