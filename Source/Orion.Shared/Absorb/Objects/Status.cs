@@ -95,6 +95,8 @@ namespace Orion.Shared.Absorb.Objects
         /// </summary>
         public bool HasAttachments => Attachments.Count > 0;
 
+        public bool IsSensitiveContent => _mastodonStatus?.IsSensitive ?? _twitterStatus?.PossiblySensitive ?? false;
+
         /// <summary>
         ///     ローカルステータスか (for OStatus)
         /// </summary>

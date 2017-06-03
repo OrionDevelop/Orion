@@ -26,6 +26,7 @@ namespace Orion.UWP.ViewModels.Contents
         public string Icon { get; }
         public string Body => EmojiConverter.Convert(_status.Text).Trim();
         public bool HasMedia => _status.Attachments.Count > 0;
+        public bool IsSensitive => _status.IsSensitiveContent;
         public List<AttachmentViewModel> Attachments { get; }
 
         public ReactiveCommand ReplyCommand { get; }
@@ -35,7 +36,9 @@ namespace Orion.UWP.ViewModels.Contents
             // Design instance
         }
 
-        public StatusViewModel(Status status) : this(null, null, status, null) { }
+        public StatusViewModel(Status status) : this(null, null, status, null)
+        {
+        }
 
         public StatusViewModel(GlobalNotifier globalNotifier, IDialogService dialogService, Status status, TimelineBase timeline) : base(status)
         {

@@ -57,27 +57,44 @@
                 <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
-        <c:GridPreview x:Name="ImagePreviews"
-                       MaxHeight="150"
-                       Margin="0,5"
-                       ItemHeight="65"
-                       ItemWidth="120"
-                       ItemsSource="{x:Bind ViewModel.Attachments, Mode=OneWay}"
-                       RelativePanel.AlignRightWithPanel="True"
-                       RelativePanel.Below="Body"
-                       RelativePanel.RightOf="Icon"
-                       Tapped="{x:Bind ViewModel.OnTappedImageEvent, Mode=OneWay}"
-                       Visibility="{x:Bind ViewModel.HasMedia, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <c:GridPreview.ItemsTemplate>
-                <DataTemplate x:DataType="vm:AttachmentViewModel">
-                    <c:CircleImage Margin="2.5"
-                                   HorizontalContentAlignment="Stretch"
-                                   CornerRadius="6"
-                                   IsCentered="True"
-                                   Source="{x:Bind PreviewUrl, Mode=OneWay}" />
-                </DataTemplate>
-            </c:GridPreview.ItemsTemplate>
-        </c:GridPreview>
+        <Grid x:Name="ImagePreviews"
+              Height="150"
+              Margin="0,5"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.Below="Body"
+              RelativePanel.RightOf="Icon"
+              Tapped="{x:Bind ViewModel.OnTappedImageEvent, Mode=OneWay}"
+              Visibility="{x:Bind ViewModel.HasMedia, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <c:GridPreview x:Name="Previews"
+                           ItemHeight="65"
+                           ItemWidth="120"
+                           ItemsSource="{x:Bind ViewModel.Attachments, Mode=OneWay}"
+                           Visibility="{x:Bind ViewModel.IsSensitive, Mode=OneWay, Converter={StaticResource ReverseBooleanToVisibilityConverter}}">
+                <c:GridPreview.ItemsTemplate>
+                    <DataTemplate x:DataType="vm:AttachmentViewModel">
+                        <c:CircleImage Margin="2.5"
+                                       HorizontalContentAlignment="Stretch"
+                                       CornerRadius="6"
+                                       IsCentered="True"
+                                       Source="{x:Bind PreviewUrl, Mode=OneWay}" />
+                    </DataTemplate>
+                </c:GridPreview.ItemsTemplate>
+            </c:GridPreview>
+            <Grid Height="150"
+                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                  Visibility="{x:Bind ViewModel.IsSensitive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="閲覧注意" />
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="タップして表示" />
+                </StackPanel>
+            </Grid>
+        </Grid>
         <StackPanel x:Name="AppBar"
                     Height="40"
                     Margin="0,0,10,0"

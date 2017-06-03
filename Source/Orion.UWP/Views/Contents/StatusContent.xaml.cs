@@ -174,7 +174,7 @@ namespace Orion.UWP.Views.Contents
                 status.Icon.Height = status.Icon.Width = 32;
                 status.Username.FontSize = status.Body.FontSize = 13;
                 status.ScreenName.FontSize = status.Timestamp.FontSize = 12;
-                status.ImagePreviews.ItemHeight = 40;
+                status.Previews.ItemHeight = 40;
                 status.Loaded += StatusOnLoaded;
             }
         }
@@ -183,7 +183,7 @@ namespace Orion.UWP.Views.Contents
         {
             if (sender is StatusContent status)
             {
-                status.ImagePreviews.ItemWidth = status.DesiredSize.Width / 2 - 10;
+                status.Previews.ItemWidth = status.DesiredSize.Width / 2 - 10;
                 status.Loaded -= StatusOnLoaded;
             }
         }
