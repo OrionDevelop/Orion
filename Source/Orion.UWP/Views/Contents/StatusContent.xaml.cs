@@ -192,7 +192,7 @@ namespace Orion.UWP.Views.Contents
         {
             AppBar.Visibility = Visibility.Collapsed;
             if (Body.Blocks.Count > 0 && Body.IsTextSelectionEnabled)
-                Body.IsTextSelectionEnabled = false; // System.AccessViolationException
+                Body.IsTextSelectionEnabled = false; // When this cell recycled, throw System.AccessViolationException?
             CalculateCellSize();
         }
 

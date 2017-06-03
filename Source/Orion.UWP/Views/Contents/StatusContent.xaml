@@ -114,10 +114,10 @@
             <Button Command="{x:Bind ViewModel.ReplyCommand, Mode=OneWay}">
                 <FontIcon Glyph="&#xE97A;" />
             </Button>
-            <Button>
+            <Button Command="{x:Bind ViewModel.ReblogCommand, Mode=OneWay}">
                 <FontIcon Glyph="&#xE895;" />
             </Button>
-            <Button>
+            <Button Command="{x:Bind ViewModel.FavoriteCommand, Mode=OneWay}">
                 <FontIcon Glyph="&#xE735;" />
             </Button>
             <Button>

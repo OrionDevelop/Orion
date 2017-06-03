@@ -30,6 +30,8 @@ namespace Orion.UWP.ViewModels.Contents
         public List<AttachmentViewModel> Attachments { get; }
 
         public ReactiveCommand ReplyCommand { get; }
+        public ReactiveCommand ReblogCommand { get; }
+        public ReactiveCommand FavoriteCommand { get; }
 
         public StatusViewModel() : base(null)
         {
@@ -53,6 +55,10 @@ namespace Orion.UWP.ViewModels.Contents
                 globalNotifier.InReplyStatus = _status;
                 globalNotifier.InReplyTimeline = timeline;
             }).AddTo(this);
+            ReblogCommand = new ReactiveCommand();
+            ReblogCommand.Subscribe(async () => { await timeline.Account.ClientWrapper.ReblogAsync(status.Id); });
+            FavoriteCommand = new ReactiveCommand();
+            FavoriteCommand.Subscribe(async () => { await timeline.Account.ClientWrapper.FavoriteAsync(status.Id); });
             Attachments = _status.Attachments.Select(w => new AttachmentViewModel(w)).ToList();
         }
 
