@@ -9,7 +9,6 @@ namespace Orion.UWP.ViewModels.Contents
 {
     public class NotificationViewModel : StatusBaseViewModel
     {
-        private readonly GlobalNotifier _globalNotifier;
         private readonly EventBase _notification;
         public string Icon => _notification.EventType.ToIcon();
         public SolidColorBrush Color => _notification.EventType.ToColor();
@@ -20,11 +19,10 @@ namespace Orion.UWP.ViewModels.Contents
 
         public NotificationViewModel(GlobalNotifier globalNotifier, EventBase notification) : base(notification)
         {
-            _globalNotifier = globalNotifier;
             _notification = notification;
             if (_notification.Target != null)
             {
-                StatusViewModel = new StatusViewModel(globalNotifier, _notification.Target);
+                StatusViewModel = new StatusViewModel(globalNotifier, null, _notification.Target, null);
                 IsShowStatus = true;
             }
         }

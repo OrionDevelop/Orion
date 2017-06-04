@@ -91,6 +91,13 @@ namespace Orion.Shared.Absorb.Objects
             _croudiaStatus?.Source?.Name ?? _gnuSocialStatus?.Source ?? _mastodonStatus?.Application?.Name ?? _twitterStatus?.Source;
 
         /// <summary>
+        ///     画像を持っているか (for Filter)
+        /// </summary>
+        public bool HasAttachments => Attachments.Count > 0;
+
+        public bool IsSensitiveContent => _mastodonStatus?.IsSensitive ?? _twitterStatus?.PossiblySensitive ?? false;
+
+        /// <summary>
         ///     ローカルステータスか (for OStatus)
         /// </summary>
         public bool IsLocal =>

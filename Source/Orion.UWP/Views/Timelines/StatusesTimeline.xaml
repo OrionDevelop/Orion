@@ -7,11 +7,11 @@
              xmlns:timelines="using:Orion.UWP.ViewModels.Timelines"
              xmlns:vc="using:Orion.UWP.Views.Contents"
              xmlns:vmc="using:Orion.UWP.ViewModels.Contents"
-             d:DataContext="{d:DesignInstance timelines:TimelineViewModel}"
+             d:DataContext="{d:DesignInstance timelines:StatusesTimelineViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
-    <RelativePanel Width="325"
+    <RelativePanel Width="326"
                    Margin="1,0"
                    BorderBrush="Silver"
                    BorderThickness=".5">

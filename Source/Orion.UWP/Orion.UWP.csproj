@@ -105,6 +105,7 @@
     <Compile Include="Controls\DataTemplateCollection.cs" />
     <Compile Include="Controls\DefaultDataTemplateSelector.cs" />
     <Compile Include="Controls\GridPreview\GridPreview.cs" />
+    <Compile Include="Converters\NullableToVisibilityConverter.cs" />
     <Compile Include="Converters\TextToBlockCollectionConverter.cs" />
     <Compile Include="Extensions\EventTypeEx.cs" />
     <Compile Include="Extensions\TimelineEx.cs" />
@@ -116,8 +117,8 @@
     <Compile Include="Models\Waiter.cs" />
     <Compile Include="Services\Interfaces\IOrionNavigationService.cs" />
     <Compile Include="Services\OrionNavigationService.cs" />
-    <Compile Include="ViewModels\AboutDialogViewModel.cs" />
-    <Compile Include="ViewModels\AddTimelineDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AboutDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddTimelineDialogViewModel.cs" />
     <Compile Include="ViewModels\Contents\AccountViewModel.cs" />
     <Compile Include="ViewModels\Contents\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\Contents\NotificationViewModel.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="ViewModels\Contents\StatusBaseViewModel.cs" />
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
     <Compile Include="ViewModels\Contents\TimelinePresetViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\ImageViewerDialogViewModel.cs" />
     <Compile Include="ViewModels\Timelines\StatusesTimelineViewModel.cs" />
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />
@@ -140,19 +142,19 @@
     <Compile Include="Controls\TypeNamedDataTemplateSelector.cs" />
     <Compile Include="Services\Interfaces\ITimelineService.cs" />
     <Compile Include="Services\TimelineService.cs" />
-    <Compile Include="ViewModels\AuthorizationDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AuthorizationDialogViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Partials\AccountsPageViewModel.cs" />
     <Compile Include="ViewModels\Partials\PostAreaPageViewModel.cs" />
     <Compile Include="ViewModels\Timelines\TimelineViewModel.cs" />
     <Compile Include="ViewModels\Timelines\UserTimelineViewModel.cs" />
-    <Compile Include="Views\AboutDialog.xaml.cs">
+    <Compile Include="Views\Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddTimelineDialog.xaml.cs">
+    <Compile Include="Views\Dialogs\AddTimelineDialog.xaml.cs">
       <DependentUpon>AddTimelineDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AuthorizationDialog.xaml.cs">
+    <Compile Include="Views\Dialogs\AuthorizationDialog.xaml.cs">
       <DependentUpon>AuthorizationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\NotificationContent.xaml.cs">
@@ -166,6 +168,9 @@
     </Compile>
     <Compile Include="Views\Contents\StatusContent.xaml.cs">
       <DependentUpon>StatusContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\ImageViewerDialog.xaml.cs">
+      <DependentUpon>ImageViewerDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -263,15 +268,15 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="Views\AboutDialog.xaml">
+    <Page Include="Views\Dialogs\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddTimelineDialog.xaml">
+    <Page Include="Views\Dialogs\AddTimelineDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AuthorizationDialog.xaml">
+    <Page Include="Views\Dialogs\AuthorizationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,6 +293,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\StatusContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\ImageViewerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

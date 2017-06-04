@@ -8,6 +8,8 @@ using Orion.UWP.Views;
 
 using Reactive.Bindings;
 
+using AuthorizationDialog = Orion.UWP.Views.Dialogs.AuthorizationDialog;
+
 namespace Orion.UWP.ViewModels.Partials
 {
     public class AccountsPageViewModel : ViewModel

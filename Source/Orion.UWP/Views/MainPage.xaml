@@ -4,13 +4,13 @@
       xmlns:behaviors="using:Orion.UWP.Behaviors"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:dialogs="using:Orion.UWP.Views.Dialogs"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:localControls="using:Orion.UWP.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:p="using:Orion.UWP.Views.Partials"
       xmlns:prism="using:Prism.Windows.Mvvm"
       xmlns:timelines="using:Orion.UWP.Views.Timelines"
-      xmlns:v="using:Orion.UWP.Views"
       xmlns:vm="using:Orion.UWP.ViewModels"
       xmlns:vmt="using:Orion.UWP.ViewModels.Timelines"
       d:DataContext="{d:DesignInstance vm:MainPageViewModel}"
@@ -119,7 +119,7 @@
                                     <controls:HamburgerMenuItemCollection>
                                         <controls:HamburgerMenuGlyphItem Glyph="&#xE710;"
                                                                          Label="タイムラインの追加"
-                                                                         TargetPageType="v:AddTimelineDialog" />
+                                                                         TargetPageType="dialogs:AddTimelineDialog" />
                                     </controls:HamburgerMenuItemCollection>
                                 </ListView.ItemsSource>
                             </ListView>
@@ -133,13 +133,16 @@
                             <ListView.ItemsSource>
                                 <controls:HamburgerMenuItemCollection>
                                     <controls:HamburgerMenuImageItem Label="{x:Bind ViewModel.DefaultAccount.ScreenName, Mode=OneWay}" Thumbnail="{x:Bind ViewModel.DefaultAccount.IconUrl, Mode=OneWay}" />
+                                    <controls:HamburgerMenuGlyphItem Glyph="&#xE724;"
+                                                                     Label="新規ステータス"
+                                                                     TargetPageType="p:PostAreaPage" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#xE716;"
                                                                      Label="アカウント"
                                                                      TargetPageType="p:AccountsPage" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#xE783;"
                                                                      Label="Orion について"
-                                                                     TargetPageType="v:AboutDialog" />
+                                                                     TargetPageType="dialogs:AboutDialog" />
                                 </controls:HamburgerMenuItemCollection>
                             </ListView.ItemsSource>
                         </ListView>
@@ -153,7 +156,7 @@
                 </Grid.ColumnDefinitions>
                 <Frame x:Name="RootFrame"
                        Grid.Column="0"
-                       x:FieldModifier="public" />
+                       x:FieldModifier="protected" />
                 <ItemsControl Grid.Column="1"
                               Margin="0"
                               HorizontalAlignment="Stretch"

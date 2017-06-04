@@ -12,7 +12,7 @@ using Orion.UWP.ViewModels.Contents;
 
 using Reactive.Bindings;
 
-namespace Orion.UWP.ViewModels
+namespace Orion.UWP.ViewModels.Dialogs
 {
     public class AddTimelineDialogViewModel : ViewModel
     {

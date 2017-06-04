@@ -33,17 +33,21 @@ namespace Orion.UWP.Converters
         private List<Block> ParseText(string value)
         {
             var text = value;
-            if (string.IsNullOrWhiteSpace(text.TrimEnd()))
-                return new List<Block>();
-
             // Is HTML?
             if (_tagRegex.IsMatch(value) || value.Contains("br"))
                 text = FlattenHtmlText(value);
+
+            text = text.Replace("\n", Environment.NewLine);
+            text = text.Replace("<br />", Environment.NewLine);
             text = text.Replace("&lt;", "<"); // Twitter
             text = text.Replace("&gt;", ">"); // Twitter
-            text = text.Replace("&amp;", "&"); // Twitter
             text = text.Replace("&apos;", "'"); // Mastodon
-            text = text.Replace("\n", Environment.NewLine);
+            text = text.Replace("&quot;", "\""); // Mastodon
+            text = text.Replace("&amp;", "&"); // Twitter
+            text = text.Trim();
+
+            if (string.IsNullOrWhiteSpace(text))
+                return new List<Block>();
 
             var extractor = new Extractor();
             var paragraph = new Paragraph();
@@ -172,12 +176,12 @@ namespace Orion.UWP.Converters
                     break;
 
                 case "br":
-                    sb.Append(Environment.NewLine);
+                    sb.Append("<br />");
                     break;
 
                 case "p":
                     ParseChildNodes(sb, node);
-                    sb.Append(Environment.NewLine);
+                    sb.Append("<br />");
                     break;
 
                 case "#text":

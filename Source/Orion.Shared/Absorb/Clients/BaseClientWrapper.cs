@@ -11,7 +11,7 @@ namespace Orion.Shared.Absorb.Clients
     {
         protected readonly Credential Credential;
         protected readonly Provider Provider;
-        public BaseDataSource DataSource { get; protected set; }
+        protected BaseDataSource DataSource { get; set; }
 
         protected BaseClientWrapper(Provider provider, Credential credential)
         {
@@ -44,7 +44,42 @@ namespace Orion.Shared.Absorb.Clients
         /// <param name="body"></param>
         /// <param name="inReplyToStatusId"></param>
         /// <returns></returns>
-        public abstract Task<bool> UpdateAsync(string body, long? inReplyToStatusId = null);
+        public abstract Task UpdateAsync(string body, long? inReplyToStatusId = null);
+
+        /// <summary>
+        ///     ステータスを削除します。
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public abstract Task DestroyAsync(long id);
+
+        /// <summary>
+        ///     ステータスをお気に入り登録します。
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public abstract Task FavoriteAsync(long id);
+
+        /// <summary>
+        ///     ステータスのお気に入り登録を解除します。
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public abstract Task UnfavoriteAsync(long id);
+
+        /// <summary>
+        ///     ステータスをリブログします。
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public abstract Task ReblogAsync(long id);
+
+        /// <summary>
+        ///     ステータスのリブログを解除します。
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public abstract Task UnreblogAsync(long id);
 
         /// <summary>
         ///     ストリーミング接続を開始します。

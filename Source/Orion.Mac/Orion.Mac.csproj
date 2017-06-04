@@ -28,10 +28,12 @@
     <UseSGen>true</UseSGen>
     <UseRefCounting>true</UseRefCounting>
     <Profiling>true</Profiling>
-    <HttpClientHandler>HttpClientHandler</HttpClientHandler>
+    <HttpClientHandler>CFNetworkHandler</HttpClientHandler>
     <LinkMode>None</LinkMode>
     <XamMacArch>
     </XamMacArch>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <I18n>cjk</I18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -101,35 +103,35 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Orion.Scripting\Orion.Scripting.csproj">
-      <Project>{b943208e-d516-4d07-8487-4601209e64e3}</Project>
+      <Project>{02EF2D89-1DC9-4769-BAE4-E48E986DA771}</Project>
       <Name>Orion.Scripting</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orion.Service.FkStreaming\Orion.Service.FkStreaming.csproj">
-      <Project>{2e32178a-e962-4bf5-a899-402a7c827baa}</Project>
+      <Project>{E924D225-336B-4BAE-A84A-4DDF48F9DD6E}</Project>
       <Name>Orion.Service.FkStreaming</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orion.Service.GnuSocial\Orion.Service.GnuSocial.csproj">
-      <Project>{08E1AB0F-F76F-4815-974A-0899B7AA5498}</Project>
+      <Project>{D2B27885-1ACA-48B2-9448-CF85230FEFE0}</Project>
       <Name>Orion.Service.GnuSocial</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orion.Service.Shared\Orion.Service.Shared.csproj">
-      <Project>{325CD7FF-1077-4B4B-81B9-4F491AB43D99}</Project>
+      <Project>{0AF04F0D-9ED9-46CD-82B8-96B8DE2547DB}</Project>
       <Name>Orion.Service.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orion.Service.Mastodon\Orion.Service.Mastodon.csproj">
-      <Project>{A0CA97B5-AB84-4124-8012-3738E7B2CBBB}</Project>
+      <Project>{86DAAF38-0E10-42F3-9D51-A207B91617B5}</Project>
       <Name>Orion.Service.Mastodon</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orion.Interfaces\Orion.Interfaces.csproj">
-      <Project>{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}</Project>
+      <Project>{F08C8B16-0DCC-446C-87AA-AFEDE03BD772}</Project>
       <Name>Orion.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orion.Service.Croudia\Orion.Service.Croudia.csproj">
-      <Project>{CE99FFE9-63D8-4887-9401-E7ABBB228A1A}</Project>
+      <Project>{FA639D50-AB35-4DB5-8CB5-9B378711DBA5}</Project>
       <Name>Orion.Service.Croudia</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orion.Shared\Orion.Shared.csproj">
-      <Project>{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}</Project>
+      <Project>{FCB2762D-C921-46E9-9D32-0025CE89F828}</Project>
       <Name>Orion.Shared</Name>
     </ProjectReference>
   </ItemGroup>

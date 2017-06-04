@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 
 using Windows.ApplicationModel.Activation;
 
@@ -24,6 +25,11 @@ namespace Orion.UWP
         public App()
         {
             InitializeComponent();
+            UnhandledException += (sender, e) =>
+            {
+                if (Debugger.IsAttached)
+                    Debugger.Break();
+            };
         }
 
         protected override async Task OnInitializeAsync(IActivatedEventArgs args)

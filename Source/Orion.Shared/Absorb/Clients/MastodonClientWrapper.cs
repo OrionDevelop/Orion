@@ -67,17 +67,34 @@ namespace Orion.Shared.Absorb.Clients
             }
         }
 
-        public override async Task<bool> UpdateAsync(string body, long? inReplyToStatusId = null)
+        public override async Task UpdateAsync(string body, long? inReplyToStatusId = null)
         {
-            try
-            {
-                await _mastodonClient.Statuses.CreateAsync(body, (int?) inReplyToStatusId);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            await _mastodonClient.Statuses.CreateAsync(body, (int?) inReplyToStatusId);
+        }
+
+        public override async Task DestroyAsync(long id)
+        {
+            await _mastodonClient.Statuses.DeleteAsync((int) id);
+        }
+
+        public override async Task FavoriteAsync(long id)
+        {
+            await _mastodonClient.Statuses.FavouriteAsync((int) id);
+        }
+
+        public override async Task UnfavoriteAsync(long id)
+        {
+            await _mastodonClient.Statuses.UnfavouriteAsync((int) id);
+        }
+
+        public override async Task ReblogAsync(long id)
+        {
+            await _mastodonClient.Statuses.ReblogAsync((int) id);
+        }
+
+        public override async Task UnreblogAsync(long id)
+        {
+            await DestroyAsync(id);
         }
     }
 }

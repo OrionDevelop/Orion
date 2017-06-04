@@ -65,17 +65,34 @@ namespace Orion.Shared.Absorb.Clients
             }
         }
 
-        public override async Task<bool> UpdateAsync(string body, long? inReplyToStatusId = null)
+        public override async Task UpdateAsync(string body, long? inReplyToStatusId = null)
         {
-            try
-            {
-                await _croudiaClient.Statuses.UpdateAsync(body, (int?) inReplyToStatusId);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            await _croudiaClient.Statuses.UpdateAsync(body, (int?) inReplyToStatusId);
+        }
+
+        public override async Task DestroyAsync(long id)
+        {
+            await _croudiaClient.Statuses.DestroyAsync((int) id);
+        }
+
+        public override async Task FavoriteAsync(long id)
+        {
+            await _croudiaClient.Favorites.CreateAsync((int) id);
+        }
+
+        public override async Task UnfavoriteAsync(long id)
+        {
+            await _croudiaClient.Favorites.DestroyAsync((int) id);
+        }
+
+        public override async Task ReblogAsync(long id)
+        {
+            await _croudiaClient.Statuses.SpreadAsync((int) id);
+        }
+
+        public override async Task UnreblogAsync(long id)
+        {
+            await DestroyAsync(id);
         }
     }
 }

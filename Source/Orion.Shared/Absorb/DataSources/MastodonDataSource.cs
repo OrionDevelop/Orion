@@ -24,18 +24,15 @@ namespace Orion.Shared.Absorb.DataSources
             return EventBase.CreateEventFromMessage(message);
         }
 
-        protected override void Connect(Source source)
+        protected override void ConnectImpl(string sourceStr)
         {
-            if (!source.IsAdded)
-                return;
-
-            if (IsConnected(source.Name))
+            if (IsConnected(sourceStr))
                 return;
 
             var host = ProviderRedirect.Redirect(_mastodonClient.BaseUrl);
             IObservable<MessageBase> connection = null;
 
-            switch (source.Name)
+            switch (sourceStr)
             {
                 case "federated":
                     connection = _mastodonClient.Streaming.PublicAsObservable(host);
@@ -50,11 +47,11 @@ namespace Orion.Shared.Absorb.DataSources
                     break;
             }
 
-            Disposables.Add(source.Name,
-                            connection.Do(_ => Heartbeat(source.Name))
+            Disposables.Add(sourceStr,
+                            connection.Do(_ => Heartbeat(sourceStr))
                                       .Select(Convert)
                                       .Where(w => w != null)
-                                      .Subscribe(w => AddStatus(source.Name, w), w => OnError(source.Name, w)));
+                                      .Subscribe(w => AddStatus(sourceStr, w), w => OnError(sourceStr, w)));
         }
 
         protected override string NormalizedSource(string source)

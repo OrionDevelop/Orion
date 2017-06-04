@@ -21,6 +21,8 @@ namespace Orion.Shared.Absorb.Extensions
             {
                 if (w is Status status)
                 {
+                    if (status.RebloggedStatus != null)
+                        return false;
                     if (status.InReplyToUserId.HasValue && status.InReplyToUserId.Value == account.Credential.User.Id)
                         return true;
                     return status.Text.Contains($"@{account.Credential.User.ScreenName}");

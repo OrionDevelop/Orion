@@ -27,20 +27,17 @@ namespace Orion.Shared.Absorb.DataSources
             return EventBase.CreateEventFromMessage(message);
         }
 
-        protected override void Connect(Source source)
+        protected override void ConnectImpl(string sourceStr)
         {
-            if (!source.IsAdded)
-                return;
-
-            if (IsConnected(source.Name))
+            if (IsConnected(sourceStr))
                 return;
 
             // ReSharper disable once InconsistentNaming
-            Disposables.Add(source.Name, _twitterClient.Streaming.UserAsObservable(tweet_mode => "extended")
-                                                       .Do(_ => Heartbeat(source.Name))
+            Disposables.Add(sourceStr, _twitterClient.Streaming.UserAsObservable(tweet_mode => "extended")
+                                                       .Do(_ => Heartbeat(sourceStr))
                                                        .Select(Convert)
                                                        .Where(w => w != null)
-                                                       .Subscribe(w => AddStatus(source.Name, w), w => OnError(source.Name, w)));
+                                                       .Subscribe(w => AddStatus(sourceStr, w), w => OnError(sourceStr, w)));
         }
 
         protected override string NormalizedSource(string source)

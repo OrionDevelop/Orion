@@ -28,8 +28,9 @@ namespace Orion.Shared.Absorb.Objects
         /// <summary>
         ///     Name
         /// </summary>
-        public string Name =>
-            _croudiaUser?.Name ?? _gnuSocialUser?.Name ?? _mastodonUser?.DisplayName ?? _mastodonUser?.Username ?? _twitterUser.Name;
+        public string Name => _croudiaUser?.Name ?? _gnuSocialUser?.Name ??
+                              (!string.IsNullOrWhiteSpace(_mastodonUser?.DisplayName) ? _mastodonUser.DisplayName : null) ??
+                              (!string.IsNullOrWhiteSpace(_mastodonUser?.Username) ? _mastodonUser.Username : null) ?? _twitterUser.Name;
 
         /// <summary>
         ///     Screen name
@@ -47,7 +48,7 @@ namespace Orion.Shared.Absorb.Objects
         /// </summary>
         public string IconUrl =>
             _croudiaUser?.ProfileImageUrl ??
-            _gnuSocialUser?.ProfileImageUrlOriginal ?? _mastodonUser?.Avatar ?? _twitterUser.GetProfileImageUrlHttps("orig").ToString();
+            _gnuSocialUser?.ProfileImageUrlOriginal ?? _mastodonUser?.Avatar ?? _twitterUser.GetProfileImageUrlHttps("bigger").ToString();
 
         /// <summary>
         ///     Background image url

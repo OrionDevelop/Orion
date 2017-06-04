@@ -1,4 +1,5 @@
 ﻿using Orion.Shared.Absorb.Objects;
+using Orion.Shared.Models;
 
 using Prism.Mvvm;
 
@@ -6,6 +7,8 @@ namespace Orion.UWP.Models
 {
     public class GlobalNotifier : BindableBase
     {
+        #region Reply func
+
         #region InReplyStatus
 
         private Status _inReplyStatuss;
@@ -18,6 +21,26 @@ namespace Orion.UWP.Models
         {
             get => _inReplyStatuss;
             set => SetProperty(ref _inReplyStatuss, value);
+        }
+
+        #endregion
+
+        #region InReplyTimeline
+
+        private TimelineBase _inReplyTimeline;
+
+        public TimelineBase InReplyTimeline
+        {
+            get => _inReplyTimeline;
+            set => SetProperty(ref _inReplyTimeline, value);
+        }
+
+        #endregion
+
+        public void ClearInReply()
+        {
+            InReplyStatus = null;
+            InReplyTimeline = null;
         }
 
         #endregion
