@@ -45,7 +45,7 @@ namespace Orion.Shared.Absorb.Objects
         {
             _twitterAttachment = attachment;
             Url = attachment.Type == "video" ? attachment.VideoInfo.Variants.First(w => w.Bitrate != null).Url : attachment.MediaUrlHttps;
-            MediaType = attachment.Type == "photo" ? MediaType.Image : MediaType.Video; // ??
+            MediaType = attachment.Type == "video" ? MediaType.Video : MediaType.Image; // ??
         }
     }
 }
