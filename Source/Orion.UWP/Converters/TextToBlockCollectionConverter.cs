@@ -135,9 +135,17 @@ namespace Orion.UWP.Converters
 
         private string FormatUrl(string url)
         {
-            return Uri.TryCreate(url, UriKind.Absolute, out var uri)
-                ? $"{uri.Authority}{(uri.LocalPath.Length > 14 ? $"{uri.LocalPath.Substring(0, 14)}..." : uri.LocalPath)}"
-                : url;
+            if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
+            {
+                var authoriry = uri.Authority;
+                if (authoriry.StartsWith("www"))
+                    authoriry = authoriry.Substring(4);
+                var localPath = uri.LocalPath;
+                if (localPath.Length > 14)
+                    localPath = $"{localPath.Substring(0, 14)}...";
+                return $"{authoriry}{localPath}";
+            }
+            return url;
         }
 
         #region HTML parse
