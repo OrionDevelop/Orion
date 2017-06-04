@@ -17,162 +17,150 @@ namespace Orion.Shared.Absorb.Objects
     /// </summary>
     public class Status : StatusBase
     {
-        private readonly CroudiaStatus _croudiaStatus;
-
-        private readonly string _formattedMastodonText;
-        private readonly string _formattedTwitterText;
-        private readonly GnuSocialStatus _gnuSocialStatus;
-        private readonly MastodonStatus _mastodonStatus;
         private readonly Regex _mediaLinkRegex = new Regex("<a href=\"(?<url>.*?)\" .*?>.*?</a>");
-        private readonly TwitterStatus _twitterStatus;
 
         /// <summary>
-        ///     Status body
-        ///     <para>&lt;tco displayUrl="Display Url&gt;t.co Url&lt;/tco&gt;</para>
+        ///     Status body.
         /// </summary>
-        public string Text =>
-            _croudiaStatus?.Text ?? _gnuSocialStatus?.Text ?? _formattedMastodonText ?? _formattedTwitterText;
+        public string Text { get; }
 
         /// <summary>
-        ///     In reply to status ID
+        ///     In reply to status ID.
         /// </summary>
-        public long? InReplyToStatusId =>
-            _croudiaStatus?.InReplyToStatusId ?? _gnuSocialStatus?.InReplyToStatusId ?? _mastodonStatus?.InReplyToId ?? _twitterStatus?.InReplyToStatusId ?? 0;
+        public long? InReplyToStatusId { get; }
 
         /// <summary>
-        ///     In reply to user ID
+        ///     In reply to user ID.
         /// </summary>
-        public long? InReplyToUserId =>
-            _croudiaStatus?.InReplyToUserId ?? _gnuSocialStatus?.InReplyToUserId ?? _mastodonStatus?.InReplyToAccountId ?? _twitterStatus?.InReplyToUserId ?? 0;
+        public long? InReplyToUserId { get; }
 
         /// <summary>
-        ///     Reblogs count
+        ///     Reblogs count.
         /// </summary>
-        public long? ReblogsCount =>
-            _croudiaStatus?.SpreadCount ?? _gnuSocialStatus?.RepeatNum ?? _mastodonStatus?.ReblogsCount ?? _twitterStatus?.RetweetCount ?? 0;
+        public long? ReblogsCount { get; }
 
         /// <summary>
-        ///     Favorites count
+        ///     Favorites count.
         /// </summary>
-        public long? FavoritesCount =>
-            _croudiaStatus?.FavoritedCount ?? _gnuSocialStatus?.FavNum ?? _mastodonStatus?.FavouritesCount ?? _twitterStatus?.FavoriteCount ?? 0;
+        public long? FavoritesCount { get; }
 
         /// <summary>
-        ///     Is reblogged?
+        ///     Attachments (as Images, Video and others...).
         /// </summary>
-        public bool? IsReblogged =>
-            _croudiaStatus?.Spread ?? _gnuSocialStatus?.IsRepeated ?? _mastodonStatus?.IsReblogged ?? _twitterStatus?.IsRetweeted ?? false;
+        public List<Attachment> Attachments { get; } = new List<Attachment>();
 
         /// <summary>
-        ///     Is favorited?
-        /// </summary>
-        public bool? IsFavorited =>
-            _croudiaStatus?.IsFavorited ?? _gnuSocialStatus?.IsFavorited ?? _mastodonStatus?.IsFavourited ?? _twitterStatus?.IsFavorited ?? false;
-
-        /// <summary>
-        ///     Attachments (Image, Video or ....)
-        /// </summary>
-        public List<Attachment> Attachments { get; }
-
-        /// <summary>
-        ///     Reblogged status
+        ///     Reblogged status.
         /// </summary>
         public Status RebloggedStatus { get; }
 
         /// <summary>
-        ///     Quoted status
+        ///     Quoted status.
         /// </summary>
         public Status QuotedStatus { get; }
 
         /// <summary>
         ///     via
         /// </summary>
-        public string Source =>
-            _croudiaStatus?.Source?.Name ?? _gnuSocialStatus?.Source ?? _mastodonStatus?.Application?.Name ?? _twitterStatus?.Source;
-
-        /// <summary>
-        ///     画像を持っているか (for Filter)
-        /// </summary>
-        public bool HasAttachments => Attachments.Count > 0;
-
-        public bool IsSensitiveContent => _mastodonStatus?.IsSensitive ?? _twitterStatus?.PossiblySensitive ?? false;
-
-        /// <summary>
-        ///     ローカルステータスか (for OStatus)
-        /// </summary>
-        public bool IsLocal =>
-            _gnuSocialStatus?.IsLocal ?? _mastodonStatus?.Account?.Acct?.Contains("@").Equals(false) ?? true;
-
-        /// <summary>
-        ///     for OStatus
-        /// </summary>
-        public string ExternalUrl =>
-            _gnuSocialStatus?.ExternalUrl ?? _mastodonStatus?.Url ?? "";
+        public string Source { get; }
 
         public Status(CroudiaStatus status)
         {
-            Type = nameof(Status);
             Id = status.Id;
             CreatedAt = status.CreatedAt;
             User = new User(status.User);
-            Attachments = status.Entities?.Media == null
-                ? new List<Attachment>()
-                : new List<Attachment>
-                {
-                    new Attachment(status.Entities.Media)
-                };
-            RebloggedStatus = status.SpreadStatus != null ? new Status(status.SpreadStatus) : null;
-            QuotedStatus = status.QuoteStatus != null ? new Status(status.QuoteStatus) : null;
-            _croudiaStatus = status;
+            Type = nameof(Status);
+            Text = status.Text;
+            InReplyToStatusId = status.InReplyToStatusId;
+            InReplyToUserId = status.InReplyToUserId;
+            ReblogsCount = status.SpreadCount;
+            FavoritesCount = status.FavoritedCount;
+            if (status.Entities != null)
+                Attachments = new List<Attachment> {new Attachment(status.Entities.Media)};
+            if (status.SpreadStatus != null)
+                RebloggedStatus = new Status(status.SpreadStatus);
+            if (status.QuoteStatus != null)
+                QuotedStatus = new Status(status.QuoteStatus);
+            Source = status.Source.Name;
+            IsReblogged = status.Spread;
+            IsFavorited = status.IsFavorited;
         }
 
         public Status(GnuSocialStatus status)
         {
-            Type = nameof(Status);
             Id = status.Id;
             CreatedAt = status.CreatedAt;
             User = new User(status.User);
-            RebloggedStatus = status.Source == "share" ? new Status(status) : null;
-            _gnuSocialStatus = status;
+            Type = nameof(Status);
+            Text = status.Text;
+            InReplyToStatusId = status.InReplyToStatusId;
+            InReplyToUserId = status.InReplyToUserId;
+            ReblogsCount = status.RepeatNum;
+            FavoritesCount = status.FavNum;
+            // Attachments is None
+            if (status.Source == "share")
+                RebloggedStatus = new Status(status);
+            // QuotedStatus is None
+            Source = status.Source;
+            IsReblogged = status.IsRepeated;
+            IsFavorited = status.IsFavorited;
+            IsLocal = status.IsLocal;
         }
 
         public Status(MastodonStatus status)
         {
-            Type = nameof(Status);
             Id = status.Id;
             CreatedAt = status.CreatedAt;
             User = new User(status.Account);
+            Type = nameof(Status);
+            InReplyToStatusId = status.InReplyToId;
+            InReplyToUserId = status.InReplyToAccountId;
+            ReblogsCount = status.ReblogsCount;
+            FavoritesCount = status.FavouritesCount;
             Attachments = status.MediaAttachments.Select(w => new Attachment(w)).ToList();
-            RebloggedStatus = status.Reblog != null ? new Status(status.Reblog) : null;
+            if (status.Reblog != null)
+                RebloggedStatus = new Status(status.Reblog);
+            Source = status.Application.Name;
+            IsReblogged = status.IsReblogged ?? false;
+            IsFavorited = status.IsFavourited ?? false;
+            IsLocal = status.Account.Acct.Contains("@");
+            IsSensitiveContent = status.IsSensitive ?? false;
 
-            // Format text (remove media urls)
             var text = status.Content;
-            foreach (var attachment in status.MediaAttachments)
-                if (_mediaLinkRegex.IsMatch(text))
-                    foreach (Match match in _mediaLinkRegex.Matches(text))
-                        if (match.Groups["url"].Value == attachment.TextUrl)
-                        {
-                            text = text.Replace(match.Value, "");
-                            break;
-                        }
-            _formattedMastodonText = text;
-            _mastodonStatus = status;
+            status.MediaAttachments.ForEach(w =>
+            {
+                if (!_mediaLinkRegex.IsMatch(text))
+                    return;
+                foreach (Match match in _mediaLinkRegex.Matches(text))
+                    if (match.Groups["url"].Value == w.TextUrl)
+                    {
+                        text = text.Replace(match.Value, "");
+                        break;
+                    }
+            });
+            Text = text;
         }
 
         public Status(TwitterStatus status)
         {
-            Type = nameof(Status);
             Id = status.Id;
             CreatedAt = status.CreatedAt.ToLocalTime().LocalDateTime;
             User = new User(status.User);
-            Attachments = status.ExtendedEntities?.Media?.Select(w => new Attachment(w))?.ToList() ??
-                          status.ExtendedTweet?.Entities?.Media?.Select(w => new Attachment(w))?.ToList() ??
-                          new List<Attachment>();
-            RebloggedStatus = status.RetweetedStatus != null ? new Status(status.RetweetedStatus) : null;
-            QuotedStatus = status.QuotedStatus != null ? new Status(status.QuotedStatus) : null;
-            _twitterStatus = status;
+            Type = nameof(Status);
+            InReplyToStatusId = status.InReplyToStatusId;
+            InReplyToUserId = status.InReplyToUserId;
+            ReblogsCount = status.RetweetCount;
+            FavoritesCount = status.FavoriteCount;
+            if (status.ExtendedEntities?.Media != null)
+                Attachments = status.ExtendedEntities.Media.Select(w => new Attachment(w)).ToList();
+            else if (status.ExtendedTweet?.Entities?.Media != null)
+                Attachments = status.ExtendedTweet.Entities.Media.Select(w => new Attachment(w)).ToList();
+            if (status.RetweetedStatus != null)
+                RebloggedStatus = new Status(status.RetweetedStatus);
+            if (status.QuotedStatus != null)
+                QuotedStatus = new Status(status.QuotedStatus);
+            IsSensitiveContent = status.PossiblySensitive ?? false;
 
-            // Format text (Twitter Display Requirements)
             var text = status.ExtendedTweet?.FullText ?? status.Text;
             text = ReplaceTcoHyperlinks(text, status.ExtendedTweet?.Entities?.Urls);
             text = ReplaceTcoHyperlinks(text, status.ExtendedEntities?.Urls);
@@ -181,18 +169,14 @@ namespace Orion.Shared.Absorb.Objects
             text = RemoveMediaLinks(text, status.ExtendedEntities?.Media);
             text = RemoveMediaLinks(text, status.Entities?.Media);
 
-            _formattedTwitterText = text;
+            Text = text;
         }
 
         private string RemoveMediaLinks(string text, MediaEntity[] entities)
         {
-            if (entities == null)
-                return text;
-
-            foreach (var entity in entities)
-                if (!string.IsNullOrWhiteSpace(entity.Url))
-                    text = text.Replace(entity.Url, "");
-            return text;
+            return entities == null
+                ? text
+                : entities.Where(entity => !string.IsNullOrWhiteSpace(entity.Url)).Aggregate(text, (current, entity) => current.Replace(entity.Url, ""));
         }
 
         private string ReplaceTcoHyperlinks(string text, UrlEntity[] entities)
@@ -211,5 +195,54 @@ namespace Orion.Shared.Absorb.Objects
             }
             return text;
         }
+
+        #region Extended for filters
+
+        /// <summary>
+        ///     Has attachment files?
+        /// </summary>
+        public bool HasAttachments => Attachments.Count > 0;
+
+        /// <summary>
+        ///     Has sensitive content flag?
+        /// </summary>
+        public bool IsSensitiveContent { get; }
+
+        /// <summary>
+        ///     Is local status? (Note: Croudia and Twitter always 'true').
+        /// </summary>
+        public bool IsLocal { get; } = true;
+
+        #endregion
+
+        #region IsReblogged
+
+        private bool _isReblogged;
+
+        /// <summary>
+        ///     Is reblogged?
+        /// </summary>
+        public bool IsReblogged
+        {
+            get => _isReblogged;
+            set => SetProperty(ref _isReblogged, value);
+        }
+
+        #endregion
+
+        #region IsFavorited
+
+        private bool _isFavorited;
+
+        /// <summary>
+        ///     Is favorited?
+        /// </summary>
+        public bool IsFavorited
+        {
+            get => _isFavorited;
+            set => SetProperty(ref _isFavorited, value);
+        }
+
+        #endregion
     }
 }

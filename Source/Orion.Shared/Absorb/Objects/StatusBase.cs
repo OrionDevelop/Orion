@@ -1,8 +1,10 @@
 ﻿using System;
 
+using Orion.Shared.Models;
+
 namespace Orion.Shared.Absorb.Objects
 {
-    public class StatusBase
+    public class StatusBase : BindableBase2
     {
         /// <summary>
         ///     ステータス ID (numeric)
