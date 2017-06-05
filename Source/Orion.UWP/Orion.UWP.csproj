@@ -114,6 +114,7 @@
     <Compile Include="Models\GlobalNotifier.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Models\Software.cs" />
+    <Compile Include="Models\StatusSender.cs" />
     <Compile Include="Models\Waiter.cs" />
     <Compile Include="Services\Interfaces\IOrionNavigationService.cs" />
     <Compile Include="Services\OrionNavigationService.cs" />
