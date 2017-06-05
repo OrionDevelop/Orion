@@ -74,7 +74,6 @@ namespace Orion.UWP.Views.Contents
             InitializeComponent();
             Loaded += OnLoaded;
             AppBar.Visibility = Visibility.Collapsed;
-            Body.IsTextSelectionEnabled = false;
         }
 
         private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -191,16 +190,12 @@ namespace Orion.UWP.Views.Contents
         private void ContractCommandBar()
         {
             AppBar.Visibility = Visibility.Collapsed;
-            if (Body.Blocks.Count > 0 && Body.IsTextSelectionEnabled)
-                Body.IsTextSelectionEnabled = false; // When this cell recycled, throw System.AccessViolationException?
             CalculateCellSize();
         }
 
         private void ExpandCommandBar()
         {
             AppBar.Visibility = Visibility.Visible;
-            if (Body.Blocks.Count > 0)
-                Body.IsTextSelectionEnabled = true;
             CalculateCellSize();
         }
     }
