@@ -40,7 +40,7 @@ namespace Orion.UWP.ViewModels.Partials
                                  .CollectionChangedAsObservable()
                                  .Select(w => w.Action == NotifyCollectionChangedAction.Reset ? null : string.Join(Environment.NewLine, sender.ErrorMessages))
                                  .ToReactiveProperty();
-            //ErrorMessage.Where(w => !string.IsNullOrWhiteSpace(w)).Delay(TimeSpan.FromSeconds(10)).Subscribe(_ => ErrorMessage.Value = "").AddTo(this);
+            ErrorMessage.Where(w => !string.IsNullOrWhiteSpace(w)).Delay(TimeSpan.FromSeconds(10)).Subscribe(_ => ErrorMessage.Value = "").AddTo(this);
             SendStatusCommand = new[]
             {
                 StatusBody.Select(w => w?.TrimEnd('\n', '\r')).Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
@@ -53,17 +53,21 @@ namespace Orion.UWP.ViewModels.Partials
                     await sender.SendReplyAsync(globalNotifier.InReplyTimeline.Account, body, globalNotifier.InReplyStatus.Id);
                 else
                     await sender.SendAsync(SelectedAccounts.Select(v => v.Account).ToList(), body);
+                if (!sender.HasErrorMessages)
+                {
+                    StatusBody.Value = null;
+                    globalNotifier.ClearInReply();
+                }
+                else
+                {
+                    StatusBody.Value = body;
+                }
             }).AddTo(this);
             ClearInReplyCommand = new ReactiveCommand();
             ClearInReplyCommand.Subscribe(_ => globalNotifier.ClearInReply()).AddTo(this);
             globalNotifier.ObserveProperty(w => w.InReplyStatus).Where(w => w != null)
                           .Subscribe(w => StatusBody.Value = $"@{w.User.ScreenName} ")
                           .AddTo(this);
-            sender.ObserveProperty(w => w.HasErrorMessages).Where(w => !w).Subscribe(_ =>
-            {
-                StatusBody.Value = null;
-                globalNotifier.ClearInReply();
-            }).AddTo(this);
         }
 
         #region FirstSelectedAccount
