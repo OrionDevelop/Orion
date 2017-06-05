@@ -120,7 +120,7 @@ namespace Orion.Shared.Absorb.Objects
             Attachments = status.MediaAttachments.Select(w => new Attachment(w)).ToList();
             if (status.Reblog != null)
                 RebloggedStatus = new Status(status.Reblog);
-            Source = status.Application.Name;
+            Source = status.Application?.Name ?? "";
             IsReblogged = status.IsReblogged ?? false;
             IsFavorited = status.IsFavourited ?? false;
             IsLocal = status.Account.Acct.Contains("@");
