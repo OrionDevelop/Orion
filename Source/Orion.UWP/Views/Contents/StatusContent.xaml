@@ -48,11 +48,11 @@
         </RelativePanel>
         <RichTextBlock x:Name="Body"
                        Padding="10,0,0,0"
+                       IsTextSelectionEnabled="False"
                        RelativePanel.AlignRightWithPanel="True"
                        RelativePanel.Below="UserLine"
                        RelativePanel.RightOf="Icon"
                        TextTrimming="None"
-                       IsTextSelectionEnabled="False"
                        TextWrapping="Wrap">
             <i:Interaction.Behaviors>
                 <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />

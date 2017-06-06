@@ -90,7 +90,10 @@ namespace Orion.UWP.Views.Contents
         private static void OnIsShowImagePreviewsChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             if (dependencyObject is StatusContent status)
+            {
                 status.ImagePreviews.Visibility = (bool) e.NewValue ? Visibility.Visible : Visibility.Collapsed;
+                status.ImagePreviews.Height = (bool) e.NewValue ? 150 : 0;
+            }
         }
 
         private static void OnIsShowIconChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
