@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\FocusBehavior.cs" />
     <Compile Include="Behaviors\KeyEventTriggerBehavior.cs" />
     <Compile Include="Behaviors\RichTextBlockBindingBehavior.cs" />
     <Compile Include="Behaviors\ScrollingBehavior.cs" />

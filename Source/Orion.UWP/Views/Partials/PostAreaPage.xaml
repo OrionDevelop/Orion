@@ -125,6 +125,7 @@
                     <behaviors:KeyEventTriggerBehavior Key="Enter"
                                                        Command="{x:Bind ViewModel.SendStatusCommand, Mode=OneWay}"
                                                        CtrlKey="True" />
+                    <behaviors:TextBoxFocusBehavior IsFocused="{x:Bind ViewModel.IsFocused.Value, Mode=TwoWay}" />
                 </i:Interaction.Behaviors>
             </TextBox>
             <Button x:Name="SendButton"

@@ -22,12 +22,11 @@ namespace Orion.UWP.Views.Dialogs
 
         private void ImageViewerDialog_OnLoaded(object sender, RoutedEventArgs e)
         {
-            // RootGrid.Children.Clear();
             if (ViewModel.Attachments.Any(w => w.IsVideoMode))
             {
                 // Single content
                 var video = ViewModel.Attachments.First();
-                _mediaPlayer = new MediaPlayer { Source = video.VideoSource };
+                _mediaPlayer = new MediaPlayer {Source = video.VideoSource};
                 var mediaPlayerElement = new MediaPlayerElement
                 {
                     AreTransportControlsEnabled = true,

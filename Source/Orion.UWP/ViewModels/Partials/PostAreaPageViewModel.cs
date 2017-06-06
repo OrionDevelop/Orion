@@ -21,6 +21,7 @@ namespace Orion.UWP.ViewModels.Partials
         public ReactiveProperty<StatusViewModel> InReplyViewModel { get; }
         public ReactiveCollection<AccountViewModel> SelectedAccounts { get; }
         public ReactiveProperty<string> ErrorMessage { get; }
+        public ReactiveProperty<bool> IsFocused { get; }
         public AsyncReactiveCommand<object> SendStatusCommand { get; }
         public ReactiveCommand ClearInReplyCommand { get; }
 
@@ -41,6 +42,7 @@ namespace Orion.UWP.ViewModels.Partials
                                  .Select(w => w.Action == NotifyCollectionChangedAction.Reset ? null : string.Join(Environment.NewLine, sender.ErrorMessages))
                                  .ToReactiveProperty();
             ErrorMessage.Where(w => !string.IsNullOrWhiteSpace(w)).Delay(TimeSpan.FromSeconds(10)).Subscribe(_ => ErrorMessage.Value = "").AddTo(this);
+            IsFocused = new ReactiveProperty<bool>();
             SendStatusCommand = new[]
             {
                 StatusBody.Select(w => w?.TrimEnd('\n', '\r')).Select(w => !string.IsNullOrEmpty(w) && w.Length <= 500),
@@ -66,7 +68,11 @@ namespace Orion.UWP.ViewModels.Partials
             ClearInReplyCommand = new ReactiveCommand();
             ClearInReplyCommand.Subscribe(_ => globalNotifier.ClearInReply()).AddTo(this);
             globalNotifier.ObserveProperty(w => w.InReplyStatus).Where(w => w != null)
-                          .Subscribe(w => StatusBody.Value = $"@{w.User.ScreenName} ")
+                          .Subscribe(w =>
+                          {
+                              StatusBody.Value = $"@{w.User.ScreenName} ";
+                              IsFocused.Value = true;
+                          })
                           .AddTo(this);
         }
 
