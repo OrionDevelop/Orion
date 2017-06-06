@@ -15,6 +15,8 @@ namespace Orion.UWP.ViewModels.Contents
         public MediaSource VideoSource { get; }
         public string PreviewUrl => _attachment.PreviewUrl;
         public bool IsVideoMode => _attachment.MediaType == MediaType.Video;
+        public double Height => _attachment.Height;
+        public double Width => _attachment.Width;
 
         public AttachmentViewModel(Attachment attachment)
         {

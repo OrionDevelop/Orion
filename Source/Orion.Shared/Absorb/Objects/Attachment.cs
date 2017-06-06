@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 using Orion.Service.Mastodon.Enum;
 using Orion.Shared.Absorb.Enums;
@@ -13,6 +14,7 @@ namespace Orion.Shared.Absorb.Objects
     {
         private readonly CroudiaAttachment _croudiaAttachment;
         private readonly MastodonAttachment _mastodonAttachment;
+        private readonly Regex _sizeRegex = new Regex(@"video\.twimg\.com\/ext_tw_video\/[0-9]+\/pu\/vid\/(?<width>[0-9]+)x(?<height>[0-9]+)\/.*");
         private readonly TwitterAttachment _twitterAttachment;
 
         /// <summary>
@@ -24,6 +26,16 @@ namespace Orion.Shared.Absorb.Objects
         ///     Preview url
         /// </summary>
         public string PreviewUrl => _croudiaAttachment?.MediaUrl ?? _mastodonAttachment?.PreviewUrl ?? _twitterAttachment.MediaUrlHttps;
+
+        /// <summary>
+        ///     Video height
+        /// </summary>
+        public double Height { get; } = double.NaN;
+
+        /// <summary>
+        ///     Video width
+        /// </summary>
+        public double Width { get; } = double.NaN;
 
         public MediaType MediaType { get; }
 
@@ -44,8 +56,26 @@ namespace Orion.Shared.Absorb.Objects
         public Attachment(TwitterAttachment attachment)
         {
             _twitterAttachment = attachment;
-            Url = attachment.Type == "video" ? attachment.VideoInfo.Variants.First(w => w.Bitrate != null).Url : attachment.MediaUrlHttps;
-            MediaType = attachment.Type == "video" ? MediaType.Video : MediaType.Image; // ??
+            if (attachment.Type == "video")
+            {
+                Url = attachment.VideoInfo.Variants.Where(w => w.Bitrate != null).OrderBy(w => w.Bitrate).Last().Url;
+                MediaType = MediaType.Video;
+                var match = _sizeRegex.Match(Url);
+                Height = double.Parse(match.Groups["height"].Value);
+                Width = double.Parse(match.Groups["width"].Value);
+            }
+            else if (attachment.Type == "animated_gif")
+            {
+                Url = attachment.VideoInfo.Variants.Where(w => w.Bitrate != null).OrderBy(w => w.Bitrate).Last().Url;
+                MediaType = MediaType.Video;
+                Height = attachment.Sizes.Large.Height;
+                Width = attachment.Sizes.Large.Width;
+            }
+            else
+            {
+                Url = attachment.MediaUrlHttps;
+                MediaType = MediaType.Image;
+            }
         }
     }
 }

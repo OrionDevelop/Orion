@@ -13,7 +13,7 @@ namespace Orion.UWP.ViewModels.Dialogs
 
         public ImageViewerDialogViewModel(Status status)
         {
-            Attachments = status.Attachments.Select(w => new AttachmentViewModel(w)).ToList();
+            Attachments = status.Attachments.Select(w => new AttachmentViewModel(w).AddTo(this)).ToList();
         }
     }
 }

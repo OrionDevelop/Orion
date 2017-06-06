@@ -6,26 +6,19 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:vm="using:Orion.UWP.ViewModels.Dialogs"
                d:DataContext="{d:DesignInstance vm:ImageViewerDialogViewModel}"
-               PrimaryButtonText="OK"
+               Loaded="ImageViewerDialog_OnLoaded"
+               PrimaryButtonText="閉じる"
+               Unloaded="ImageViewerDialog_OnUnloaded"
                mc:Ignorable="d">
-    <FlipView ItemsSource="{x:Bind ViewModel.Attachments, Mode=OneWay}">
-        <FlipView.ItemTemplate>
-            <DataTemplate x:DataType="contents:AttachmentViewModel">
-                <Grid>
-                    <Image HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"
-                           Source="{x:Bind LinkUrl, Mode=OneWay}"
-                           Stretch="Uniform"
-                           Visibility="{x:Bind IsVideoMode, Mode=OneWay, Converter={StaticResource ReverseBooleanToVisibilityConverter}}" />
-                    <MediaPlayerElement HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        AreTransportControlsEnabled="True"
-                                        AutoPlay="True"
-                                        IsEnabled="{x:Bind IsVideoMode, Mode=OneWay}"
-                                        Source="{x:Bind VideoSource, Mode=OneWay}"
-                                        Visibility="{x:Bind IsVideoMode, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                </Grid>
+    <Grid x:Name="RootGrid">
+        <Grid.Resources>
+            <DataTemplate x:Key="DataTemplate" x:DataType="contents:AttachmentViewModel">
+                <Image HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Source="{x:Bind LinkUrl, Mode=OneWay}"
+                       Stretch="Uniform"
+                       Visibility="{x:Bind IsVideoMode, Mode=OneWay, Converter={StaticResource ReverseBooleanToVisibilityConverter}}" />
             </DataTemplate>
-        </FlipView.ItemTemplate>
-    </FlipView>
+        </Grid.Resources>
+    </Grid>
 </ContentDialog>
