@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -105,6 +106,7 @@ namespace Orion.UWP.Converters
         {
             if (_tcoRegex.IsMatch(text))
             {
+                Debug.WriteLine(text);
                 var regIndex = 0;
                 // Create hyperlink with t.co
                 foreach (Match match in _tcoRegex.Matches(text))
@@ -140,7 +142,7 @@ namespace Orion.UWP.Converters
                 var authoriry = uri.Authority;
                 if (authoriry.StartsWith("www"))
                     authoriry = authoriry.Substring(4);
-                var localPath = uri.LocalPath;
+                var localPath = uri.PathAndQuery;
                 if (localPath.Length > 14)
                     localPath = $"{localPath.Substring(0, 14)}...";
                 return $"{authoriry}{localPath}";
