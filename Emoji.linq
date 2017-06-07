@@ -15,15 +15,17 @@ var emojiStrategy = await response.Content.ReadAsStringAsync();
 var emojis = JObject.Parse(emojiStrategy);
 var regex = new Regex(":flag_[a-z]{2}:", RegexOptions.Compiled);
 
+var shortnames = new List<string>();
 var emojiMapping = new StringBuilder();
 foreach (var emoji in emojis)
 {
-    var unicode = emoji.Value["unicode_output"].ToString().Split('-').Select(w => $"\\U{w.PadLeft(8, '0')}");
-    emojiMapping.AppendLine($"        new Emoji {{ Shortname = \"{ emoji.Value["shortname"] }\", Unicode = \"{ string.Join("", unicode) }\" }},");
-    if (regex.IsMatch(emoji.Value["shortname"].ToString()))
-    {
-        emojiMapping.AppendLine($"        new Emoji {{ Shortname = \"{ emoji.Value["shortname"].ToString().Replace("flag_", "") }\", Unicode = \"{ string.Join("", unicode) }\" }},");
-    }
+	var unicode = emoji.Value["unicode_output"].ToString().Split('-').Select(w => $"\\U{w.PadLeft(8, '0')}");
+	emojiMapping.AppendLine($"        new Emoji {{ Shortname = \"{ emoji.Value["shortname"] }\", Unicode = \"{ string.Join("", unicode) }\" }},");
+	shortnames.Add((string) emoji.Value["shortname"]);
+	if (regex.IsMatch(emoji.Value["shortname"].ToString()) && !shortnames.Contains(emoji.Value["shortname"].ToString().Replace("flag_", "")))
+	{
+		emojiMapping.AppendLine($"        new Emoji {{ Shortname = \"{ emoji.Value["shortname"].ToString().Replace("flag_", "") }\", Unicode = \"{ string.Join("", unicode) }\" }},");
+	}
 }
 
 // EmojiConstants.cs
