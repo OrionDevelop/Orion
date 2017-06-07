@@ -176,7 +176,6 @@ namespace Orion.UWP.Views.Contents
                 status.Icon.Height = status.Icon.Width = 32;
                 status.Username.FontSize = status.Body.FontSize = 13;
                 status.ScreenName.FontSize = status.Timestamp.FontSize = 12;
-                status.Previews.ItemHeight = 40;
                 status.Loaded += StatusOnLoaded;
             }
         }
