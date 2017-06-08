@@ -151,7 +151,7 @@
             </SplitView.Pane>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="275" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Frame x:Name="RootFrame"

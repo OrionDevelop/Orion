@@ -13,7 +13,7 @@
       prism:ViewModelLocator.AutoWireViewModel="True"
       mc:Ignorable="d">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <RelativePanel Width="250"
+        <RelativePanel Width="275"
                        Padding="5"
                        VerticalAlignment="Stretch">
             <Grid x:Name="Header" Height="48">
