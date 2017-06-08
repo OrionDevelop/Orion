@@ -34,8 +34,14 @@ namespace Orion.UWP.Views.Dialogs
                 };
                 if (!double.IsNaN(video.Height))
                 {
-                    mediaPlayerElement.Height = video.Height;
-                    mediaPlayerElement.Width = video.Width;
+                    var height = video.Height;
+                    if (height >= MaxHeight - 100)
+                        height = MaxHeight - 100;
+                    var width = video.Width;
+                    if (width >= MaxWidth - 100)
+                        width = MaxWidth - 100;
+                    mediaPlayerElement.Height = height;
+                    mediaPlayerElement.Width = width;
                 }
                 mediaPlayerElement.SetMediaPlayer(_mediaPlayer);
                 RootGrid.Children.Add(mediaPlayerElement);
