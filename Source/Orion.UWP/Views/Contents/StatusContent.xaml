@@ -60,7 +60,8 @@
         </RichTextBlock>
         <Grid x:Name="ImagePreviews"
               Height="150"
-              Margin="0,5"
+              Margin="2,5"
+              Padding="2,0"
               RelativePanel.AlignRightWithPanel="True"
               RelativePanel.Below="Body"
               RelativePanel.RightOf="Icon"
@@ -81,9 +82,10 @@
                     </DataTemplate>
                 </c:GridPreview.ItemsTemplate>
             </c:GridPreview>
-            <Grid Height="150"
-                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                  Visibility="{x:Bind ViewModel.IsSensitive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Margin="2.5"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    CornerRadius="9"
+                    Visibility="{x:Bind ViewModel.IsSensitive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Orientation="Vertical">
@@ -94,7 +96,7 @@
                                VerticalAlignment="Center"
                                Text="タップして表示" />
                 </StackPanel>
-            </Grid>
+            </Border>
         </Grid>
         <StackPanel x:Name="AppBar"
                     Height="40"
