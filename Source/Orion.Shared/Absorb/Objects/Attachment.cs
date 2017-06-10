@@ -14,7 +14,7 @@ namespace Orion.Shared.Absorb.Objects
     {
         private readonly CroudiaAttachment _croudiaAttachment;
         private readonly MastodonAttachment _mastodonAttachment;
-        private readonly Regex _sizeRegex = new Regex(@"video\.twimg\.com\/ext_tw_video\/[0-9]+\/pu\/vid\/(?<width>[0-9]+)x(?<height>[0-9]+)\/.*");
+        private readonly Regex _sizeRegex = new Regex(@"\/vid\/(?<width>[0-9]+)x(?<height>[0-9]+)\/.*");
         private readonly TwitterAttachment _twitterAttachment;
 
         /// <summary>
@@ -60,9 +60,12 @@ namespace Orion.Shared.Absorb.Objects
             {
                 Url = attachment.VideoInfo.Variants.Where(w => w.Bitrate != null).OrderBy(w => w.Bitrate).Last().Url;
                 MediaType = MediaType.Video;
-                var match = _sizeRegex.Match(Url);
-                Height = double.Parse(match.Groups["height"].Value);
-                Width = double.Parse(match.Groups["width"].Value);
+                if (_sizeRegex.IsMatch(Url))
+                {
+                    var match = _sizeRegex.Match(Url);
+                    Height = double.Parse(match.Groups["height"].Value);
+                    Width = double.Parse(match.Groups["width"].Value);
+                }
             }
             else if (attachment.Type == "animated_gif")
             {
