@@ -9,6 +9,8 @@ namespace Orion.UWP.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            if (value is string str)
+                return string.IsNullOrWhiteSpace(str) ? Visibility.Collapsed : Visibility.Visible;
             return value == null ? Visibility.Collapsed : Visibility.Visible;
         }
 

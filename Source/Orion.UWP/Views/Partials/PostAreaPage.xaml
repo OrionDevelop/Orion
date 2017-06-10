@@ -16,7 +16,7 @@
       prism:ViewModelLocator.AutoWireViewModel="True"
       mc:Ignorable="d">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <RelativePanel Width="250"
+        <RelativePanel Width="275"
                        Padding="5"
                        VerticalAlignment="Stretch">
             <Grid x:Name="Header" Height="48">
@@ -101,6 +101,16 @@
                             FontSize="10" />
                 </Grid>
             </Border>
+            <Grid x:Name="ErrorMessages"
+                  RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.Below="InReplyStatus"
+                  Visibility="{x:Bind ViewModel.ErrorMessage.Value, Mode=OneWay, Converter={StaticResource NullableToVisibilityConverter}}">
+                <TextBlock Padding="0,5"
+                           FontSize="12"
+                           Text="{x:Bind ViewModel.ErrorMessage.Value, Mode=OneWay}"
+                           TextWrapping="Wrap" />
+            </Grid>
             <TextBox x:Name="StatusBox"
                      MinHeight="100"
                      Margin="0,5"
@@ -108,13 +118,14 @@
                      PlaceholderText="今何してる？"
                      RelativePanel.AlignLeftWithPanel="True"
                      RelativePanel.AlignRightWithPanel="True"
-                     RelativePanel.Below="InReplyStatus"
+                     RelativePanel.Below="ErrorMessages"
                      Text="{Binding StatusBody.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      TextWrapping="Wrap">
                 <i:Interaction.Behaviors>
                     <behaviors:KeyEventTriggerBehavior Key="Enter"
                                                        Command="{x:Bind ViewModel.SendStatusCommand, Mode=OneWay}"
                                                        CtrlKey="True" />
+                    <behaviors:TextBoxFocusBehavior IsFocused="{x:Bind ViewModel.IsFocused.Value, Mode=TwoWay}" />
                 </i:Interaction.Behaviors>
             </TextBox>
             <Button x:Name="SendButton"

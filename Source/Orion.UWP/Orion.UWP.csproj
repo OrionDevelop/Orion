@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\TextBoxFocusBehavior.cs" />
     <Compile Include="Behaviors\KeyEventTriggerBehavior.cs" />
     <Compile Include="Behaviors\RichTextBlockBindingBehavior.cs" />
     <Compile Include="Behaviors\ScrollingBehavior.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Models\GlobalNotifier.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Models\Software.cs" />
+    <Compile Include="Models\StatusSender.cs" />
     <Compile Include="Models\Waiter.cs" />
     <Compile Include="Services\Interfaces\IOrionNavigationService.cs" />
     <Compile Include="Services\OrionNavigationService.cs" />

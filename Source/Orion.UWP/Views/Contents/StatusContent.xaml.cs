@@ -74,7 +74,6 @@ namespace Orion.UWP.Views.Contents
             InitializeComponent();
             Loaded += OnLoaded;
             AppBar.Visibility = Visibility.Collapsed;
-            Body.IsTextSelectionEnabled = false;
         }
 
         private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -91,7 +90,10 @@ namespace Orion.UWP.Views.Contents
         private static void OnIsShowImagePreviewsChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             if (dependencyObject is StatusContent status)
+            {
                 status.ImagePreviews.Visibility = (bool) e.NewValue ? Visibility.Visible : Visibility.Collapsed;
+                status.ImagePreviews.Height = (bool) e.NewValue ? 150 : 0;
+            }
         }
 
         private static void OnIsShowIconChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -174,7 +176,6 @@ namespace Orion.UWP.Views.Contents
                 status.Icon.Height = status.Icon.Width = 32;
                 status.Username.FontSize = status.Body.FontSize = 13;
                 status.ScreenName.FontSize = status.Timestamp.FontSize = 12;
-                status.Previews.ItemHeight = 40;
                 status.Loaded += StatusOnLoaded;
             }
         }
@@ -191,16 +192,12 @@ namespace Orion.UWP.Views.Contents
         private void ContractCommandBar()
         {
             AppBar.Visibility = Visibility.Collapsed;
-            if (Body.Blocks.Count > 0 && Body.IsTextSelectionEnabled)
-                Body.IsTextSelectionEnabled = false; // When this cell recycled, throw System.AccessViolationException?
             CalculateCellSize();
         }
 
         private void ExpandCommandBar()
         {
             AppBar.Visibility = Visibility.Visible;
-            if (Body.Blocks.Count > 0)
-                Body.IsTextSelectionEnabled = true;
             CalculateCellSize();
         }
     }
