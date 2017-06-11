@@ -114,9 +114,12 @@
     <Compile Include="Models\Attacher.cs" />
     <Compile Include="Models\GlobalNotifier.cs" />
     <Compile Include="Models\History.cs" />
+    <Compile Include="Models\OrionUwpConstants.cs" />
     <Compile Include="Models\Software.cs" />
     <Compile Include="Models\StatusSender.cs" />
     <Compile Include="Models\Waiter.cs" />
+    <Compile Include="Services\ConfigurationService.cs" />
+    <Compile Include="Services\Interfaces\IConfigurationService.cs" />
     <Compile Include="Services\Interfaces\IOrionNavigationService.cs" />
     <Compile Include="Services\OrionNavigationService.cs" />
     <Compile Include="ViewModels\Dialogs\AboutDialogViewModel.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="ViewModels\Contents\StatusViewModel.cs" />
     <Compile Include="ViewModels\Contents\TimelinePresetViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\ImageViewerDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\SettingsDialogViewModel.cs" />
     <Compile Include="ViewModels\Timelines\StatusesTimelineViewModel.cs" />
     <Compile Include="Controls\CircleImage\CircleImage.cs" />
     <Compile Include="Controls\HamburgerMenuImageItem.cs" />
@@ -173,6 +177,9 @@
     </Compile>
     <Compile Include="Views\Dialogs\ImageViewerDialog.xaml.cs">
       <DependentUpon>ImageViewerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -299,6 +306,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\ImageViewerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\SettingsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

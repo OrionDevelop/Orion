@@ -66,6 +66,7 @@ namespace Orion.UWP.ViewModels.Timelines
                              return (bool) _timeline.Filter.Delegate.DynamicInvoke(w);
                          return true;
                      })
+                     .Where(w => (bool) _globalNotifier.CompiledMuteFilter.DynamicInvoke(w))
                      .ObserveOnUIDispatcher()
                      .Select(w =>
                      {

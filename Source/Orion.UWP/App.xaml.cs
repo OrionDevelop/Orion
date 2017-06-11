@@ -46,6 +46,7 @@ namespace Orion.UWP
 
             Container.RegisterInstance(new GlobalNotifier(), new ContainerControlledLifetimeManager());
             Container.RegisterInstance<IAccountService>(accountService, new ContainerControlledLifetimeManager());
+            Container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDialogService, DialogService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IOrionNavigationService, OrionNavigationService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ITimelineService, TimelineService>(new ContainerControlledLifetimeManager());

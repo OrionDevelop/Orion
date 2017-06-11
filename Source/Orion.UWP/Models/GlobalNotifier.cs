@@ -1,4 +1,6 @@
-﻿using Orion.Shared.Absorb.Objects;
+﻿using System;
+
+using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Models;
 
 using Prism.Mvvm;
@@ -7,6 +9,12 @@ namespace Orion.UWP.Models
 {
     public class GlobalNotifier : BindableBase
     {
+        #region Compiled Filter
+
+        public Delegate CompiledMuteFilter { get; set; }
+
+        #endregion
+
         #region Reply func
 
         #region InReplyStatus

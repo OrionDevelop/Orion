@@ -6,7 +6,6 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:models="using:Orion.UWP.Models"
                xmlns:prism="using:Prism.Windows.Mvvm"
-               xmlns:vm="using:Orion.UWP.ViewModels"
                d:DataContext="{d:DesignInstance dialogs:AboutDialogViewModel}"
                prism:ViewModelLocator.AutoWireViewModel="True"
                PrimaryButtonText="OK"
