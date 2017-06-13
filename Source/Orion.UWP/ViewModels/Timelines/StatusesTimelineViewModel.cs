@@ -62,12 +62,18 @@ namespace Orion.UWP.ViewModels.Timelines
             _timeline.GetAsObservable()
                      .Where(w =>
                      {
-                         if (w is Status)
-                             return (bool) _timeline.Filter.Delegate.DynamicInvoke(w);
+                         if (w is Status status)
+                         {
+                             if ((bool) _timeline.Filter.Delegate.DynamicInvoke(status))
+                             {
+                                 if ((bool) _globalNotifier.CompiledMuteFilter.DynamicInvoke(status))
+                                     return false;
+                                 return true;
+                             }
+                             return false;
+                         }
                          return true;
-                     })
-                     .Where(w => (bool) _globalNotifier.CompiledMuteFilter.DynamicInvoke(w))
-                     .ObserveOnUIDispatcher()
+                     }).ObserveOnUIDispatcher()
                      .Select(w =>
                      {
                          if (w is DeleteEvent)

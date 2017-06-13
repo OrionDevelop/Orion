@@ -15,9 +15,9 @@ namespace Orion.UWP.Services
             _roamingContainer = ApplicationData.Current.RoamingSettings;
         }
 
-        public T Load<T>(string str)
+        public T Load<T>(string str, T defaultValue = default(T))
         {
-            return !_roamingContainer.Values.ContainsKey(str) ? default(T) : JsonConvert.DeserializeObject<T>((string) _roamingContainer.Values[str]);
+            return !_roamingContainer.Values.ContainsKey(str) ? defaultValue : JsonConvert.DeserializeObject<T>((string) _roamingContainer.Values[str]);
         }
 
         public void Save<T>(string str, T value)

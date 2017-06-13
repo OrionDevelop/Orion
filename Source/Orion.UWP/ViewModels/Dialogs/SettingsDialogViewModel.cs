@@ -18,13 +18,11 @@ namespace Orion.UWP.ViewModels.Dialogs
 
         public SettingsDialogViewModel(GlobalNotifier globalNotifier, IConfigurationService configurationService)
         {
-            Query = new ReactiveProperty<string>();
-            Query.Throttle(TimeSpan.FromMilliseconds(500)).Select(w =>
+            Query = new ReactiveProperty<string>(configurationService.Load(OrionUwpConstants.Configuration.MuteFilterQueryKey, "true"));
+            Query.Throttle(TimeSpan.FromMilliseconds(500)).Where(w => !string.IsNullOrWhiteSpace(w)).Select(w =>
             {
                 try
                 {
-                    if (string.IsNullOrWhiteSpace(w))
-                        w = "true";
                     globalNotifier.CompiledMuteFilter = QueryCompiler.Compile<Status>($"WHERE {w}").Delegate;
                     configurationService.Save(OrionUwpConstants.Configuration.MuteFilterQueryKey, Query.Value);
                     return null;

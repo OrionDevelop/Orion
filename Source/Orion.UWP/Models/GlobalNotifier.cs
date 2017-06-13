@@ -1,7 +1,9 @@
 ﻿using System;
 
+using Orion.Scripting.Parsing;
 using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Models;
+using Orion.UWP.Services.Interfaces;
 
 using Prism.Mvvm;
 
@@ -14,6 +16,12 @@ namespace Orion.UWP.Models
         public Delegate CompiledMuteFilter { get; set; }
 
         #endregion
+
+        public GlobalNotifier(IConfigurationService configurationService)
+        {
+            var query = $"WHERE {configurationService.Load(OrionUwpConstants.Configuration.MuteFilterQueryKey, "true")}";
+            CompiledMuteFilter = QueryCompiler.Compile<Status>(query).Delegate;
+        }
 
         #region Reply func
 
