@@ -124,6 +124,11 @@
                 <FontIcon Glyph="&#xE735;" />
             </Button>
             <Button>
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}">削除</MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
                 <FontIcon Glyph="&#xE712;" />
             </Button>
         </StackPanel>

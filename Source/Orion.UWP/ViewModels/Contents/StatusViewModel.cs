@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 
 using Windows.UI.Xaml.Input;
 
@@ -30,8 +31,9 @@ namespace Orion.UWP.ViewModels.Contents
         public List<AttachmentViewModel> Attachments { get; }
 
         public ReactiveCommand ReplyCommand { get; }
-        public ReactiveCommand ReblogCommand { get; }
-        public ReactiveCommand FavoriteCommand { get; }
+        public AsyncReactiveCommand ReblogCommand { get; }
+        public AsyncReactiveCommand FavoriteCommand { get; }
+        public AsyncReactiveCommand DeleteCommand { get; }
 
         public StatusViewModel() : base(null)
         {
@@ -55,10 +57,12 @@ namespace Orion.UWP.ViewModels.Contents
                 globalNotifier.InReplyStatus = _status;
                 globalNotifier.InReplyTimeline = timeline;
             }).AddTo(this);
-            ReblogCommand = new ReactiveCommand();
+            ReblogCommand = new AsyncReactiveCommand();
             ReblogCommand.Subscribe(async () => { await timeline.Account.ClientWrapper.ReblogAsync(status.Id); });
-            FavoriteCommand = new ReactiveCommand();
+            FavoriteCommand = new AsyncReactiveCommand();
             FavoriteCommand.Subscribe(async () => { await timeline.Account.ClientWrapper.FavoriteAsync(status.Id); });
+            DeleteCommand = new AsyncReactiveCommand(Observable.Return(status.User.Id == timeline.Account.Credential.UserId));
+            DeleteCommand.Subscribe(async () => await timeline.Account.ClientWrapper.DestroyAsync(status.Id));
             Attachments = _status.Attachments.Select(w => new AttachmentViewModel(w)).ToList();
         }
 
