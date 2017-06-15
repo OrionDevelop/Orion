@@ -15,6 +15,7 @@ using Orion.UWP.ViewModels.Dialogs;
 using Orion.UWP.Views.Dialogs;
 
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Orion.UWP.ViewModels.Contents
 {
@@ -29,7 +30,7 @@ namespace Orion.UWP.ViewModels.Contents
         public bool HasMedia => _status.Attachments.Count > 0;
         public bool IsSensitive => _status.IsSensitiveContent;
         public List<AttachmentViewModel> Attachments { get; }
-
+        public ReactiveProperty<bool> IsIconRounded { get; }
         public ReactiveCommand ReplyCommand { get; }
         public AsyncReactiveCommand ReblogCommand { get; }
         public AsyncReactiveCommand FavoriteCommand { get; }
@@ -51,6 +52,7 @@ namespace Orion.UWP.ViewModels.Contents
             Icon = Uri.TryCreate(status.User.IconUrl, UriKind.Absolute, out Uri _)
                 ? status.User.IconUrl
                 : $"https://{new Uri(status.User.Url).Host}{status.User.IconUrl}";
+            IsIconRounded = globalNotifier.ObserveProperty(w => w.IsIconRounded).ToReactiveProperty().AddTo(this);
             ReplyCommand = new ReactiveCommand();
             ReplyCommand.Subscribe(() =>
             {

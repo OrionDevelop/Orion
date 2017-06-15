@@ -73,7 +73,7 @@
             </ListView.ItemTemplateSelector>
             <ListView.Resources>
                 <DataTemplate x:Key="StatusViewModel" x:DataType="vmc:StatusViewModel">
-                    <vc:StatusContent ViewModel="{x:Bind}" />
+                    <vc:StatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}" ViewModel="{x:Bind}" />
                 </DataTemplate>
                 <DataTemplate x:Key="ReblogStatusViewModel" x:DataType="vmc:ReblogStatusViewModel">
                     <vc:ReblogStatusContent ViewModel="{x:Bind}" />

@@ -26,6 +26,7 @@ namespace Orion.UWP.ViewModels.Timelines
         private int _counter;
         private bool _isInitialized;
         public ReactiveCommand ClearCommand { get; }
+        public ReactiveProperty<bool> IsIconRounded { get; }
 
         public ReadOnlyObservableCollection<StatusBaseViewModel> Statuses
         {
@@ -47,6 +48,7 @@ namespace Orion.UWP.ViewModels.Timelines
             _timeline = timeline;
             _dialogService = dialogService;
             _statuses = new ObservableCollection<StatusBaseViewModel>();
+            IsIconRounded = globalNotifier.ObserveProperty(w => w.IsIconRounded).ToReactiveProperty();
             ClearCommand = new ReactiveCommand();
             ClearCommand.Subscribe(w => _statuses.Clear()).AddTo(this);
             IsReconnecting = false;

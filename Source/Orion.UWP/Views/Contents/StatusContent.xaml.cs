@@ -33,6 +33,9 @@ namespace Orion.UWP.Views.Contents
         public static readonly DependencyProperty IsShowTimestampProperty =
             DependencyProperty.Register(nameof(IsShowTimestamp), typeof(bool), typeof(StatusContent), new PropertyMetadata(true, OnIsShowTimestampChanged));
 
+        public static readonly DependencyProperty IsIconRoundedProperty =
+            DependencyProperty.Register(nameof(IsIconRounded), typeof(bool), typeof(StatusContent), new PropertyMetadata(false, OnIsIconRoundedChanged));
+
         public StatusViewModel ViewModel
         {
             get => (StatusViewModel) GetValue(ViewModelProperty);
@@ -69,11 +72,23 @@ namespace Orion.UWP.Views.Contents
             set => SetValue(IsShowTimestampProperty, value);
         }
 
+        public bool IsIconRounded
+        {
+            get => (bool) GetValue(IsIconRoundedProperty);
+            set => SetValue(IsIconRoundedProperty, value);
+        }
+
         public StatusContent()
         {
             InitializeComponent();
             Loaded += OnLoaded;
             AppBar.Visibility = Visibility.Collapsed;
+        }
+
+        private static void OnIsIconRoundedChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (dependencyObject is StatusContent status)
+                status.UpdateIcon();
         }
 
         private static void OnViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -176,6 +191,7 @@ namespace Orion.UWP.Views.Contents
                 status.Icon.Height = status.Icon.Width = 32;
                 status.Username.FontSize = status.Body.FontSize = 13;
                 status.ScreenName.FontSize = status.Timestamp.FontSize = 12;
+                status.UpdateIcon();
                 status.Loaded += StatusOnLoaded;
             }
         }
@@ -187,6 +203,16 @@ namespace Orion.UWP.Views.Contents
                 status.Previews.ItemWidth = status.DesiredSize.Width / 2 - 10;
                 status.Loaded -= StatusOnLoaded;
             }
+        }
+
+        private void UpdateIcon()
+        {
+            if (IsMiniMode && IsIconRounded)
+                Icon.CornerRadius = new CornerRadius(16);
+            else if (IsIconRounded)
+                Icon.CornerRadius = new CornerRadius(24);
+            else
+                Icon.CornerRadius = new CornerRadius(4);
         }
 
         private void ContractCommandBar()

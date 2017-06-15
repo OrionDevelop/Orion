@@ -21,7 +21,24 @@ namespace Orion.UWP.Models
         {
             var query = $"WHERE {configurationService.Load(OrionUwpConstants.Configuration.MuteFilterQueryKey, "true")}";
             CompiledMuteFilter = QueryCompiler.Compile<Status>(query).Delegate;
+            IsIconRounded = configurationService.Load(OrionUwpConstants.Configuration.IsIconRoundedKey, false);
         }
+
+        #region Design
+
+        #region IsIconRounded
+
+        private bool _isIconRounded;
+
+        public bool IsIconRounded
+        {
+            get => _isIconRounded;
+            set => SetProperty(ref _isIconRounded, value);
+        }
+
+        #endregion
+
+        #endregion
 
         #region Reply func
 
