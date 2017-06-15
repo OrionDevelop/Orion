@@ -1,4 +1,5 @@
 ﻿using Orion.Shared.Absorb.Enums;
+using Orion.Shared.Enums;
 
 using MastodonDeleteMessage = Orion.Service.Mastodon.Models.Streaming.DeleteMessage;
 using TwitterDeleteMessage = CoreTweet.Streaming.DeleteMessage;
@@ -14,6 +15,7 @@ namespace Orion.Shared.Absorb.Objects.Events
         {
             Id = message.StatusId;
             Type = nameof(DeleteEvent);
+            Provider = ProviderType.Mastodon.ToString();
             EventType = EventType.Delete;
             IsBroadcastStatus = true;
         }
@@ -22,6 +24,7 @@ namespace Orion.Shared.Absorb.Objects.Events
         {
             Id = message.Id;
             Type = nameof(DeleteEvent);
+            Provider = ProviderType.Twitter.ToString();
             EventType = EventType.Delete;
             IsBroadcastStatus = true;
         }

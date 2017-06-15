@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 
 using CoreTweet;
 
+using Orion.Shared.Enums;
+
 using CroudiaStatus = Orion.Service.Croudia.Models.Status;
 using GnuSocialStatus = Orion.Service.GnuSocial.Models.Status;
 using MastodonStatus = Orion.Service.Mastodon.Models.Status;
@@ -70,6 +72,7 @@ namespace Orion.Shared.Absorb.Objects
             CreatedAt = status.CreatedAt;
             User = new User(status.User);
             Type = nameof(Status);
+            Provider = ProviderType.Croudia.ToString();
             Text = status.Text;
             InReplyToStatusId = status.InReplyToStatusId;
             InReplyToUserId = status.InReplyToUserId;
@@ -92,6 +95,7 @@ namespace Orion.Shared.Absorb.Objects
             CreatedAt = status.CreatedAt;
             User = new User(status.User);
             Type = nameof(Status);
+            Provider = ProviderType.GnuSocial.ToString();
             Text = status.Text;
             InReplyToStatusId = status.InReplyToStatusId;
             InReplyToUserId = status.InReplyToUserId;
@@ -113,6 +117,7 @@ namespace Orion.Shared.Absorb.Objects
             CreatedAt = status.CreatedAt;
             User = new User(status.Account);
             Type = nameof(Status);
+            Provider = ProviderType.Mastodon.ToString();
             InReplyToStatusId = status.InReplyToId;
             InReplyToUserId = status.InReplyToAccountId;
             ReblogsCount = status.ReblogsCount;
@@ -147,6 +152,7 @@ namespace Orion.Shared.Absorb.Objects
             CreatedAt = status.CreatedAt.ToLocalTime().LocalDateTime;
             User = new User(status.User);
             Type = nameof(Status);
+            Provider = ProviderType.Twitter.ToString();
             InReplyToStatusId = status.InReplyToStatusId;
             InReplyToUserId = status.InReplyToUserId;
             ReblogsCount = status.RetweetCount;

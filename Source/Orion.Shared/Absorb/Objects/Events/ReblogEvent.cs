@@ -1,5 +1,6 @@
 ﻿using Orion.Service.Mastodon.Models;
 using Orion.Shared.Absorb.Enums;
+using Orion.Shared.Enums;
 
 namespace Orion.Shared.Absorb.Objects.Events
 {
@@ -14,6 +15,7 @@ namespace Orion.Shared.Absorb.Objects.Events
             Source = new User(notification.Account);
             Target = new Status(notification.Status);
             Type = nameof(ReblogEvent);
+            Provider = ProviderType.Twitter.ToString();
             EventType = EventType.Reblog;
         }
     }

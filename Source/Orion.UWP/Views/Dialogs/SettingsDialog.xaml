@@ -31,7 +31,8 @@
                              Margin="0,0,0,5"
                              AcceptsReturn="True"
                              PlaceholderText="FavoritesCount &lt; 10"
-                             Text="{Binding Query.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding Query.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap" />
                     <TextBlock Foreground="OrangeRed"
                                Text="{x:Bind ViewModel.ErrorMessage.Value, Mode=OneWay}"
                                TextWrapping="Wrap" />
