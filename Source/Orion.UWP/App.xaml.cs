@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using Windows.ApplicationModel.Activation;
 
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
 using Microsoft.Practices.Unity;
 
 using Orion.UWP.Models;
@@ -56,6 +58,7 @@ namespace Orion.UWP
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
+            MobileCenter.Start("da64efe6-0b35-4c47-bd6d-e5ef603162bf", typeof(Analytics));
             NavigationService.Navigate("Main", null);
             return Task.CompletedTask;
         }
