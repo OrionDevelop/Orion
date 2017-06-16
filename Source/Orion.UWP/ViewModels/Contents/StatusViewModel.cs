@@ -60,7 +60,7 @@ namespace Orion.UWP.ViewModels.Contents
                 globalNotifier.InReplyStatus = _status;
                 globalNotifier.InReplyTimeline = timeline;
             }).AddTo(this);
-            ReblogCommand = new AsyncReactiveCommand();
+            ReblogCommand = new AsyncReactiveCommand(Observable.Return(!status.User.IsProtected));
             ReblogCommand.Subscribe(async () => { await timeline.Account.ClientWrapper.ReblogAsync(status.Id); });
             FavoriteCommand = new AsyncReactiveCommand();
             FavoriteCommand.Subscribe(async () => { await timeline.Account.ClientWrapper.FavoriteAsync(status.Id); });
