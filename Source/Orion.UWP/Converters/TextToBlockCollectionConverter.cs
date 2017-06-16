@@ -16,6 +16,7 @@ namespace Orion.UWP.Converters
     internal class TextToBlockCollectionConverter : IValueConverter
     {
         private static readonly string HtmlTags = string.Join("|", "a", "p", "span", "strong");
+        private readonly Regex _newLineRegex = new Regex(@"<br(\s)?/>", RegexOptions.Compiled);
         private readonly Regex _tagRegex = new Regex($@"<[{HtmlTags}]( .*)?>.*?</[{HtmlTags}]>", RegexOptions.Compiled);
         private readonly Regex _tcoRegex = new Regex("<tco disp=\"(?<display_url>.*?)\">(?<original_url>.*?)</tco>", RegexOptions.Compiled);
 
@@ -35,7 +36,7 @@ namespace Orion.UWP.Converters
         {
             var text = value;
             // Is HTML?
-            if (_tagRegex.IsMatch(value) || value.Contains("br"))
+            if (_tagRegex.IsMatch(value) || _newLineRegex.IsMatch(value))
                 text = FlattenHtmlText(value);
 
             text = text.Replace("\n", Environment.NewLine);
