@@ -74,11 +74,17 @@
                            Visibility="{x:Bind ViewModel.IsSensitive, Mode=OneWay, Converter={StaticResource ReverseBooleanToVisibilityConverter}}">
                 <c:GridPreview.ItemsTemplate>
                     <DataTemplate x:DataType="vm:AttachmentViewModel">
-                        <c:CircleImage Margin="2.5"
-                                       HorizontalContentAlignment="Stretch"
-                                       CornerRadius="6"
-                                       IsCentered="True"
-                                       Source="{x:Bind PreviewUrl, Mode=OneWay}" />
+                        <Grid>
+                            <c:CircleImage Margin="2.5"
+                                           HorizontalContentAlignment="Stretch"
+                                           CornerRadius="6"
+                                           IsCentered="True"
+                                           Source="{x:Bind PreviewUrl, Mode=OneWay}" />
+                            <FontIcon HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Glyph="&#xE768;"
+                                      Visibility="{x:Bind IsVideoMode, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
                     </DataTemplate>
                 </c:GridPreview.ItemsTemplate>
             </c:GridPreview>
