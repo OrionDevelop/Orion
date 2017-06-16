@@ -20,6 +20,20 @@
                        RelativePanel.AlignLeftWithPanel="True"
                        RelativePanel.AlignTopWithPanel="True"
                        Source="{x:Bind ViewModel.Icon, Mode=OneWay}" />
+        <FontIcon Margin="1"
+                  FontSize="16"
+                  Foreground="White"
+                  Glyph="&#xE91F;"
+                  RelativePanel.AlignBottomWith="Icon"
+                  RelativePanel.AlignRightWith="Icon"
+                  Visibility="{x:Bind ViewModel.IsVerified, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <FontIcon Margin="1"
+                  FontSize="16"
+                  Foreground="DeepSkyBlue"
+                  Glyph="&#xEC61;"
+                  RelativePanel.AlignBottomWith="Icon"
+                  RelativePanel.AlignRightWith="Icon"
+                  Visibility="{x:Bind ViewModel.IsVerified, Converter={StaticResource BooleanToVisibilityConverter}}" />
         <RelativePanel x:Name="UserLine"
                        Padding="10,0,0,0"
                        RelativePanel.AlignRightWithPanel="True"
