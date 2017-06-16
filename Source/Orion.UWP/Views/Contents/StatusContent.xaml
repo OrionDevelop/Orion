@@ -26,14 +26,14 @@
                   Glyph="&#xE91F;"
                   RelativePanel.AlignBottomWith="Icon"
                   RelativePanel.AlignRightWith="Icon"
-                  Visibility="{x:Bind ViewModel.IsVerified, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  Visibility="{x:Bind ViewModel.IsVerified, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
         <FontIcon Margin="1"
                   FontSize="16"
                   Foreground="DeepSkyBlue"
                   Glyph="&#xEC61;"
                   RelativePanel.AlignBottomWith="Icon"
                   RelativePanel.AlignRightWith="Icon"
-                  Visibility="{x:Bind ViewModel.IsVerified, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  Visibility="{x:Bind ViewModel.IsVerified, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
         <RelativePanel x:Name="UserLine"
                        Padding="10,0,0,0"
                        RelativePanel.AlignRightWithPanel="True"
