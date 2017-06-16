@@ -5,6 +5,7 @@ using Windows.ApplicationModel.Activation;
 
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.HockeyApp;
 using Microsoft.Practices.Unity;
 
 using Orion.UWP.Models;
@@ -26,6 +27,7 @@ namespace Orion.UWP
         /// </summary>
         public App()
         {
+            HockeyClient.Current.Configure("a8287f6a29c64f408d09605296e192d8").SetExceptionDescriptionLoader(w => w.ToString());
             InitializeComponent();
             UnhandledException += (sender, e) =>
             {
