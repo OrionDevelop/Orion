@@ -20,6 +20,9 @@ namespace Orion.UWP.Views.Contents
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(StatusContent), new PropertyMetadata(false, OnIsSelectedChanged));
 
+        public static readonly DependencyProperty IsIconRoundedProperty =
+            DependencyProperty.Register(nameof(IsIconRounded), typeof(bool), typeof(StatusContent), new PropertyMetadata(false, OnIsIconRoundedChanged));
+
         public QuoteStatusViewModel ViewModel
         {
             get => (QuoteStatusViewModel) GetValue(ViewModelProperty);
@@ -30,6 +33,12 @@ namespace Orion.UWP.Views.Contents
         {
             get => (bool) GetValue(IsSelectedProperty);
             set => SetValue(IsSelectedProperty, value);
+        }
+
+        public bool IsIconRounded
+        {
+            get => (bool) GetValue(IsIconRoundedProperty);
+            set => SetValue(IsIconRoundedProperty, value);
         }
 
         public QuoteStatusContent()
@@ -45,6 +54,12 @@ namespace Orion.UWP.Views.Contents
         {
             if (args.NewValue != null && args.NewValue != args.OldValue)
                 (dependencyObject as QuoteStatusContent)?.ResetLayouts();
+        }
+
+        private static void OnIsIconRoundedChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (dependencyObject is QuoteStatusContent status)
+                status.UpdateIcon();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -67,6 +82,16 @@ namespace Orion.UWP.Views.Contents
                 (dependencyObject as QuoteStatusContent)?.ExpandCommandBar();
             else
                 (dependencyObject as QuoteStatusContent)?.ContractCommandBar();
+        }
+
+        private void UpdateIcon()
+        {
+            if (IsIconRounded)
+                Icon.CornerRadius = new CornerRadius(16);
+            else if (IsIconRounded)
+                Icon.CornerRadius = new CornerRadius(24);
+            else
+                Icon.CornerRadius = new CornerRadius(4);
         }
 
         private void ResetLayouts()

@@ -67,7 +67,8 @@
                 RelativePanel.AlignRightWithPanel="True"
                 RelativePanel.Below="Body"
                 RelativePanel.RightOf="Icon">
-            <contents:StatusContent IsMiniMode="True"
+            <contents:StatusContent IsIconRounded="{x:Bind IsIconRounded, Mode=OneWay}"
+                                    IsMiniMode="True"
                                     IsShowIcon="False"
                                     ViewModel="{x:Bind ViewModel.StatusViewModel, Mode=OneWay}" />
         </Border>

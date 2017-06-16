@@ -76,10 +76,10 @@
                     <vc:StatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}" ViewModel="{x:Bind}" />
                 </DataTemplate>
                 <DataTemplate x:Key="ReblogStatusViewModel" x:DataType="vmc:ReblogStatusViewModel">
-                    <vc:ReblogStatusContent ViewModel="{x:Bind}" />
+                    <vc:ReblogStatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}" ViewModel="{x:Bind}" />
                 </DataTemplate>
                 <DataTemplate x:Key="QuoteStatusViewModel" x:DataType="vmc:QuoteStatusViewModel">
-                    <vc:QuoteStatusContent ViewModel="{x:Bind}" />
+                    <vc:QuoteStatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}" ViewModel="{x:Bind}" />
                 </DataTemplate>
                 <DataTemplate x:Key="NotificationViewModel" x:DataType="vmc:NotificationViewModel">
                     <vc:NotificationContent ViewModel="{x:Bind}" />
