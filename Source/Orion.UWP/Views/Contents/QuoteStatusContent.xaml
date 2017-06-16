@@ -56,7 +56,7 @@
                        TextTrimming="None"
                        TextWrapping="Wrap">
             <i:Interaction.Behaviors>
-                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
+                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.ParsableText, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
         <Border x:Name="QuotedStatus"

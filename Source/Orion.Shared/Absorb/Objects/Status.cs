@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -65,6 +64,11 @@ namespace Orion.Shared.Absorb.Objects
         ///     via
         /// </summary>
         public string Source { get; }
+
+        /// <summary>
+        ///     INTERNAL
+        /// </summary>
+        public Dictionary<string, string> Hyperlinks { get; } = new Dictionary<string, string>();
 
         public Status(CroudiaStatus status)
         {
@@ -169,9 +173,9 @@ namespace Orion.Shared.Absorb.Objects
             IsSensitiveContent = status.PossiblySensitive ?? false;
 
             var text = status.ExtendedTweet?.FullText ?? status.Text;
-            text = ReplaceTcoHyperlinks(text, status.ExtendedTweet?.Entities?.Urls);
-            text = ReplaceTcoHyperlinks(text, status.ExtendedEntities?.Urls);
-            text = ReplaceTcoHyperlinks(text, status.Entities?.Urls);
+            ParseTcoHyperlinks(status.ExtendedTweet?.Entities?.Urls);
+            ParseTcoHyperlinks(status.ExtendedEntities?.Urls);
+            ParseTcoHyperlinks(status.Entities?.Urls);
             text = RemoveMediaLinks(text, status.ExtendedTweet?.Entities?.Media);
             text = RemoveMediaLinks(text, status.ExtendedEntities?.Media);
             text = RemoveMediaLinks(text, status.Entities?.Media);
@@ -186,21 +190,20 @@ namespace Orion.Shared.Absorb.Objects
                 : entities.Where(entity => !string.IsNullOrWhiteSpace(entity.Url)).Aggregate(text, (current, entity) => current.Replace(entity.Url, ""));
         }
 
-        private string ReplaceTcoHyperlinks(string text, UrlEntity[] entities)
+        private void ParseTcoHyperlinks(UrlEntity[] entities)
         {
             if (entities == null)
-                return text;
+                return;
 
             foreach (var entity in entities)
             {
                 if (string.IsNullOrWhiteSpace(entity.DisplayUrl))
                     continue;
-                text = text.Replace(entity.Url,
-                                    entity.ExpandedUrl.StartsWith("https://twitter.com/i/web/status/")
-                                        ? ""
-                                        : $"<tco disp=\"{entity.DisplayUrl.Replace(".", "^")}\">{new Uri(entity.Url).LocalPath}</tco>");
+                if (entity.ExpandedUrl.StartsWith("https://twitter.com/i/web/status/"))
+                    continue;
+                if (!Hyperlinks.ContainsKey(entity.Url))
+                    Hyperlinks.Add(entity.Url, entity.DisplayUrl);
             }
-            return text;
         }
 
         #region Extended for filters

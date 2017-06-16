@@ -26,10 +26,10 @@ namespace Orion.UWP.ViewModels.Contents
         public string ScreenName => $"@{_status.User.ScreenName}";
         public string Username => EmojiConverter.Convert(_status.User.Name).Trim();
         public string Icon { get; }
-        public string Body => EmojiConverter.Convert(_status.Text).Trim();
         public bool IsVerified => _status.User.IsVerified;
         public bool HasMedia => _status.Attachments.Count > 0;
         public bool IsSensitive => _status.IsSensitiveContent;
+        public ParsableText ParsableText { get; }
         public List<AttachmentViewModel> Attachments { get; }
         public ReactiveProperty<bool> IsIconRounded { get; }
         public ReactiveCommand ReplyCommand { get; }
@@ -44,6 +44,7 @@ namespace Orion.UWP.ViewModels.Contents
 
         public StatusViewModel(Status status) : this(null, null, status, null)
         {
+            // Nothing to do
         }
 
         public StatusViewModel(GlobalNotifier globalNotifier, IDialogService dialogService, Status status, TimelineBase timeline) : base(status)
@@ -54,6 +55,7 @@ namespace Orion.UWP.ViewModels.Contents
                 ? status.User.IconUrl
                 : $"https://{new Uri(status.User.Url).Host}{status.User.IconUrl}";
             IsIconRounded = globalNotifier.ObserveProperty(w => w.IsIconRounded).ToReactiveProperty().AddTo(this);
+            ParsableText = new ParsableText {Text = EmojiConverter.Convert(_status.Text).Trim(), Hyperlinks = status.Hyperlinks};
             ReplyCommand = new ReactiveCommand();
             ReplyCommand.Subscribe(() =>
             {

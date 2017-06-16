@@ -69,7 +69,7 @@
                        TextTrimming="None"
                        TextWrapping="Wrap">
             <i:Interaction.Behaviors>
-                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
+                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.ParsableText, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}, ConverterParameter={Binding ParsableText, Mode=OneWay}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
         <Grid x:Name="ImagePreviews"
