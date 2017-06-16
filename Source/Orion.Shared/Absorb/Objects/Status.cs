@@ -165,6 +165,7 @@ namespace Orion.Shared.Absorb.Objects
                 RebloggedStatus = new Status(status.RetweetedStatus);
             if (status.QuotedStatus != null)
                 QuotedStatus = new Status(status.QuotedStatus);
+            Source = status.Source;
             IsSensitiveContent = status.PossiblySensitive ?? false;
 
             var text = status.ExtendedTweet?.FullText ?? status.Text;
