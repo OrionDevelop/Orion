@@ -1,5 +1,9 @@
-﻿using Orion.Shared.Absorb.Objects;
+﻿using System;
+
+using Orion.Scripting.Parsing;
+using Orion.Shared.Absorb.Objects;
 using Orion.Shared.Models;
+using Orion.UWP.Services.Interfaces;
 
 using Prism.Mvvm;
 
@@ -7,6 +11,35 @@ namespace Orion.UWP.Models
 {
     public class GlobalNotifier : BindableBase
     {
+        #region Compiled Filter
+
+        public Delegate CompiledMuteFilter { get; set; }
+
+        #endregion
+
+        public GlobalNotifier(IConfigurationService configurationService)
+        {
+            var query = $"WHERE {configurationService.Load(OrionUwpConstants.Configuration.MuteFilterQueryKey, "true")}";
+            CompiledMuteFilter = QueryCompiler.Compile<Status>(query).Delegate;
+            IsIconRounded = configurationService.Load(OrionUwpConstants.Configuration.IsIconRoundedKey, false);
+        }
+
+        #region Design
+
+        #region IsIconRounded
+
+        private bool _isIconRounded;
+
+        public bool IsIconRounded
+        {
+            get => _isIconRounded;
+            set => SetProperty(ref _isIconRounded, value);
+        }
+
+        #endregion
+
+        #endregion
+
         #region Reply func
 
         #region InReplyStatus

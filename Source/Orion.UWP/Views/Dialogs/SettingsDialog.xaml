@@ -1,0 +1,53 @@
+﻿<ContentDialog x:Class="Orion.UWP.Views.Dialogs.SettingsDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:dialogs="using:Orion.UWP.ViewModels.Dialogs"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:prism="using:Prism.Windows.Mvvm"
+               Title="設定"
+               d:DataContext="{d:DesignInstance dialogs:SettingsDialogViewModel}"
+               prism:ViewModelLocator.AutoWireViewModel="True"
+               PrimaryButtonText="OK"
+               mc:Ignorable="d">
+    <Grid>
+        <Pivot>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="16" Text="{Binding}" />
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <Pivot.ItemTemplate>
+                <DataTemplate>
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <ContentPresenter />
+                    </ScrollViewer>
+                </DataTemplate>
+            </Pivot.ItemTemplate>
+            <PivotItem Header="一般">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="アイコンを丸くする" IsChecked="{x:Bind ViewModel.IsIconRounded.Value, Mode=TwoWay}" />
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="ミュート">
+                <StackPanel Orientation="Vertical">
+                    <TextBox MinHeight="60"
+                             Margin="0,0,0,5"
+                             AcceptsReturn="True"
+                             PlaceholderText="FavoritesCount &lt; 10"
+                             Text="{Binding Query.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap" />
+                    <TextBlock Foreground="OrangeRed"
+                               Text="{x:Bind ViewModel.ErrorMessage.Value, Mode=OneWay}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="クエリ式の結果が True となる場合、そのステータスがミュートされます。" />
+                    <TextBlock>
+                        <Run>クエリ式については、</Run>
+                        <Hyperlink NavigateUri="https://github.com/mika-f/Orion/blob/develop/Source/Orion.Scripting/README.md">こちら</Hyperlink>
+                        <Run>を参照してください。</Run>
+                    </TextBlock>
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</ContentDialog>

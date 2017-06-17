@@ -139,7 +139,9 @@
                                     <controls:HamburgerMenuGlyphItem Glyph="&#xE716;"
                                                                      Label="アカウント"
                                                                      TargetPageType="p:AccountsPage" />
-                                    <controls:HamburgerMenuGlyphItem Glyph="&#57621;" Label="設定" />
+                                    <controls:HamburgerMenuGlyphItem Glyph="&#57621;"
+                                                                     Label="設定"
+                                                                     TargetPageType="dialogs:SettingsDialog" />
                                     <controls:HamburgerMenuGlyphItem Glyph="&#xE783;"
                                                                      Label="Orion について"
                                                                      TargetPageType="dialogs:AboutDialog" />

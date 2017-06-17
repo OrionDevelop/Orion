@@ -20,6 +20,20 @@
                        RelativePanel.AlignLeftWithPanel="True"
                        RelativePanel.AlignTopWithPanel="True"
                        Source="{x:Bind ViewModel.Icon, Mode=OneWay}" />
+        <FontIcon Margin="1"
+                  FontSize="16"
+                  Foreground="White"
+                  Glyph="&#xE91F;"
+                  RelativePanel.AlignBottomWith="Icon"
+                  RelativePanel.AlignRightWith="Icon"
+                  Visibility="{x:Bind ViewModel.IsVerified, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+        <FontIcon Margin="1"
+                  FontSize="16"
+                  Foreground="DeepSkyBlue"
+                  Glyph="&#xEC61;"
+                  RelativePanel.AlignBottomWith="Icon"
+                  RelativePanel.AlignRightWith="Icon"
+                  Visibility="{x:Bind ViewModel.IsVerified, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
         <RelativePanel x:Name="UserLine"
                        Padding="10,0,0,0"
                        RelativePanel.AlignRightWithPanel="True"
@@ -55,7 +69,7 @@
                        TextTrimming="None"
                        TextWrapping="Wrap">
             <i:Interaction.Behaviors>
-                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
+                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.ParsableText, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}, ConverterParameter={Binding ParsableText, Mode=OneWay}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
         <Grid x:Name="ImagePreviews"
@@ -74,11 +88,17 @@
                            Visibility="{x:Bind ViewModel.IsSensitive, Mode=OneWay, Converter={StaticResource ReverseBooleanToVisibilityConverter}}">
                 <c:GridPreview.ItemsTemplate>
                     <DataTemplate x:DataType="vm:AttachmentViewModel">
-                        <c:CircleImage Margin="2.5"
-                                       HorizontalContentAlignment="Stretch"
-                                       CornerRadius="6"
-                                       IsCentered="True"
-                                       Source="{x:Bind PreviewUrl, Mode=OneWay}" />
+                        <Grid>
+                            <c:CircleImage Margin="2.5"
+                                           HorizontalContentAlignment="Stretch"
+                                           CornerRadius="6"
+                                           IsCentered="True"
+                                           Source="{x:Bind PreviewUrl, Mode=OneWay}" />
+                            <FontIcon HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Glyph="&#xE768;"
+                                      Visibility="{x:Bind IsVideoMode, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
                     </DataTemplate>
                 </c:GridPreview.ItemsTemplate>
             </c:GridPreview>
@@ -124,6 +144,11 @@
                 <FontIcon Glyph="&#xE735;" />
             </Button>
             <Button>
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}">削除</MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
                 <FontIcon Glyph="&#xE712;" />
             </Button>
         </StackPanel>

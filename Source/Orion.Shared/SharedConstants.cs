@@ -79,7 +79,7 @@ namespace Orion.Shared
         public static readonly TimelinePreset CroudiaDirectMessagesTimelinePreset = new TimelinePreset
         {
             Name = "Direct messages",
-            ProviderType = ProviderType.Twitter,
+            ProviderType = ProviderType.Croudia,
             Query = "FROM messages"
         };
 

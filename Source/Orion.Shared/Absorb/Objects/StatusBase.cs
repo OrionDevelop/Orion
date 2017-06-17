@@ -27,6 +27,11 @@ namespace Orion.Shared.Absorb.Objects
         public string Type { get; protected set; }
 
         /// <summary>
+        ///     投稿元プロバイダ
+        /// </summary>
+        public string Provider { get; protected set; }
+
+        /// <summary>
         ///     true の場合、全ての分岐に対して通知を行います。
         /// </summary>
         internal bool IsBroadcastStatus { get; set; }

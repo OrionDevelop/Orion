@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -9,6 +8,8 @@ using Windows.UI.Xaml.Documents;
 
 using HtmlAgilityPack;
 
+using Orion.UWP.Models;
+
 using ToriatamaText;
 
 namespace Orion.UWP.Converters
@@ -16,13 +17,13 @@ namespace Orion.UWP.Converters
     internal class TextToBlockCollectionConverter : IValueConverter
     {
         private static readonly string HtmlTags = string.Join("|", "a", "p", "span", "strong");
+        private readonly Regex _newLineRegex = new Regex(@"<br(\s)?/>", RegexOptions.Compiled);
         private readonly Regex _tagRegex = new Regex($@"<[{HtmlTags}]( .*)?>.*?</[{HtmlTags}]>", RegexOptions.Compiled);
-        private readonly Regex _tcoRegex = new Regex("<tco disp=\"(?<display_url>.*?)\">(?<original_url>.*?)</tco>", RegexOptions.Compiled);
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is string strValue)
-                return ParseText(strValue);
+            if (value is ParsableText parsableText)
+                return ParseText(parsableText);
             return null;
         }
 
@@ -31,12 +32,12 @@ namespace Orion.UWP.Converters
             throw new NotImplementedException();
         }
 
-        private List<Block> ParseText(string value)
+        private List<Block> ParseText(ParsableText parsableText)
         {
-            var text = value;
+            var text = parsableText.Text;
             // Is HTML?
-            if (_tagRegex.IsMatch(value) || value.Contains("br"))
-                text = FlattenHtmlText(value);
+            if (_tagRegex.IsMatch(text) || _newLineRegex.IsMatch(text))
+                text = FlattenHtmlText(text);
 
             text = text.Replace("\n", Environment.NewLine);
             text = text.Replace("<br />", Environment.NewLine);
@@ -59,7 +60,9 @@ namespace Orion.UWP.Converters
                     case EntityType.Url:
                         ParseBeforeText(text, ref currentIndex, paragraph, entity);
                         var url = text.Substring(entity.StartIndex, entity.Length);
-                        paragraph.Inlines.Add(CreateHyperlink(url, url));
+                        paragraph.Inlines.Add(parsableText.Hyperlinks.ContainsKey(url)
+                            ? CreateHyperlink(parsableText.Hyperlinks[url], url)
+                            : CreateHyperlink(url, url));
                         currentIndex = entity.StartIndex + entity.Length;
                         break;
 
@@ -88,7 +91,7 @@ namespace Orion.UWP.Converters
                         throw new ArgumentOutOfRangeException();
                 }
             if (currentIndex < text.Length)
-                ParseTcoUrl(text.Substring(currentIndex), paragraph);
+                paragraph.Inlines.Add(new Run {Text = text.Substring(currentIndex)});
             return new List<Block> {paragraph};
         }
 
@@ -97,33 +100,8 @@ namespace Orion.UWP.Converters
             if (currentIndex >= entity.StartIndex)
                 return;
 
-            var target = text.Substring(currentIndex, entity.StartIndex - currentIndex);
-            ParseTcoUrl(target, paragraph);
+            paragraph.Inlines.Add(new Run {Text = text.Substring(currentIndex, entity.StartIndex - currentIndex)});
             currentIndex = entity.StartIndex;
-        }
-
-        private void ParseTcoUrl(string text, Paragraph paragraph)
-        {
-            if (_tcoRegex.IsMatch(text))
-            {
-                Debug.WriteLine(text);
-                var regIndex = 0;
-                // Create hyperlink with t.co
-                foreach (Match match in _tcoRegex.Matches(text))
-                {
-                    if (regIndex < match.Index)
-                        paragraph.Inlines.Add(new Run {Text = text.Substring(regIndex, match.Index - regIndex)});
-                    paragraph.Inlines.Add(CreateHyperlink(match.Groups["display_url"].Value.Replace("^", "."),
-                                                          $"https://t.co{match.Groups["original_url"].Value}", false));
-                    regIndex = match.Index + match.Length;
-                }
-                if (regIndex < text.Length)
-                    paragraph.Inlines.Add(new Run {Text = text.Substring(regIndex)});
-            }
-            else
-            {
-                paragraph.Inlines.Add(new Run {Text = text});
-            }
         }
 
         private Hyperlink CreateHyperlink(string text, string url, bool format = true)

@@ -2,6 +2,7 @@
 
 using Orion.Service.Mastodon.Models;
 using Orion.Shared.Absorb.Enums;
+using Orion.Shared.Enums;
 
 namespace Orion.Shared.Absorb.Objects.Events
 {
@@ -15,6 +16,7 @@ namespace Orion.Shared.Absorb.Objects.Events
             CreatedAt = notification.CreatedAt;
             Source = new User(notification.Account);
             Type = nameof(FollowEvent);
+            Provider = ProviderType.Mastodon.ToString();
             EventType = EventType.Follow;
         }
 
@@ -23,6 +25,7 @@ namespace Orion.Shared.Absorb.Objects.Events
             CreatedAt = message.CreatedAt.ToLocalTime().LocalDateTime;
             Source = new User(message.Source);
             Type = nameof(FollowEvent);
+            Provider = ProviderType.Twitter.ToString();
             EventType = EventType.Follow;
         }
     }

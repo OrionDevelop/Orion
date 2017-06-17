@@ -26,6 +26,7 @@ namespace Orion.UWP.ViewModels.Timelines
         private int _counter;
         private bool _isInitialized;
         public ReactiveCommand ClearCommand { get; }
+        public ReactiveProperty<bool> IsIconRounded { get; }
 
         public ReadOnlyObservableCollection<StatusBaseViewModel> Statuses
         {
@@ -47,6 +48,7 @@ namespace Orion.UWP.ViewModels.Timelines
             _timeline = timeline;
             _dialogService = dialogService;
             _statuses = new ObservableCollection<StatusBaseViewModel>();
+            IsIconRounded = globalNotifier.ObserveProperty(w => w.IsIconRounded).ToReactiveProperty();
             ClearCommand = new ReactiveCommand();
             ClearCommand.Subscribe(w => _statuses.Clear()).AddTo(this);
             IsReconnecting = false;
@@ -62,11 +64,18 @@ namespace Orion.UWP.ViewModels.Timelines
             _timeline.GetAsObservable()
                      .Where(w =>
                      {
-                         if (w is Status)
-                             return (bool) _timeline.Filter.Delegate.DynamicInvoke(w);
+                         if (w is Status status)
+                         {
+                             if ((bool) _timeline.Filter.Delegate.DynamicInvoke(status))
+                             {
+                                 if ((bool) _globalNotifier.CompiledMuteFilter.DynamicInvoke(status))
+                                     return false;
+                                 return true;
+                             }
+                             return false;
+                         }
                          return true;
-                     })
-                     .ObserveOnUIDispatcher()
+                     }).ObserveOnUIDispatcher()
                      .Select(w =>
                      {
                          if (w is DeleteEvent)

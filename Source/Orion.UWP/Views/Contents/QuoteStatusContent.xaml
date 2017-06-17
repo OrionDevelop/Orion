@@ -56,7 +56,7 @@
                        TextTrimming="None"
                        TextWrapping="Wrap">
             <i:Interaction.Behaviors>
-                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.Body, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
+                <behaviors:RichTextBlockBindingBehavior BindingDocument="{x:Bind ViewModel.ParsableText, Mode=OneWay, Converter={StaticResource TextToBlockCollectionConverter}}" />
             </i:Interaction.Behaviors>
         </RichTextBlock>
         <Border x:Name="QuotedStatus"
@@ -67,7 +67,8 @@
                 RelativePanel.AlignRightWithPanel="True"
                 RelativePanel.Below="Body"
                 RelativePanel.RightOf="Icon">
-            <contents:StatusContent IsMiniMode="True"
+            <contents:StatusContent IsIconRounded="{x:Bind IsIconRounded, Mode=OneWay}"
+                                    IsMiniMode="True"
                                     IsShowIcon="False"
                                     ViewModel="{x:Bind ViewModel.StatusViewModel, Mode=OneWay}" />
         </Border>

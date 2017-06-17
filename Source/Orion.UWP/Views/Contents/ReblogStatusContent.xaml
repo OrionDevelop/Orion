@@ -31,7 +31,7 @@
         <Grid RelativePanel.AlignLeftWithPanel="True"
               RelativePanel.AlignRightWithPanel="True"
               RelativePanel.Below="Message">
-            <local:StatusContent ViewModel="{x:Bind ViewModel.StatusViewModel, Mode=OneWay}" />
+            <local:StatusContent IsIconRounded="{x:Bind IsIconRounded, Mode=OneWay}" ViewModel="{x:Bind ViewModel.StatusViewModel, Mode=OneWay}" />
         </Grid>
     </RelativePanel>
 </UserControl>

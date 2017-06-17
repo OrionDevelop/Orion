@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 using CoreTweet;
+
+using Orion.Shared.Enums;
 
 using CroudiaStatus = Orion.Service.Croudia.Models.Status;
 using GnuSocialStatus = Orion.Service.GnuSocial.Models.Status;
@@ -64,12 +65,18 @@ namespace Orion.Shared.Absorb.Objects
         /// </summary>
         public string Source { get; }
 
+        /// <summary>
+        ///     INTERNAL
+        /// </summary>
+        public Dictionary<string, string> Hyperlinks { get; } = new Dictionary<string, string>();
+
         public Status(CroudiaStatus status)
         {
             Id = status.Id;
             CreatedAt = status.CreatedAt;
             User = new User(status.User);
             Type = nameof(Status);
+            Provider = ProviderType.Croudia.ToString();
             Text = status.Text;
             InReplyToStatusId = status.InReplyToStatusId;
             InReplyToUserId = status.InReplyToUserId;
@@ -92,6 +99,7 @@ namespace Orion.Shared.Absorb.Objects
             CreatedAt = status.CreatedAt;
             User = new User(status.User);
             Type = nameof(Status);
+            Provider = ProviderType.GnuSocial.ToString();
             Text = status.Text;
             InReplyToStatusId = status.InReplyToStatusId;
             InReplyToUserId = status.InReplyToUserId;
@@ -113,6 +121,7 @@ namespace Orion.Shared.Absorb.Objects
             CreatedAt = status.CreatedAt;
             User = new User(status.Account);
             Type = nameof(Status);
+            Provider = ProviderType.Mastodon.ToString();
             InReplyToStatusId = status.InReplyToId;
             InReplyToUserId = status.InReplyToAccountId;
             ReblogsCount = status.ReblogsCount;
@@ -147,6 +156,7 @@ namespace Orion.Shared.Absorb.Objects
             CreatedAt = status.CreatedAt.ToLocalTime().LocalDateTime;
             User = new User(status.User);
             Type = nameof(Status);
+            Provider = ProviderType.Twitter.ToString();
             InReplyToStatusId = status.InReplyToStatusId;
             InReplyToUserId = status.InReplyToUserId;
             ReblogsCount = status.RetweetCount;
@@ -159,12 +169,13 @@ namespace Orion.Shared.Absorb.Objects
                 RebloggedStatus = new Status(status.RetweetedStatus);
             if (status.QuotedStatus != null)
                 QuotedStatus = new Status(status.QuotedStatus);
+            Source = status.Source;
             IsSensitiveContent = status.PossiblySensitive ?? false;
 
             var text = status.ExtendedTweet?.FullText ?? status.Text;
-            text = ReplaceTcoHyperlinks(text, status.ExtendedTweet?.Entities?.Urls);
-            text = ReplaceTcoHyperlinks(text, status.ExtendedEntities?.Urls);
-            text = ReplaceTcoHyperlinks(text, status.Entities?.Urls);
+            ParseTcoHyperlinks(status.ExtendedTweet?.Entities?.Urls);
+            ParseTcoHyperlinks(status.ExtendedEntities?.Urls);
+            ParseTcoHyperlinks(status.Entities?.Urls);
             text = RemoveMediaLinks(text, status.ExtendedTweet?.Entities?.Media);
             text = RemoveMediaLinks(text, status.ExtendedEntities?.Media);
             text = RemoveMediaLinks(text, status.Entities?.Media);
@@ -179,21 +190,20 @@ namespace Orion.Shared.Absorb.Objects
                 : entities.Where(entity => !string.IsNullOrWhiteSpace(entity.Url)).Aggregate(text, (current, entity) => current.Replace(entity.Url, ""));
         }
 
-        private string ReplaceTcoHyperlinks(string text, UrlEntity[] entities)
+        private void ParseTcoHyperlinks(UrlEntity[] entities)
         {
             if (entities == null)
-                return text;
+                return;
 
             foreach (var entity in entities)
             {
                 if (string.IsNullOrWhiteSpace(entity.DisplayUrl))
                     continue;
-                text = text.Replace(entity.Url,
-                                    entity.ExpandedUrl.StartsWith("https://twitter.com/i/web/status/")
-                                        ? ""
-                                        : $"<tco disp=\"{entity.DisplayUrl.Replace(".", "^")}\">{new Uri(entity.Url).LocalPath}</tco>");
+                if (entity.ExpandedUrl.StartsWith("https://twitter.com/i/web/status/"))
+                    continue;
+                if (!Hyperlinks.ContainsKey(entity.Url))
+                    Hyperlinks.Add(entity.Url, entity.DisplayUrl);
             }
-            return text;
         }
 
         #region Extended for filters
