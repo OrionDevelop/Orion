@@ -45,6 +45,7 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Command="{Binding ClearCommand, Mode=OneWay}" Text="クリア" />
+                        <MenuFlyoutItem IsEnabled="False" Text="編集" />
                         <MenuFlyoutItem Command="{Binding DeleteCommand, Mode=OneWay}" Text="削除" />
                     </MenuFlyout>
                 </Button.Flyout>
