@@ -6,6 +6,8 @@
         {
             public static readonly string IsIconRoundedKey = "Configuration.General.IsIconRounded";
 
+            public static readonly string EnableSensitiveFlagKey = "Configuration.General.EnableSensitiveFlag";
+
             public static readonly string MuteFilterQueryKey = "Configuration.Mute.FilterQuery";
         }
     }
