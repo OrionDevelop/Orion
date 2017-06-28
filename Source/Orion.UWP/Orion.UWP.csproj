@@ -110,6 +110,7 @@
     <Compile Include="Converters\NullableToVisibilityConverter.cs" />
     <Compile Include="Converters\TextToBlockCollectionConverter.cs" />
     <Compile Include="Extensions\EventTypeEx.cs" />
+    <Compile Include="Extensions\PropertySetEx.cs" />
     <Compile Include="Extensions\TimelineEx.cs" />
     <Compile Include="Extensions\TimelinePresetEx.cs" />
     <Compile Include="Models\Attacher.cs" />
