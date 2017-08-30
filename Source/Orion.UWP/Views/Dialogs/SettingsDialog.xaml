@@ -27,6 +27,7 @@
             <PivotItem Header="一般">
                 <StackPanel Orientation="Vertical">
                     <CheckBox Content="アイコンを丸くする" IsChecked="{x:Bind ViewModel.IsIconRounded.Value, Mode=TwoWay}" />
+                    <CheckBox Content="Sensitive / NSFW フラグがついている画像を隠す" IsChecked="{x:Bind ViewModel.EnableSensitiveFlag.Value, Mode=TwoWay}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="ミュート">

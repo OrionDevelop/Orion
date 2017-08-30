@@ -9,6 +9,7 @@ using Windows.Storage;
 using Newtonsoft.Json;
 
 using Orion.Shared.Models;
+using Orion.UWP.Extensions;
 using Orion.UWP.Services.Interfaces;
 
 namespace Orion.UWP.Services
@@ -48,6 +49,9 @@ namespace Orion.UWP.Services
 
             var roamingSettings = ApplicationData.Current.RoamingSettings;
             var jsonSettings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+            if (!roamingSettings.Values.CheckContainsKeyAndType("Orion.Timeline", typeof(string)))
+                return Task.CompletedTask;
+
             var timelines = JsonConvert.DeserializeObject<List<TimelineBase>>(roamingSettings.Values["Orion.Timeline"] as string, jsonSettings);
 
             foreach (var timeline in timelines)

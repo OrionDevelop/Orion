@@ -11,6 +11,8 @@ namespace Orion.UWP.Models
 {
     public class GlobalNotifier : BindableBase
     {
+        private readonly IConfigurationService _configurationService;
+
         #region Compiled Filter
 
         public Delegate CompiledMuteFilter { get; set; }
@@ -19,12 +21,14 @@ namespace Orion.UWP.Models
 
         public GlobalNotifier(IConfigurationService configurationService)
         {
-            var query = $"WHERE {configurationService.Load(OrionUwpConstants.Configuration.MuteFilterQueryKey, "true")}";
+            _configurationService = configurationService;
+            var query = $"WHERE {_configurationService.Load(OrionUwpConstants.Configuration.MuteFilterQueryKey, "true")}";
             CompiledMuteFilter = QueryCompiler.Compile<Status>(query).Delegate;
-            IsIconRounded = configurationService.Load(OrionUwpConstants.Configuration.IsIconRoundedKey, false);
+            IsIconRounded = _configurationService.Load(OrionUwpConstants.Configuration.IsIconRoundedKey, false);
+            EnableSensitiveFlag = _configurationService.Load(OrionUwpConstants.Configuration.EnableSensitiveFlagKey, true);
         }
 
-        #region Design
+        #region General
 
         #region IsIconRounded
 
@@ -33,7 +37,27 @@ namespace Orion.UWP.Models
         public bool IsIconRounded
         {
             get => _isIconRounded;
-            set => SetProperty(ref _isIconRounded, value);
+            set
+            {
+                if (SetProperty(ref _isIconRounded, value))
+                    _configurationService.Save(OrionUwpConstants.Configuration.IsIconRoundedKey, value);
+            }
+        }
+
+        #endregion
+
+        #region EnableSensitiveFlag
+
+        private bool _enableSensitiveFlag;
+
+        public bool EnableSensitiveFlag
+        {
+            get => _enableSensitiveFlag;
+            set
+            {
+                if (SetProperty(ref _enableSensitiveFlag, value))
+                    _configurationService.Save(OrionUwpConstants.Configuration.EnableSensitiveFlagKey, value);
+            }
         }
 
         #endregion

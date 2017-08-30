@@ -28,7 +28,6 @@ namespace Orion.UWP.ViewModels.Contents
         public string Icon { get; }
         public bool IsVerified => _status.User.IsVerified;
         public bool HasMedia => _status.Attachments.Count > 0;
-        public bool IsSensitive => _status.IsSensitiveContent;
         public ParsableText ParsableText { get; }
         public List<AttachmentViewModel> Attachments { get; }
         public ReactiveProperty<bool> IsIconRounded { get; }
@@ -55,6 +54,8 @@ namespace Orion.UWP.ViewModels.Contents
                 ? status.User.IconUrl
                 : $"https://{new Uri(status.User.Url).Host}{status.User.IconUrl}";
             IsIconRounded = globalNotifier.ObserveProperty(w => w.IsIconRounded).ToReactiveProperty().AddTo(this);
+            IsSensitive = status.IsSensitiveContent;
+            globalNotifier.ObserveProperty(w => w.EnableSensitiveFlag).Subscribe(w => IsSensitive = w && status.IsSensitiveContent).AddTo(this);
             ParsableText = new ParsableText {Text = EmojiConverter.Convert(_status.Text).Trim(), Hyperlinks = status.Hyperlinks};
             ReplyCommand = new ReactiveCommand();
             ReplyCommand.Subscribe(() =>
@@ -75,5 +76,17 @@ namespace Orion.UWP.ViewModels.Contents
         {
             _dialogService.ShowDialogAsync(new ImageViewerDialog {DataContext = new ImageViewerDialogViewModel(_status)});
         }
+
+        #region IsSensitive
+
+        private bool _isSentisive;
+
+        public bool IsSensitive
+        {
+            get => _isSentisive;
+            set => SetProperty(ref _isSentisive, value);
+        }
+
+        #endregion
     }
 }

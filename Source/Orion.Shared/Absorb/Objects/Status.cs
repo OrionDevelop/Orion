@@ -135,7 +135,7 @@ namespace Orion.Shared.Absorb.Objects
             IsLocal = status.Account.Acct.Contains("@");
             IsSensitiveContent = status.IsSensitive ?? false;
 
-            var text = status.Content;
+            var text = $"{status.SpoilerText}<br>{status.Content}";
             status.MediaAttachments.ForEach(w =>
             {
                 if (!_mediaLinkRegex.IsMatch(text))

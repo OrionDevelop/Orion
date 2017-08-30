@@ -8,7 +8,12 @@ using Windows.UI.Xaml.Documents;
 
 using HtmlAgilityPack;
 
+using Microsoft.Practices.Unity;
+
 using Orion.UWP.Models;
+using Orion.UWP.Services.Interfaces;
+
+using Prism.Unity.Windows;
 
 using ToriatamaText;
 
@@ -20,8 +25,12 @@ namespace Orion.UWP.Converters
         private readonly Regex _newLineRegex = new Regex(@"<br(\s)?/>", RegexOptions.Compiled);
         private readonly Regex _tagRegex = new Regex($@"<[{HtmlTags}]( .*)?>.*?</[{HtmlTags}]>", RegexOptions.Compiled);
 
+        private ITimelineService _timelineService;
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            if (_timelineService == null)
+                _timelineService = PrismUnityApplication.Current.Container.Resolve<ITimelineService>();
             if (value is ParsableText parsableText)
                 return ParseText(parsableText);
             return null;
