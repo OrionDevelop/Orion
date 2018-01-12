@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orion.UWP", "Orion.UWP\Orion.UWP.csproj", "{7BFB0EE8-DE4C-4360-B570-E5136A8172E5}"
 EndProject
@@ -10,12 +10,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{200A3F3A-C5CD-4D4D-8447-5331FA6F7FC8}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
+		..\asm.txt = ..\asm.txt
 		..\Emoji.linq = ..\Emoji.linq
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orion.Service.Croudia", "Orion.Service.Croudia\Orion.Service.Croudia.csproj", "{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orion.Service.FkStreaming", "Orion.Service.FkStreaming\Orion.Service.FkStreaming.csproj", "{6F32B80B-3DF8-4F60-BD7A-21D7E203D614}"
 EndProject
@@ -63,22 +62,6 @@ Global
 		{7BFB0EE8-DE4C-4360-B570-E5136A8172E5}.Release|x86.ActiveCfg = Release|x86
 		{7BFB0EE8-DE4C-4360-B570-E5136A8172E5}.Release|x86.Build.0 = Release|x86
 		{7BFB0EE8-DE4C-4360-B570-E5136A8172E5}.Release|x86.Deploy.0 = Release|x86
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Debug|ARM.Build.0 = Debug|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Debug|x64.Build.0 = Debug|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Debug|x86.Build.0 = Debug|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Release|ARM.ActiveCfg = Release|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Release|ARM.Build.0 = Release|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Release|x64.ActiveCfg = Release|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Release|x64.Build.0 = Release|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Release|x86.ActiveCfg = Release|Any CPU
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54}.Release|x86.Build.0 = Release|Any CPU
 		{6F32B80B-3DF8-4F60-BD7A-21D7E203D614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F32B80B-3DF8-4F60-BD7A-21D7E203D614}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F32B80B-3DF8-4F60-BD7A-21D7E203D614}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -196,10 +179,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CBCF31C7-2C7D-4D3A-8920-38732D18BD54} = {95304EE5-05AD-4D24-8886-979A404BE858}
 		{6F32B80B-3DF8-4F60-BD7A-21D7E203D614} = {95304EE5-05AD-4D24-8886-979A404BE858}
 		{DC8B2787-2A1C-4273-9002-14A8EC7A1E94} = {95304EE5-05AD-4D24-8886-979A404BE858}
 		{49775FDE-8AC9-43CE-901B-1F2E7399D8F6} = {95304EE5-05AD-4D24-8886-979A404BE858}
 		{3E4DDFEA-02F0-469E-B09A-2D4480160552} = {95304EE5-05AD-4D24-8886-979A404BE858}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDE44EA2-93DE-4BF0-8E0E-AFF818EA934F}
 	EndGlobalSection
 EndGlobal

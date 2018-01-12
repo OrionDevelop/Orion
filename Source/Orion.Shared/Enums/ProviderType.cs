@@ -8,11 +8,6 @@
         Twitter,
 
         /// <summary>
-        ///     Croudia
-        /// </summary>
-        Croudia,
-
-        /// <summary>
         ///     GNU social
         /// </summary>
         GnuSocial,

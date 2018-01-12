@@ -6,7 +6,6 @@ using CoreTweet;
 
 using Orion.Shared.Enums;
 
-using CroudiaStatus = Orion.Service.Croudia.Models.Status;
 using GnuSocialStatus = Orion.Service.GnuSocial.Models.Status;
 using MastodonStatus = Orion.Service.Mastodon.Models.Status;
 using TwitterStatus = CoreTweet.Status;
@@ -69,29 +68,6 @@ namespace Orion.Shared.Absorb.Objects
         ///     INTERNAL
         /// </summary>
         public Dictionary<string, string> Hyperlinks { get; } = new Dictionary<string, string>();
-
-        public Status(CroudiaStatus status)
-        {
-            Id = status.Id;
-            CreatedAt = status.CreatedAt;
-            User = new User(status.User);
-            Type = nameof(Status);
-            Provider = ProviderType.Croudia.ToString();
-            Text = status.Text;
-            InReplyToStatusId = status.InReplyToStatusId;
-            InReplyToUserId = status.InReplyToUserId;
-            ReblogsCount = status.SpreadCount;
-            FavoritesCount = status.FavoritedCount;
-            if (status.Entities != null)
-                Attachments = new List<Attachment> {new Attachment(status.Entities.Media)};
-            if (status.SpreadStatus != null)
-                RebloggedStatus = new Status(status.SpreadStatus);
-            if (status.QuoteStatus != null)
-                QuotedStatus = new Status(status.QuoteStatus);
-            Source = status.Source.Name;
-            IsReblogged = status.Spread;
-            IsFavorited = status.IsFavorited;
-        }
 
         public Status(GnuSocialStatus status)
         {

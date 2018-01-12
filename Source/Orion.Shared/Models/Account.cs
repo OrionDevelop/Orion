@@ -67,13 +67,8 @@ namespace Orion.Shared.Models
                     ClientWrapper = new TwitterClientWrapper(Provider, Credential);
                     break;
 
-                case ProviderType.Croudia:
-                    ClientWrapper = new CroudiaClientWrapper(Provider, Credential);
-                    break;
-
                 case ProviderType.GnuSocial:
                     ClientWrapper = new GnuSocialClientWrapper(Provider, Credential);
-
                     break;
 
                 case ProviderType.Mastodon:
@@ -94,13 +89,6 @@ namespace Orion.Shared.Models
                     {
                         SharedConstants.TwitterHomeTimelinePreset,
                         SharedConstants.TwitterMentionsTimelinePreset
-                    };
-
-                case ProviderType.Croudia:
-                    return new List<TimelinePreset>
-                    {
-                        SharedConstants.CroudiaPublicTimelinePreset,
-                        SharedConstants.CroudiaMentionsTimelinePreset
                     };
 
                 case ProviderType.GnuSocial:

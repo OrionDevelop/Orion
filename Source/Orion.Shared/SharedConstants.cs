@@ -53,46 +53,6 @@ namespace Orion.Shared
 
         #endregion
 
-        #region Croudia
-
-        public static readonly TimelinePreset CroudiaHomeTimelinePreset = new TimelinePreset
-        {
-            Name = "Home",
-            ProviderType = ProviderType.Croudia,
-            Query = "FROM * WHERE User.IsFollowing"
-        };
-
-        public static readonly TimelinePreset CroudiaPublicTimelinePreset = new TimelinePreset
-        {
-            Name = "Public",
-            ProviderType = ProviderType.Croudia,
-            Query = "FROM *"
-        };
-
-        public static readonly TimelinePreset CroudiaMentionsTimelinePreset = new TimelinePreset
-        {
-            Name = "Mentions",
-            ProviderType = ProviderType.Croudia,
-            Query = "FROM mentions"
-        };
-
-        public static readonly TimelinePreset CroudiaDirectMessagesTimelinePreset = new TimelinePreset
-        {
-            Name = "Direct messages",
-            ProviderType = ProviderType.Croudia,
-            Query = "FROM messages"
-        };
-
-        public static readonly TimelinePreset CroudiaCustomTimelinePreset = new TimelinePreset
-        {
-            Name = "Custom",
-            ProviderType = ProviderType.Croudia,
-            Query = "",
-            IsEditable = true
-        };
-
-        #endregion
-
         #region GNU social
 
         public static readonly TimelinePreset GnuSocialHomeTimelinePreset = new TimelinePreset
@@ -119,7 +79,7 @@ namespace Orion.Shared
         public static readonly TimelinePreset GnuSocialMentionsTimelinePreset = new TimelinePreset
         {
             Name = "Mentions",
-            ProviderType = ProviderType.Croudia,
+            ProviderType = ProviderType.GnuSocial,
             Query = "FROM mentions"
         };
 
@@ -187,11 +147,6 @@ namespace Orion.Shared
             TwitterDirectMessagesTimelinePreset,
             TwitterNotificationTimelinePreset,
             TwitterCustomTimelinePreset,
-            CroudiaHomeTimelinePreset,
-            CroudiaPublicTimelinePreset,
-            CroudiaMentionsTimelinePreset,
-            CroudiaDirectMessagesTimelinePreset,
-            CroudiaCustomTimelinePreset,
             GnuSocialHomeTimelinePreset,
             GnuSocialLocalTimelinePreset,
             GnuSocialFederatedTimelinePreset,
@@ -221,18 +176,6 @@ namespace Orion.Shared
             UrlParseRegex = new Regex(@"oauth_verifier=(?<verifier>[A-Za-z0-9]+)", RegexOptions.Compiled)
         };
 
-        public static Provider CroudiaProvider { get; } = new Provider
-        {
-            Name = "Croudia",
-            Host = "croudia.com",
-            ProviderType = ProviderType.Croudia,
-            IsRequireHost = false,
-            IsRequireApiKeys = false,
-            ClientId = "a278d96eb670a7008c057191a915e4b8b23532427f229eafa925612ad574bd4f",
-            ClientSecret = "df93f525140c43dbe701b29e7819877bf59fa11f66f49295f5be4fdbe03317e3",
-            UrlParseRegex = new Regex(@"\?code=(?<verifier>[0-9a-z]+)", RegexOptions.Compiled)
-        };
-
         public static Provider FreezePeachProvider { get; } = new Provider
         {
             Name = "FreezePeach",
@@ -260,7 +203,6 @@ namespace Orion.Shared
         public static ReadOnlyCollection<Provider> Providers { get; } = new List<Provider>
         {
             TwitterProvider,
-            CroudiaProvider,
             FreezePeachProvider,
             GnuSmugProvider,
             new Provider

@@ -13,7 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Orion.Interfaces\Orion.Interfaces.csproj" />
     <ProjectReference Include="..\Orion.Scripting\Orion.Scripting.csproj" />
-    <ProjectReference Include="..\Orion.Service.Croudia\Orion.Service.Croudia.csproj" />
     <ProjectReference Include="..\Orion.Service.FkStreaming\Orion.Service.FkStreaming.csproj" />
     <ProjectReference Include="..\Orion.Service.GnuSocial\Orion.Service.GnuSocial.csproj" />
     <ProjectReference Include="..\Orion.Service.Mastodon\Orion.Service.Mastodon.csproj" />

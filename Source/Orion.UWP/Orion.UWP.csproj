@@ -350,10 +350,6 @@
       <Project>{b943208e-d516-4d07-8487-4601209e64e3}</Project>
       <Name>Orion.Scripting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Orion.Service.Croudia\Orion.Service.Croudia.csproj">
-      <Project>{ce99ffe9-63d8-4887-9401-e7abbb228a1a}</Project>
-      <Name>Orion.Service.Croudia</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orion.Service.FkStreaming\Orion.Service.FkStreaming.csproj">
       <Project>{2e32178a-e962-4bf5-a899-402a7c827baa}</Project>
       <Name>Orion.Service.FkStreaming</Name>
