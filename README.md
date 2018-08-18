@@ -12,7 +12,7 @@ Generic microblogging and social networking services application for Desktop.
 | Platform            | Solution                                      | Arch         | Status                                                                                                                                    |
 | ------------------- | --------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | Windows (Universal) | [Orion-UWP.sln](Source/Orion-UWP.sln)         | `x64`, `x86` | [![Build status](https://build.appcenter.ms/v0.1/apps/e222eac7-47e3-4320-b5f6-edcf8a347842/branches/develop/badge)](https://appcenter.ms) |
-| Windows (Classic)   | [Orion-Classic.sln](Source/Orion-Classic.sln) | `x64`        | [![Build status](https://ci.appveyor.com/api/projects/status/ooeh96mepcfrptax/branch/develop?svg=true)](https://ci.appveyor.com)          |
+| Windows (Desktop)   | [Orion-Desktop.sln](Source/Orion-Desktop.sln) | `x64`        | [![Build status](https://ci.appveyor.com/api/projects/status/ooeh96mepcfrptax/branch/develop?svg=true)](https://ci.appveyor.com)          |
 | macOS               | [Orion-macOS.sln](Source/Orion-macOS.sln)     | `x64`        | [![Build status](https://img.shields.io/badge/status-unknown-lightgray.svg?longCache=true&style=flat-square)](https://appcenter.ms)       |
 
 
@@ -23,6 +23,26 @@ Orion supports multiple services.
 * Twitter
 * Mastodon
 * GNU Social
+
+
+## Components
+
+
+.NET Standard
+
+* Orion.Interfaces
+* Orion.Scripting
+* Orion.Service.*
+* Orion.Shared
+
+Windows
+
+* Orion.Desktop
+* Orion.UWP
+
+Xamarin
+
+* Orion.Mac
 
 
 ## Donation
