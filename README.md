@@ -1,7 +1,7 @@
 Orion
 ----
 
-[![License](https://img.shields.io/github/license/mika-f/orion.svg?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/github/license/mika-f/orion.svg?longCache=true&style=flat-square)](LICENSE)
 
 
 Generic microblogging and social networking services application for Desktop.  
