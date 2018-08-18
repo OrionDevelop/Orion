@@ -1,22 +1,25 @@
 Orion
 ----
-[![GitHub license](https://img.shields.io/github/license/fuyuno/Orion.svg?style=flat-square)](LICENSE)
-![Build status](https://build.mobile.azure.com/v0.1/apps/bfcc272e-51fa-492f-8e5d-f95057107b68/branches/develop/badge)
 
-Generic microblogging and social networking services application for Windows and macOS.  
-Supported services are:  
-
-* Twitter
-* Croudia
-* GNU social instances (Original API only)
-* Mastodon instances (Original API only)
+[![License](https://img.shields.io/github/license/mika-f/orion.svg?style=flat-square)](LICENSE)
 
 
-### Screenshot
-
-#### Orion for Windows
-<img alt="default" src="https://user-images.githubusercontent.com/10832834/27251532-ddedb384-5383-11e7-8a3c-7e12d9cc5c31.PNG">
+Generic microblogging and social networking services application for Desktop.  
 
 
-### Donate
-* Donate via Bitcoin: `1NFcYczriqTEzVgzfurTMJNbhxPY1vyki9`
+## Build Statuses
+
+| Platform          | Status                                                                                                                                    |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Universal Windows | [![Build status](https://build.appcenter.ms/v0.1/apps/e222eac7-47e3-4320-b5f6-edcf8a347842/branches/develop/badge)](https://appcenter.ms) |
+
+
+## Services
+
+Orion supports multiple services.
+
+
+## Donation
+
+If you want to support me, you can donate cryptocurrencies here.  
+https://mochizuki.moe/donation
