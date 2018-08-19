@@ -19,7 +19,8 @@ var shortnames = new List<string>();
 var emojiMapping = new StringBuilder();
 foreach (var emoji in emojis)
 {
-	var unicode = emoji.Value["unicode_output"].ToString().Split('-').Select(w => $"\\U{w.PadLeft(8, '0')}");
+    
+	var unicode = (string.IsNullOrWhiteSpace(emoji.Value["unicode_output"].ToString()) ? emoji.Key : emoji.Value["unicode_output"].ToString()).Split('-').Select(w => $"\\U{w.PadLeft(8, '0')}");
 	emojiMapping.AppendLine($"        new Emoji {{ Shortname = \"{ emoji.Value["shortname"] }\", Unicode = \"{ string.Join("", unicode) }\" }},");
 	shortnames.Add((string) emoji.Value["shortname"]);
 	if (regex.IsMatch(emoji.Value["shortname"].ToString()) && !shortnames.Contains(emoji.Value["shortname"].ToString().Replace("flag_", "")))
