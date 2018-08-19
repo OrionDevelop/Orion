@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="using:Orion.UWP.Controls">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:local="using:Orion.UWP.Controls">
     <Style TargetType="local:GridPreview">
         <Setter Property="ItemWidth" Value="0" />
         <Setter Property="ItemHeight" Value="0" />
