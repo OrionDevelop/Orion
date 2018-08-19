@@ -4,7 +4,7 @@ Orion
 [![License](https://img.shields.io/github/license/mika-f/orion.svg?longCache=true&style=flat-square)](LICENSE)
 
 
-Generic microblogging and social networking services application for Desktop.  
+Generic microblogging application for Desktop.  
 
 
 ## Build Statuses
@@ -18,15 +18,10 @@ Generic microblogging and social networking services application for Desktop.
 
 ## Services
 
-Orion supports multiple services.
-
-* Twitter
-* Mastodon
-* GNU Social
+Orion supports multiple microblogging services.
 
 
 ## Components
-
 
 .NET Standard
 
