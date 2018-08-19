@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orion.Interfaces", "Orion.Interfaces\Orion.Interfaces.csproj", "{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orion.Shared", "Orion.Shared\Orion.Shared.csproj", "{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orion.UWP", "Orion.UWP\Orion.UWP.csproj", "{7BFB0EE8-DE4C-4360-B570-E5136A8172E5}"
@@ -44,22 +42,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|ARM.Build.0 = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|x64.Build.0 = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|x86.Build.0 = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|ARM.ActiveCfg = Release|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|ARM.Build.0 = Release|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|x64.ActiveCfg = Release|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|x64.Build.0 = Release|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|x86.ActiveCfg = Release|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|x86.Build.0 = Release|Any CPU
 		{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}.Debug|ARM.ActiveCfg = Debug|Any CPU

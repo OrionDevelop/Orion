@@ -315,10 +315,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orion.Interfaces\Orion.Interfaces.csproj">
-      <Project>{04acfb94-d7cf-4ab1-b521-a3db1f902c63}</Project>
-      <Name>Orion.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orion.Scripting\Orion.Scripting.csproj">
       <Project>{b943208e-d516-4d07-8487-4601209e64e3}</Project>
       <Name>Orion.Scripting</Name>
