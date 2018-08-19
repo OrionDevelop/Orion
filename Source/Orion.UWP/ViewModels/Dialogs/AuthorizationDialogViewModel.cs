@@ -39,7 +39,7 @@ namespace Orion.UWP.ViewModels.Dialogs
             ConsumerKey.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
             ConsumerSecret = new ReactiveProperty<string>();
             ConsumerSecret.Subscribe(_ => UpdateCanExecuteGoAuthorizePage()).AddTo(this);
-            Source = new ReactiveProperty<Uri>(new Uri("https://ori.kokoiroworks.com/"));
+            Source = new ReactiveProperty<Uri>(new Uri("https://static.mochizuki.moe/oauth"));
             Source.Subscribe(async w =>
             {
                 var regex = SelectedProvider?.Value?.UrlParseRegex;
