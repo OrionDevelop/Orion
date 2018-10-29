@@ -4,7 +4,7 @@ Orion
 [![License](https://img.shields.io/github/license/mika-f/orion.svg?longCache=true&style=flat-square)](LICENSE)
 
 
-Generic microblogging application for Desktop.  
+Generic fediverse microblogging application for Desktop.  
 
 
 ## Build Statuses
@@ -40,7 +40,22 @@ Xamarin
 * Orion.Mac
 
 
+## Contributing
+
+1. Fork it!
+2. Create your feature branch (`git checkout -b feature/foobar`)
+3. Commit your changes (`git commit -am'Add some foobar`)
+4. Push to the branch (`git push origin feature/foobar`)
+5. Create a new Pull Request
+
+
 ## Donation
 
-If you want to support me, you can donate cryptocurrencies here.  
-https://mochizuki.moe/donation
+If this project help you reduce time to develop, you can give me a lunch.
+
+<a href="https://www.patreon.com/mikazuki">
+  <img src="https://static.mochizuki.moe/become_a_patron_button@2x.png" width="160px">
+</a>
+
+Ethereum: `0xC925668E7431d4635Dc9670C934A19c2206b2819`  
+Monacoin: `MC4x87u1ffmhsRhHof1sHz8UAtNtKCTQut`
