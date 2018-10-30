@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 
 using Windows.ApplicationModel.Activation;
 
-using Microsoft.Azure.Mobile;
-using Microsoft.Azure.Mobile.Analytics;
-using Microsoft.HockeyApp;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.Practices.Unity;
 
 using Orion.UWP.Models;
@@ -27,7 +26,7 @@ namespace Orion.UWP
         /// </summary>
         public App()
         {
-            HockeyClient.Current.Configure("a8287f6a29c64f408d09605296e192d8").SetExceptionDescriptionLoader(w => w.ToString());
+            AppCenter.Start("a8287f6a-29c6-4f40-8d09-605296e192d8", typeof(Analytics));
             InitializeComponent();
             UnhandledException += (sender, e) =>
             {
@@ -41,10 +40,12 @@ namespace Orion.UWP
             // Prism
             Container.RegisterInstance(NavigationService);
             Container.RegisterInstance(SessionStateService);
+
             // Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
 
             // Internal
             var accountService = new AccountService();
+
             // await accountService.ClearAsync();
             await accountService.RestoreAsync();
 
@@ -60,7 +61,6 @@ namespace Orion.UWP
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            MobileCenter.Start("da64efe6-0b35-4c47-bd6d-e5ef603162bf", typeof(Analytics));
             NavigationService.Navigate("Main", null);
             return Task.CompletedTask;
         }

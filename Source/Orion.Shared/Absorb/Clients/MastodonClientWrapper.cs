@@ -10,7 +10,7 @@ namespace Orion.Shared.Absorb.Clients
 {
     public class MastodonClientWrapper : BaseClientWrapper
     {
-        private const string RedirectUri = "https://kokoiroworks.com/callback";
+        private const string RedirectUri = "https://static.mochizuki.moe/callback";
         private readonly MastodonClient _mastodonClient;
 
         public MastodonClientWrapper(Provider provider, Credential credential) : base(provider, credential)
@@ -28,7 +28,7 @@ namespace Orion.Shared.Absorb.Clients
         public override async Task<string> GetAuthorizedUrlAsync()
         {
             const Scope scopes = Scope.Read | Scope.Write | Scope.Follow;
-            await _mastodonClient.Apps.RegisterAsync("Orion", RedirectUri, scopes, "https://ori.kokoiroworks.com");
+            await _mastodonClient.Apps.RegisterAsync("Orion", RedirectUri, scopes, "https://orion.mochizuki.moe");
             return _mastodonClient.OAuth.GetAuthorizeUrl(scopes, RedirectUri);
         }
 

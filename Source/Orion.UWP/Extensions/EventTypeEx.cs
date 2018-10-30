@@ -1,6 +1,4 @@
-﻿using System;
-
-using Windows.UI;
+﻿using Windows.UI;
 using Windows.UI.Xaml.Media;
 
 using Orion.Shared.Absorb.Enums;
@@ -22,10 +20,8 @@ namespace Orion.UWP.Extensions
 
                 case EventType.Reblog:
                     return new SolidColorBrush(Colors.LightGreen);
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
             }
+            return new SolidColorBrush(Colors.White);
         }
 
         public static string ToFormatMessage(this EventType obj)
@@ -40,10 +36,8 @@ namespace Orion.UWP.Extensions
 
                 case EventType.Reblog:
                     return "{0} reblogged your status.";
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
             }
+            return "";
         }
 
         public static string ToIcon(this EventType obj)
@@ -58,10 +52,8 @@ namespace Orion.UWP.Extensions
 
                 case EventType.Reblog:
                     return "\uE8EE"; // RepeatAll
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
             }
+            return "";
         }
     }
 }

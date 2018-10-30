@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orion.Interfaces", "Orion.Interfaces\Orion.Interfaces.csproj", "{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orion.Shared", "Orion.Shared\Orion.Shared.csproj", "{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{345A5BD4-9EA0-4B13-9FFE-FC4AFB5449A7}"
@@ -34,10 +32,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Debug|x64.Build.0 = Debug|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|x64.ActiveCfg = Release|Any CPU
-		{04ACFB94-D7CF-4AB1-B521-A3DB1F902C63}.Release|x64.Build.0 = Release|Any CPU
 		{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}.Debug|x64.Build.0 = Debug|Any CPU
 		{31647FC1-4A1D-4EE2-B38E-7D514E78ABA7}.Release|x64.ActiveCfg = Release|Any CPU

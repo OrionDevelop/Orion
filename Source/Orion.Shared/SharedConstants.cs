@@ -9,7 +9,7 @@ namespace Orion.Shared
 {
     public static class SharedConstants
     {
-        public static readonly string OAuthCallback = "https://kokoiroworks.com/callback";
+        public static readonly string OAuthCallback = "https://static.mochizuki.moe/callback";
 
         #region Timeline presets
 

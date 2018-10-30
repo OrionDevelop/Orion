@@ -29,8 +29,10 @@
                       VerticalAlignment="Center"
                       FontSize="24"
                       Glyph="{Binding Icon, Mode=OneWay}" />
-            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock FontSize="16" Text="{Binding Name, Mode=OneWay}" />
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center">
+                <TextBlock FontSize="16"
+                           Text="{Binding Name, Mode=OneWay}" />
                 <TextBlock FontSize="12"
                            Foreground="Silver"
                            Text="{Binding User, Mode=OneWay}"
@@ -44,9 +46,12 @@
                 <FontIcon Glyph="&#xE712;" />
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Command="{Binding ClearCommand, Mode=OneWay}" Text="クリア" />
-                        <MenuFlyoutItem IsEnabled="False" Text="編集" />
-                        <MenuFlyoutItem Command="{Binding DeleteCommand, Mode=OneWay}" Text="削除" />
+                        <MenuFlyoutItem Command="{Binding ClearCommand, Mode=OneWay}"
+                                        Text="クリア" />
+                        <MenuFlyoutItem IsEnabled="False"
+                                        Text="編集" />
+                        <MenuFlyoutItem Command="{Binding DeleteCommand, Mode=OneWay}"
+                                        Text="削除" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
@@ -61,7 +66,8 @@
                   RelativePanel.Below="Header">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Recycling" />
+                    <VirtualizingStackPanel Orientation="Vertical"
+                                            VirtualizationMode="Recycling" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemContainerStyle>
@@ -73,16 +79,23 @@
                 <controls:DefaultDataTemplateSelector />
             </ListView.ItemTemplateSelector>
             <ListView.Resources>
-                <DataTemplate x:Key="StatusViewModel" x:DataType="vmc:StatusViewModel">
-                    <vc:StatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}" ViewModel="{x:Bind}" />
+                <DataTemplate x:Key="StatusViewModel"
+                              x:DataType="vmc:StatusViewModel">
+                    <vc:StatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}"
+                                      ViewModel="{x:Bind}" />
                 </DataTemplate>
-                <DataTemplate x:Key="ReblogStatusViewModel" x:DataType="vmc:ReblogStatusViewModel">
-                    <vc:ReblogStatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}" ViewModel="{x:Bind}" />
+                <DataTemplate x:Key="ReblogStatusViewModel"
+                              x:DataType="vmc:ReblogStatusViewModel">
+                    <vc:ReblogStatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}"
+                                            ViewModel="{x:Bind}" />
                 </DataTemplate>
-                <DataTemplate x:Key="QuoteStatusViewModel" x:DataType="vmc:QuoteStatusViewModel">
-                    <vc:QuoteStatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}" ViewModel="{x:Bind}" />
+                <DataTemplate x:Key="QuoteStatusViewModel"
+                              x:DataType="vmc:QuoteStatusViewModel">
+                    <vc:QuoteStatusContent IsIconRounded="{x:Bind IsIconRounded.Value, Mode=OneWay}"
+                                           ViewModel="{x:Bind}" />
                 </DataTemplate>
-                <DataTemplate x:Key="NotificationViewModel" x:DataType="vmc:NotificationViewModel">
+                <DataTemplate x:Key="NotificationViewModel"
+                              x:DataType="vmc:NotificationViewModel">
                     <vc:NotificationContent ViewModel="{x:Bind}" />
                 </DataTemplate>
             </ListView.Resources>
